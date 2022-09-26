@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220926162056_Create_Table_InventoryMaterial")]
+    partial class Create_Table_InventoryMaterial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -762,63 +764,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("InventoryMaterialPeriod");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.InventoryMaterialPeriodDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ExistingBalance")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("InventoryMaterialPeriodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("LastBalanceDate")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("PeriodInput")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PeriodOutput")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantityBalance")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("InventoryMaterialPeriodId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("UpdatedByUserId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("InventoryMaterialPeriodDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucher", b =>
@@ -2503,49 +2448,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.InventoryMaterialPeriodDetail", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.InventoryMaterialPeriod", "InventoryMaterialPeriod")
-                        .WithMany()
-                        .HasForeignKey("InventoryMaterialPeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Warehouses", "Warehouse")
-                        .WithMany()
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("InventoryMaterialPeriod");
-
-                    b.Navigation("Material");
-
-                    b.Navigation("UpdatedByUser");
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucher", b =>

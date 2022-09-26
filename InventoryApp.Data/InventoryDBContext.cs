@@ -51,5 +51,8 @@ namespace InventoryApp.Data
         public DbSet<InventoryReceivingVoucher> InventoryReceivingVouchers { get; set; }
         public DbSet<InventoryDeliveryVoucherDetail> InventoryDeliveryVoucherDetails { get; set; }
         public DbSet<InventoryReceivingVoucherDetail> InventoryReceivingVoucherDetails { get; set; }
+        public DbSet<InventoryMaterialPeriod> InventoryMaterialPeriod { get; set; }
+        public DbSet<InventoryMaterial> InventoryMaterials { get; set; }
+        public DbSet<InventoryMaterialPeriodDetail> InventoryMaterialPeriodDetails { get; set; }
     }
 }
