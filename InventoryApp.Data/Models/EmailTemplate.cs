@@ -1,0 +1,33 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InventoryApp.Data.Models
+{
+    [Table("EmailTemplate")]
+    [Index(nameof(EmailTemplate.Name), IsUnique = true)]
+    public class EmailTemplate
+    {
+        [Key]
+        public Guid Id { get; set; }
+        [Unicode(true)]
+        public string Name { get; set; }
+        [Unicode(true)]
+        public string EmailContent { get; set; }
+        [Unicode(true)]
+        public string EmailSubject { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public Guid? CreatedByUserId { get; set; }
+        [ForeignKey("CreatedByUserId")]
+        public Users? CreatedByUser { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public Guid? UpdatedByUserId { get; set; }
+        [ForeignKey("UpdatedByUserId")]
+        public Users? UpdatedByUser { get; set; }
+    }
+}
