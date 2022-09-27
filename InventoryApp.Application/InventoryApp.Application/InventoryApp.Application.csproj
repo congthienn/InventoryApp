@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
@@ -27,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\InventoryApp.Data\InventoryApp.Data.csproj" />
     <ProjectReference Include="..\..\InventoryApp.DbMigrations\InventoryApp.DbMigrations.csproj" />
+    <ProjectReference Include="..\..\InventoryApp.Domain\InventoryApp.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Application", "InventoryApp.Application\InventoryApp.Application.csproj", "{B618A6B6-450F-469B-905C-139802FABBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.Application", "InventoryApp.Application\InventoryApp.Application.csproj", "{B618A6B6-450F-469B-905C-139802FABBAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Domain", "..\InventoryApp.Domain\InventoryApp.Domain.csproj", "{8BE6BA9C-B5FE-4599-870E-452B001073BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.Domain", "..\InventoryApp.Domain\InventoryApp.Domain.csproj", "{8BE6BA9C-B5FE-4599-870E-452B001073BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.DbMigrations", "..\InventoryApp.DbMigrations\InventoryApp.DbMigrations.csproj", "{E27A5989-9664-456F-9B57-17CD683F1D5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.DbMigrations", "..\InventoryApp.DbMigrations\InventoryApp.DbMigrations.csproj", "{E27A5989-9664-456F-9B57-17CD683F1D5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Data", "..\InventoryApp.Data\InventoryApp.Data.csproj", "{DC13E155-68FF-4916-8ACD-3C14648B41F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.Data", "..\InventoryApp.Data\InventoryApp.Data.csproj", "{DC13E155-68FF-4916-8ACD-3C14648B41F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Infrastructures", "..\InventoryApp.Infrastructures\InventoryApp.Infrastructures.csproj", "{40B41B56-8C30-4008-A66E-C17B52FEC034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.Infrastructures", "..\InventoryApp.Infrastructures\InventoryApp.Infrastructures.csproj", "{40B41B56-8C30-4008-A66E-C17B52FEC034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp.Common", "..\InventoryApp.Common\InventoryApp.Common.csproj", "{D7377346-D9E9-4496-A5A6-F6C0121C85CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp.Common", "..\InventoryApp.Common\InventoryApp.Common.csproj", "{D7377346-D9E9-4496-A5A6-F6C0121C85CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
