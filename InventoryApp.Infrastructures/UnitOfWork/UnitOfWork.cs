@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InventoryApp.Domain.Repository;
-namespace InventoryApp.Domain.UnitOfWork
+using InventoryApp.Infrastructures.Repository;
+namespace InventoryApp.Infrastructures.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

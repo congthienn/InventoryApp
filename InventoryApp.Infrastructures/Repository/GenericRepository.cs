@@ -1,13 +1,7 @@
-﻿using InventoryApp.Data;
+﻿using InventoryApp.Infrastructures.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using InventoryApp.Domain.UnitOfWork;
-namespace InventoryApp.Domain.Repository
+namespace InventoryApp.Infrastructures.Repository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
