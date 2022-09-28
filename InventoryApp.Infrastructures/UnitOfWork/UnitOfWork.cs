@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InventoryApp.Infrastructures.Repository;
+using InventoryApp.Infrastructures.GenericRepository;
 namespace InventoryApp.Infrastructures.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
@@ -57,9 +57,9 @@ namespace InventoryApp.Infrastructures.UnitOfWork
         {
             _context.SaveChanges();
         }
-        public class Repository<TEntity> : GenericRepository<TEntity>, IRepository<TEntity> where TEntity : class
+        public class Repository<TEntity> : GenericRepository<TEntity> where TEntity : class
         {
-            public Repository(UnitOfWork unitOfWork) : base(unitOfWork) { }
+            public Repository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
         }
     }
 }

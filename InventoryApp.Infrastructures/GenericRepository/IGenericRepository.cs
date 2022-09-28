@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Infrastructures.Repository
+namespace InventoryApp.Infrastructures.GenericRepository
 {
     public interface IGenericRepository<TEntity> where TEntity :class
     {

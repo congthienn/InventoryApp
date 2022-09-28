@@ -14,6 +14,9 @@ builder.Services.AddDbContext<InventoryDBContext>();
 //Add Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+//AddController
+builder.Services.AddControllers();
+
 //Add Autofac
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModule()));
