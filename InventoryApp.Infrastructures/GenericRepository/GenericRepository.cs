@@ -1,4 +1,4 @@
-﻿using InventoryApp.Infrastructures.UnitOfWork;
+﻿using InventoryApp.Infrastructures;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 namespace InventoryApp.Infrastructures.GenericRepository

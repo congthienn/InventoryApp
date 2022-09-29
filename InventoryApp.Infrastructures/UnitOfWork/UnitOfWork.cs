@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InventoryApp.Infrastructures.GenericRepository;
-namespace InventoryApp.Infrastructures.UnitOfWork
+namespace InventoryApp.Infrastructures
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {

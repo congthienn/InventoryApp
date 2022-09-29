@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Domain.Services
+namespace InventoryApp.Infrastructures.Services
 {
     public class WardService : IWardService
     {

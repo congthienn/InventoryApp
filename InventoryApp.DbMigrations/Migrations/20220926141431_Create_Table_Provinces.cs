@@ -12,8 +12,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 name: "Provinces",
                 columns: table => new
                 {
-                    Code = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CodeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DivisionType = table.Column<string>(type: "nvarchar(max)", nullable: false),

@@ -1,7 +1,6 @@
 ﻿using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.GenericRepository;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
-using InventoryApp.Infrastructures.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using InventoryApp.Domain.Services;
+using InventoryApp.Infrastructures.Services;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
 using InventoryApp.Infrastructures.Interfaces.Services;
 using InventoryApp.Infrastructures.Repositories;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Domain.Autofac
+namespace InventoryApp.Infrastructures.Autofac
 {
     public class AutofacModule : Module
     {

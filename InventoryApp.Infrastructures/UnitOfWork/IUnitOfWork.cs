@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Infrastructures.UnitOfWork
+namespace InventoryApp.Infrastructures
 {
     public interface IUnitOfWork
     {
