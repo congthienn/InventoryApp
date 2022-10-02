@@ -1,8 +1,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InventoryApp.Data;
+using InventoryApp.Domain.Helper;
 using InventoryApp.Infrastructures.Autofac;
-using InventoryApp.Infrastructures.HttpClients;
+using InventoryApp.Infrastructures.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,8 +39,10 @@ app.UseHttpsRedirection();
 
 //Automatically create database
 AutomaticCreateDatabase.Run(app);
-CreateProvinceTable test = new CreateProvinceTable();
-test.Run();
+
+//Automatically create table
+AutomaticCreateTableHelper.Run();
+
 app.UseAuthorization();
 
 app.MapControllers();

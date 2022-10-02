@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Infrastructures.Models.DTO
 {
-    public class ProvinceDTO : PlaceDTO
+    public class DistrictDTO : PlaceDTO
     {
-        public JArray Districts { get; set; }
-        public int Phone_Code { get; set; }
+        public JArray Wards { get; set; }
     }
 }

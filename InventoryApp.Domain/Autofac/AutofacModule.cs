@@ -27,8 +27,6 @@ namespace InventoryApp.Infrastructures.Autofac
         private void RegisterService(ContainerBuilder builder)
         {
             builder.RegisterType<ProvinceService>().As<IProvinceService>();
-            builder.RegisterType<DistrictService>().As<IDistrictService>();
-            builder.RegisterType<WardService>().As<IWardService>();
         }
     }
 }

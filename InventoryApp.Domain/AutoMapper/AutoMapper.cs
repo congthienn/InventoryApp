@@ -15,13 +15,26 @@ namespace InventoryApp.Infrastructures.AutoMapper
         {
             CreateMap<Provinces, ProvinceDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).
                                                 ForMember(dest => dest.Phone_Code, opt => opt.MapFrom(src => src.PhoneCode)).ReverseMap();
+            CreateMap<Districts, DistrictDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
+            CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
         }
     }
-    public static class GetMapperConfiguration
+    public static class AutoMapperHelper
     {
-        public static MapperConfiguration Run()
+        public static MapperConfiguration GetMapperConfiguration()
         {
             return new MapperConfiguration(cfg => cfg.AddProfile<AutoMapper>());
         }
+        
+        public static class Map<TEntity, TEntityDTO> where TEntity : class where TEntityDTO : class
+        {
+            public static TEntity Run(IMapper mapper,TEntityDTO entityDTO)
+            {
+                TEntity entity = Activator.CreateInstance(typeof(TEntity)) as TEntity;
+                mapper.Map(entityDTO,entity);
+                return entity;
+            }
+        }
     }
+    
 }
