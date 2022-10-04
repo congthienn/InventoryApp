@@ -9,11 +9,10 @@ namespace InventoryApp.Domain.Helper
     {
         public static ILogger GetConfig()
         {
-            var logger = new LoggerConfiguration()
+            return new LoggerConfiguration()
               .ReadFrom.Configuration(Appsetting.GetConfiguration())
               .Filter.ByExcluding(Matching.FromSource("Microsoft"))
               .Filter.ByExcluding(Matching.FromSource("System")).Enrich.FromLogContext().CreateLogger();
-            return logger;
         }
     }
 }
