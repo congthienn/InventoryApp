@@ -18,7 +18,7 @@ namespace InventoryApp.Domain.Helper
         {
             if (ProvinceDataExitsInDatabase().Result)
                 return;
-            string url = GetStringAppsetting.GetProvincialAPI();
+            string url = Appsetting.GetProvincialAPI();
             JArray provinceJsonDataList = await HttpClientHelper.CallAPI(url);
             foreach (JToken provinceData in provinceJsonDataList.Children())
             {

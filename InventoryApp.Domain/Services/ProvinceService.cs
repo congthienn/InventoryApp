@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.Helper;
 using InventoryApp.Infrastructures.AutoMapper;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
 using InventoryApp.Infrastructures.Interfaces.Services;
 using InventoryApp.Infrastructures.Models.DTO;
 using InventoryApp.Infrastructures.Repositories;
+using Serilog;
 
 namespace InventoryApp.Infrastructures.Services
 {
@@ -15,6 +17,7 @@ namespace InventoryApp.Infrastructures.Services
         private IMapper _mapper;
         private IDistrictRepository _districtRepository;
         private IWardRepository _wardRepository;
+        private ILogger _log;
         public ProvinceService()
         {
             _unitOfWork = new UnitOfWork();
@@ -22,6 +25,7 @@ namespace InventoryApp.Infrastructures.Services
             _districtRepository = new DistrictRepository(_unitOfWork);
             _wardRepository = new WardRepository(_unitOfWork);
             _mapper = new Mapper(AutoMapperHelper.GetMapperConfiguration());
+            _log = LoggerHelper.GetConfig();
         }
         public async Task AddProvince(ProvinceDTO provinceDTO, DistrictDTO districtDTO, IEnumerable<WardDTO> wardsDTO)
         {
@@ -46,6 +50,7 @@ namespace InventoryApp.Infrastructures.Services
             }
             catch(Exception e)
             {
+                _log.Error(e.Message);
                 _unitOfWork.Rollback();
                 throw new NotImplementedException();
             }

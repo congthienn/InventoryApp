@@ -8,7 +8,7 @@ namespace InventoryApp.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(GetStringAppsetting.GetConnectionStringDatabase(), x=>x.MigrationsAssembly("InventoryApp.DbMigrations"));
+            optionsBuilder.UseSqlServer(Appsetting.GetConnectionStringDatabase(), x=>x.MigrationsAssembly("InventoryApp.DbMigrations"));
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

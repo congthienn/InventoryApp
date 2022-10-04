@@ -5,19 +5,19 @@ using System.Text;
 
 namespace InventoryApp.Common
 {
-    public static class GetStringAppsetting
+    public static class Appsetting
     {
-        private static IConfigurationRoot GetAppSettings()
+        public static IConfigurationRoot GetConfiguration()
         {
             return new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         }
         public static string GetConnectionStringDatabase()
         {
-            return GetAppSettings().GetSection("ConnectionStrings:DefaultConnection").Value;
+            return GetConfiguration().GetSection("ConnectionStrings:DefaultConnection").Value;
         }
         public static string GetProvincialAPI()
         {
-            return GetAppSettings().GetSection("ProvincesAPI").Value;
+            return GetConfiguration().GetSection("ProvincesAPI").Value;
         }
     }
 }

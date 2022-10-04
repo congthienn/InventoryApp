@@ -4,6 +4,8 @@ using InventoryApp.Data;
 using InventoryApp.Domain.Helper;
 using InventoryApp.Infrastructures.Autofac;
 using InventoryApp.Infrastructures.Helper;
+using Serilog;
+using Serilog.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,12 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterMod
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Serilog
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(LoggerHelper.GetConfig());
+builder.Logging.AddConsole();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
