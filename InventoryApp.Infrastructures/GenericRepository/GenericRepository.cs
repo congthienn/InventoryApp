@@ -6,8 +6,8 @@ namespace InventoryApp.Infrastructures.GenericRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private InventoryDBContext _context;
-        private DbSet<TEntity> _dbSet;
+        protected InventoryDBContext _context;
+        protected DbSet<TEntity> _dbSet;
         public GenericRepository(IUnitOfWork unitOfWork)
         {
             _context = unitOfWork.Context;

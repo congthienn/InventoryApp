@@ -10,5 +10,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IDistrictRepository : IGenericRepository<Districts>
     {
+        IQueryable GetDistrictById(int districtId);
     }
 }

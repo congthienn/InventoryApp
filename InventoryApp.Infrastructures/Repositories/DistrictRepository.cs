@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryApp.Infrastructures.Repositories
 {
@@ -14,6 +15,11 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public DistrictRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+        }
+
+        public IQueryable GetDistrictById(int districtId)
+        {
+            return _context.Districts.Include(x => x.Wards).Where(x => x.Code == districtId);
         }
     }
 }

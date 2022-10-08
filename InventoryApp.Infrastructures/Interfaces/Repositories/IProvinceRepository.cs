@@ -10,5 +10,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IProvinceRepository : IGenericRepository<Provinces>
     {
+        IQueryable GetProvinceById(int provinceId);
     }
 }

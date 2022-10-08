@@ -1,6 +1,7 @@
 ﻿using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.GenericRepository;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public ProvinceRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+        }
+
+        public IQueryable GetProvinceById(int provinceId)
+        {
+            return _context.Provinces.Include(x => x.Districts).Where(x => x.Code == provinceId);
         }
     }
 }

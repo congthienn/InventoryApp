@@ -20,5 +20,6 @@ namespace InventoryApp.Data.Models
         public string DivisionType { get; set; }
         public int ProvinceId { get; set; }
         public Provinces? Province { get; set; }
+        public List<Wards> Wards { get; set; }
     }
 }

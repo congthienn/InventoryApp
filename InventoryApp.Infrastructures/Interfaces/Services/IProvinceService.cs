@@ -15,5 +15,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<IEnumerable<Provinces>> GetProvinces();
         Task<IEnumerable<Districts>> GetDitrictsByProvinceId(int provinceId);
         Task<IEnumerable<Wards>> GeWardsByDistrictId(int districtId);
+        IQueryable GetProvinceById(int provinceId);
+        IQueryable GetDistrictById(int districtId);
     }
 }

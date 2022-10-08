@@ -55,10 +55,22 @@ namespace InventoryApp.Infrastructures.Services
                 throw new NotImplementedException();
             }
         }
+
+        public IQueryable GetDistrictById(int districtId)
+        {
+            return _districtRepository.GetDistrictById(districtId);
+        }
+
         public async Task<IEnumerable<Districts>> GetDitrictsByProvinceId(int provinceId)
         {
             return await _districtRepository.Get(x=>x.ProvinceId == provinceId);
         }
+
+        public IQueryable GetProvinceById(int provinceId)
+        {
+            return _provinceRepository.GetProvinceById(provinceId);
+        }
+
         public async Task<IEnumerable<Provinces>> GetProvinces()
         {
             return await _provinceRepository.Get();
