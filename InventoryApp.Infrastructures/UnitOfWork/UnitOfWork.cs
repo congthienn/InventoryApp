@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InventoryApp.Infrastructures.GenericRepository;
+using Microsoft.EntityFrameworkCore;
+
 namespace InventoryApp.Infrastructures
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
@@ -17,7 +19,7 @@ namespace InventoryApp.Infrastructures
         {
             _context = new InventoryDBContext();
         }
-        public object Context
+        public InventoryDBContext Context
         {
             get { return _context; }
         }

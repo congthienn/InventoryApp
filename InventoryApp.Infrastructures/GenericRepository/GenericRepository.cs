@@ -1,15 +1,16 @@
-﻿using InventoryApp.Infrastructures;
+﻿using InventoryApp.Data;
+using InventoryApp.Infrastructures;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 namespace InventoryApp.Infrastructures.GenericRepository
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private DbContext _context;
+        private InventoryDBContext _context;
         private DbSet<TEntity> _dbSet;
         public GenericRepository(IUnitOfWork unitOfWork)
         {
-            _context = (DbContext)unitOfWork.Context;
+            _context = unitOfWork.Context;
             _dbSet = _context.Set<TEntity>();
         }
         public virtual async Task Delete(object id)

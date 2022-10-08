@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryApp.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace InventoryApp.Infrastructures
 {
     public interface IUnitOfWork
     {
-        object Context { get; }
+        InventoryDBContext Context { get; }
         void CreateTransaction();
         void Commit();
         void Rollback();
