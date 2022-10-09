@@ -7,14 +7,14 @@ using Newtonsoft.Json.Linq;
 
 namespace InventoryApp.Domain.Helper
 {
-    public class AutomaticCreateTableHelper
+    public class SeedDataProvinces
     {
         private IProvinceService _provinceService;
-        public AutomaticCreateTableHelper()
+        public SeedDataProvinces()
         {
             _provinceService = new ProvinceService();
         }
-        private async void CreateProvinceTable()
+        private async void SeedData()
         {
             if (ProvinceDataExitsInDatabase().Result)
                 return;
@@ -33,15 +33,12 @@ namespace InventoryApp.Domain.Helper
         }
         private async Task<bool> ProvinceDataExitsInDatabase()
         {
-            var provinceData = await _provinceService.GetProvinces();
-            if (provinceData.Count() > 0)
-                return true;
-            return false;
+            return await _provinceService.RepositoryIsNotEmpty();
         }
         public static void Run()
         {
-            AutomaticCreateTableHelper createTableHelper = new AutomaticCreateTableHelper();
-            createTableHelper.CreateProvinceTable();
+            SeedDataProvinces seedData = new SeedDataProvinces();
+            seedData.SeedData();
         }
     }
 }

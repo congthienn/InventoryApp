@@ -19,7 +19,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IQueryable GetDistrictById(int districtId)
         {
-            return _context.Districts.Include(x => x.Wards).Where(x => x.Code == districtId);
+            return _context.Districts.Include(x => x.Ward).Where(x => x.Code == districtId);
         }
     }
 }

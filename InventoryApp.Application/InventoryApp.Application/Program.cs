@@ -1,9 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InventoryApp.Data;
+using InventoryApp.Data.Models;
 using InventoryApp.Domain.Helper;
+using InventoryApp.Domain.Helper.SeedData;
 using InventoryApp.Infrastructures.Autofac;
 using InventoryApp.Infrastructures.Helper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Filters;
 
@@ -14,7 +18,20 @@ builder.Services.AddControllers();
 
 //Add DbContext
 builder.Services.AddDbContext<InventoryDBContext>();
+builder.Services.AddIdentity<Users, Roles>(options => options.SignIn.RequireConfirmedAccount = true)
+        .AddEntityFrameworkStores<InventoryDBContext>().AddDefaultUI().AddDefaultTokenProviders(); ;
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 10;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = false;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+});
 ////Add Automapper
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -51,8 +68,11 @@ app.UseHttpsRedirection();
 //Automatically create database
 AutomaticCreateDatabase.Run(app);
 
-//Automatically create table
-AutomaticCreateTableHelper.Run();
+//SeedData
+SeedDataProvinces.Run();
+SeedDataSystemAdmin.Run(builder.Services.BuildServiceProvider());
+SeedDataRole.Run(builder.Services.BuildServiceProvider());
+
 
 app.UseAuthorization();
 

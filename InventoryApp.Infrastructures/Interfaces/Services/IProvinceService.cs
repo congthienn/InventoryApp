@@ -17,5 +17,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<IEnumerable<Wards>> GeWardsByDistrictId(int districtId);
         IQueryable GetProvinceById(int provinceId);
         IQueryable GetDistrictById(int districtId);
+        Task<bool> RepositoryIsNotEmpty();
     }
 }

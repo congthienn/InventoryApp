@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
-    public interface IProvinceRepository : IGenericRepository<Provinces>
+    public interface IUserRepository : IGenericRepository<Users>
     {
-        IQueryable GetProvinceById(int provinceId);
-        Task<bool> RepositoryIsNotEmpty();
-        Task<bool> ObjectAlreadyExists(int provinceId);
+        IQueryable<Users> GetManagerUsers();
+        IQueryable<Users> GetDirectorUsers();
+        IQueryable<Users> GetEmployeeUsers();
+        Task<Users> GetUserByPhoneNumber(string phoneNumber);
     }
 }

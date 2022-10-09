@@ -14,7 +14,7 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Roles.Name), IsUnique = true)]
     public class Roles : IdentityRole<Guid>
     {
-        public override Guid Id { get; set; }
+        public override Guid Id { get; set; } = Guid.NewGuid();
         public DateTime CreatedDate { get; private set; }
         public Guid CreatedByUserId { get; private set; }
         [ForeignKey("CreatedByUserId")]

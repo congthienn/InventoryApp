@@ -81,12 +81,14 @@ namespace InventoryApp.Infrastructures.Services
             return await _wardRepository.Get(x => x.DistrictId == districtId);
         }
 
+        public async Task<bool> RepositoryIsNotEmpty()
+        {
+            return await _provinceRepository.RepositoryIsNotEmpty();
+        }
+
         private async Task<bool> ProvinceExist(int provinceId)
         {
-            Provinces province = await _provinceRepository.GetByID(provinceId);
-            if (province == null)
-                return false;
-            return true;
+            return await _provinceRepository.ObjectAlreadyExists(provinceId);
         }
     }
 }

@@ -18,7 +18,17 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IQueryable GetProvinceById(int provinceId)
         {
-            return _context.Provinces.Include(x => x.Districts).Where(x => x.Code == provinceId);
+            return _context.Provinces.Include(x => x.District).Where(x => x.Code == provinceId);
+        }
+
+        public async Task<bool> ObjectAlreadyExists(int provinceId)
+        {
+            return await _dbSet.AnyAsync(x => x.Code == provinceId);
+        }
+
+        public async Task<bool> RepositoryIsNotEmpty()
+        {
+            return await _dbSet.AnyAsync();
         }
     }
 }

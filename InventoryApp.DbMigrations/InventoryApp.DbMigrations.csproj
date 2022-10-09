@@ -17,9 +17,5 @@
   <ItemGroup>
     <ProjectReference Include="..\InventoryApp.Data\InventoryApp.Data.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
   
 </Project>
