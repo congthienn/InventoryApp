@@ -12,9 +12,26 @@ namespace InventoryApp.Data.Models
         public override Guid Id { get; set; }
         [Unicode(true)]
         public override string UserName { get => base.UserName; set => base.UserName = value; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
+        public DateTime CreatedDate { get; private set; }
+        public Guid CreatedByUserId { get; private set; }
+        public DateTime UpdatedDate { get; private set; }
+        public Guid UpdatedByUserId { get; private set; }
+        public bool Status { get; set; }
+
+        public void CreateBy(Users issuer)
+        {
+            CreatedDate = GetTime();
+            CreatedByUserId = issuer.Id;
+        }
+        public void UpdateBy(Users issuer)
+        {
+            UpdatedDate = GetTime();
+            UpdatedByUserId = issuer.Id;
+        }
+        private DateTime GetTime()
+        {
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstZone);
+        }
     }
 }

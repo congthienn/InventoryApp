@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,7 +17,7 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Branches.TaxCode), IsUnique = true)]
     [Index(nameof(Branches.Fax), IsUnique = true)]
     [Index(nameof(Branches.Code), IsUnique = true)]
-    public class Branches
+    public class Branches : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -45,14 +46,6 @@ namespace InventoryApp.Data.Models
         public string? LogoURL { get; set; }
         public string? WebsiteURL { get; set; }
         public string? FacebookName { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
         public Guid CompaniesId { get; set; }
         public Companies Companies { get; set; }
     }

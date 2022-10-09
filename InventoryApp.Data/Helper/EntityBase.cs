@@ -1,6 +1,4 @@
-﻿using InventoryApp.Data.Helper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,13 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Data.Models
+namespace InventoryApp.Data.Helper
 {
-    [Table("Roles")]
-    [Index(nameof(Roles.Name), IsUnique = true)]
-    public class Roles : IdentityRole<Guid>
+    public abstract class EntityBase
     {
-        public override Guid Id { get; set; }
         public DateTime CreatedDate { get; private set; }
         public Guid CreatedByUserId { get; private set; }
         [ForeignKey("CreatedByUserId")]

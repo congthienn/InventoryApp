@@ -21,6 +21,6 @@ namespace InventoryApp.Data.Models
         public string CodeName { get; set; }
         public string DivisionType { get; set; }
         public int PhoneCode { get; set; }
-        public List<Districts>? Districts { get; set; }
+        public List<Districts>? District { get; set; }
     }
 }

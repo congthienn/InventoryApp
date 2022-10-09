@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace InventoryApp.Data.Models
 {
     [Table("InventoryMaterialPeriod")]
     [Index(nameof(Code), IsUnique = true)]
-    public class InventoryMaterialPeriod
+    public class InventoryMaterialPeriod : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -22,13 +23,5 @@ namespace InventoryApp.Data.Models
         public Guid ConfirmedByEmployeesId { get; set; }
         public Employees? ConfirmedByEmployees { get; set; }
         public bool Locked { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
     }
 }

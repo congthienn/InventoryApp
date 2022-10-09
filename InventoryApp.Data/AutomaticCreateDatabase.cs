@@ -6,7 +6,7 @@ namespace InventoryApp.Data
 {
     public static class AutomaticCreateDatabase
     {
-        public static void Run(IApplicationBuilder app)
+        public static async void Run(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {

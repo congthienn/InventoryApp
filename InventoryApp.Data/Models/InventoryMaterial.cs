@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryApp.Data.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("InventoryMaterial")]
-    public class InventoryMaterial
+    public class InventoryMaterial : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -26,13 +27,5 @@ namespace InventoryApp.Data.Models
         public WarehouseLocation? WarehouseLocation { get; set; }
         public Guid InventoryMaterialPeriodId { get; set; }
         public InventoryMaterialPeriod? InventoryMaterialPeriod { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
     }
 }

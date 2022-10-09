@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,7 @@ namespace InventoryApp.Data.Models
 {
     [Table("WarehousePosition")]
     [Index(nameof(Code), IsUnique = true)]
-    public class WarehousePosition
+    public class WarehousePosition : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -20,13 +21,5 @@ namespace InventoryApp.Data.Models
         public string Code { get; set; }
         public Guid WarehouseRackId { get; set; }
         public WarehouseRack WarehouseRack { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
     }
 }

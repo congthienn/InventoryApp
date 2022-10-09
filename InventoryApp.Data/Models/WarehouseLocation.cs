@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InventoryApp.Data.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("WarehouseLocation")]
-    public class WarehouseLocation
+    public class WarehouseLocation : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -27,13 +28,5 @@ namespace InventoryApp.Data.Models
         public WarehouseRack? WarehouseRack { get; set; }
         public Guid WarehousePositionId { get; set; }
         public WarehousePosition? WarehousePosition { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
     }
 }

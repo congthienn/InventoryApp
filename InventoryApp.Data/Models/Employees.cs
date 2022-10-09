@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,7 @@ namespace InventoryApp.Data.Models
     [Index(nameof(PhoneNumber), IsUnique = true)]
     [Index(nameof(IdentityCardNumber), IsUnique = true)]
     [Index(nameof(Email), IsUnique = true)]
-    public class Employees
+    public class Employees : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -40,14 +41,6 @@ namespace InventoryApp.Data.Models
         public Provinces? IdentityCardPlace { get; set; }
         public Guid UserId { get; set; }
         public Users? User { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
         public Guid DepartmentId { get; set; }
         public Department? Department { get; set; }
     }

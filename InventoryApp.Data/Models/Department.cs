@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,7 @@ namespace InventoryApp.Data.Models
     [Table("Department")]
     [Index(nameof(Email), IsUnique = true)]
     [Index(nameof(PhoneNumber), IsUnique = true)]
-    public class Department
+    public class Department : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
@@ -25,13 +26,5 @@ namespace InventoryApp.Data.Models
         public string ShortName { get; set; }
         public Guid BranchId { get; set; }
         public Branches? Branch { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public Guid CreatedByUserId { get; set; }
-        [ForeignKey("CreatedByUserId")]
-        public Users? CreatedByUser { get; set; }
-        public DateTime UpdatedDate { get; set; }
-        public Guid UpdatedByUserId { get; set; }
-        [ForeignKey("UpdatedByUserId")]
-        public Users? UpdatedByUser { get; set; }
     }
 }
