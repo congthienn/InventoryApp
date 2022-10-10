@@ -1,10 +1,11 @@
 ﻿using InventoryApp.Common;
 using InventoryApp.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryApp.Data
 {
-    public class InventoryDBContext : DbContext
+    public class InventoryDBContext : IdentityDbContext<Users, Roles, Guid, UserClaims, UserRoles, UserLogins, RoleClaims, UserTokens>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

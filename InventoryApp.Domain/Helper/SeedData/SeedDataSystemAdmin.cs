@@ -31,7 +31,8 @@ namespace InventoryApp.Domain.Helper.SeedData
                         UserName = "Systems",
                         Email = "system@gmail.com",
                         PhoneNumber = "0911440609",
-                        Status = true
+                        Status = true,
+                        EmailConfirmed = true,
                     };
                     user.CreateBy(user);
                     user.UpdateBy(user);

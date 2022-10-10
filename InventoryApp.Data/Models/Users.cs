@@ -18,6 +18,8 @@ namespace InventoryApp.Data.Models
         public Guid UpdatedByUserId { get; private set; }
         public bool Status { get; set; }
 
+        public string? AvatarURL { get; set; }
+
         public void CreateBy(Users issuer)
         {
             CreatedDate = GetTime();

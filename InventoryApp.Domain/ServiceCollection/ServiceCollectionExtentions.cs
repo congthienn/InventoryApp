@@ -34,9 +34,9 @@ namespace InventoryApp.Domain.ServiceCollection
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 10;
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
+                options.Password.RequireLowercase = true;
 
                 // User settings
                 options.User.RequireUniqueEmail = true;

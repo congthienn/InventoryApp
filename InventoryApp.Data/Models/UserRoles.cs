@@ -11,9 +11,7 @@ namespace InventoryApp.Data.Models
     [Table("UserRoles")]
     public class UserRoles : IdentityUserRole<Guid>
     {
-        public override Guid UserId { get => base.UserId; set => base.UserId = value; }
         public Users? User { get; set; }
-        public override Guid RoleId { get => base.RoleId; set => base.RoleId = value; }
         public Roles? Role { get; set; }
     }
 }
