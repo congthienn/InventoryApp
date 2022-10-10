@@ -19,5 +19,9 @@ namespace InventoryApp.Common
         {
             return GetConfiguration().GetSection("ProvincesAPI").Value;
         }
+        public static string GetAppSettingValue(string key)
+        {
+            return GetConfiguration().GetSection(key).Value;
+        }
     }
 }

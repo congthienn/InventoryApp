@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InventoryApp.Domain.JwtBearer;
 
 namespace InventoryApp.Infrastructures.Autofac
 {
@@ -27,6 +28,7 @@ namespace InventoryApp.Infrastructures.Autofac
         private void RegisterService(ContainerBuilder builder)
         {
             builder.RegisterType<ProvinceService>().As<IProvinceService>();
+            builder.RegisterType<JwtTokenService>().As<IJwtTokenService>();
         }
     }
 }

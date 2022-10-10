@@ -4,12 +4,13 @@ using InventoryApp.Data;
 using InventoryApp.Data.Models;
 using InventoryApp.Domain.Helper;
 using InventoryApp.Domain.Helper.SeedData;
+using InventoryApp.Domain.JwtBearer;
+using InventoryApp.Domain.ServiceCollection;
 using InventoryApp.Infrastructures.Autofac;
 using InventoryApp.Infrastructures.Helper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Serilog.Filters;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,19 +20,14 @@ builder.Services.AddControllers();
 //Add DbContext
 builder.Services.AddDbContext<InventoryDBContext>();
 builder.Services.AddIdentity<Users, Roles>(options => options.SignIn.RequireConfirmedAccount = true)
-        .AddEntityFrameworkStores<InventoryDBContext>().AddDefaultUI().AddDefaultTokenProviders(); ;
+        .AddEntityFrameworkStores<InventoryDBContext>().AddDefaultUI().AddDefaultTokenProviders();
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequiredLength = 10;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = false;
+//Identity configuration
+builder.Services.IdentityConfiguration();
 
-    // User settings
-    options.User.RequireUniqueEmail = true;
-});
+//Add JwtBearer
+builder.Services.AddJwtBearerAuthentication();
+
 ////Add Automapper
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -71,11 +67,9 @@ AutomaticCreateDatabase.Run(app);
 //SeedData
 SeedDataProvinces.Run();
 SeedDataSystemAdmin.Run(builder.Services.BuildServiceProvider());
-SeedDataRole.Run(builder.Services.BuildServiceProvider());
-
 
 app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();

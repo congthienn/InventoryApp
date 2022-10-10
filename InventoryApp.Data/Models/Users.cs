@@ -9,7 +9,7 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Users.PhoneNumber),IsUnique = true)]
     public class Users : IdentityUser<Guid>
     {
-        public override Guid Id { get; set; }
+        public override Guid Id { get; set; } = Guid.NewGuid();
         [Unicode(true)]
         public override string UserName { get => base.UserName; set => base.UserName = value; }
         public DateTime CreatedDate { get; private set; }
