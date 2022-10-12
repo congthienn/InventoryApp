@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InventoryApp.Data.Models;
 using InventoryApp.Domain.Helper;
+using InventoryApp.Domain.Services;
 using InventoryApp.Infrastructures.AutoMapper;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
 using InventoryApp.Infrastructures.Interfaces.Services;
@@ -18,6 +19,7 @@ namespace InventoryApp.Infrastructures.Services
         private IDistrictRepository _districtRepository;
         private IWardRepository _wardRepository;
         private ILogger _log;
+
         public ProvinceService()
         {
             _unitOfWork = new UnitOfWork();
@@ -32,16 +34,16 @@ namespace InventoryApp.Infrastructures.Services
             try
             {
                 _unitOfWork.CreateTransaction();
-                Provinces province = AutoMapperHelper.Map<Provinces,ProvinceDTO>.Run(_mapper, provinceDTO);
+                Provinces province = new Provinces(); _mapper.Map(provinceDTO, province);
                 if (!ProvinceExist(province.Code).Result)
                     await _provinceRepository.Insert(province);
 
-                Districts district = AutoMapperHelper.Map<Districts,DistrictDTO>.Run(_mapper, districtDTO);
+                Districts district = new Districts(); _mapper.Map(districtDTO, district);
                 district.ProvinceId = province.Code;
                 await _districtRepository.Insert(district);
                 foreach(WardDTO wardDTO in wardsDTO)
                 {
-                    Wards ward = AutoMapperHelper.Map<Wards,WardDTO>.Run(_mapper, wardDTO);
+                    Wards ward = new Wards(); _mapper.Map(wardDTO, ward);
                     ward.DistrictId = district.Code;
                     await _wardRepository.Insert(ward);
                 }

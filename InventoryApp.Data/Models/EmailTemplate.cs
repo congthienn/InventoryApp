@@ -15,7 +15,7 @@ namespace InventoryApp.Data.Models
     public class EmailTemplate : EntityBase
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Unicode(true)]
         public string Name { get; set; }
         [Unicode(true)]

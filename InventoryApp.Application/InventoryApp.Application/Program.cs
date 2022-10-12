@@ -2,6 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using InventoryApp.Data;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.EmailSender;
 using InventoryApp.Domain.Helper;
 using InventoryApp.Domain.Helper.SeedData;
 using InventoryApp.Domain.JwtBearer;
@@ -17,9 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+//Config EmailSettings
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
 //Add DbContext
 builder.Services.AddDbContext<InventoryDBContext>();
-builder.Services.AddIdentity<Users, Roles>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<Users, Roles>()
         .AddEntityFrameworkStores<InventoryDBContext>().AddDefaultUI().AddDefaultTokenProviders();
 
 //Identity configuration
