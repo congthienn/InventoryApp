@@ -60,7 +60,21 @@ namespace InventoryApp.Application.Controllers
             {
                 return BadRequest(e.Message);
             }
-           
+        }
+
+        [Route("{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateEmailTemplate(Guid id, [FromBody] EmailTemplateDTO emailTemplate)
+        {
+            try
+            {
+                var user = GetCurrentUserIdentity();
+                return Ok(await _emailService.UpdateEmailTemplate(id, emailTemplate, user));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

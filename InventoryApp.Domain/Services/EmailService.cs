@@ -124,5 +124,30 @@ namespace InventoryApp.Domain.Services
             }
             
         }
+
+        public async Task<EmailTemplateDTO> UpdateEmailTemplate(Guid id, EmailTemplateDTO model, UserIdentity user)
+        {
+            try
+            {
+                var emailTemplate = await _emailRepository.GetByID(id);
+          
+                if(emailTemplate == null) 
+                    return null;
+
+                emailTemplate.EmailSubject = model.EmailSubject;
+                emailTemplate.EmailContent = model.EmailContent;
+                emailTemplate.UpdateBy(user);
+
+                await _emailRepository.Update(emailTemplate);
+                _unitOfWork.Save();
+
+                return _mapper.Map<EmailTemplateDTO>(emailTemplate);
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw new NotImplementedException(e.Message);
+            }
+        }
     }
 }

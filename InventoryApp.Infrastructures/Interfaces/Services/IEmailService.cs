@@ -20,5 +20,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<EmailTemplateDTO> GetTemplate(Guid id);
         IEnumerable<string> GetListEmailTemplateNames();
         Task<bool> DeleteEmailTemplate(Guid id);
+        Task<EmailTemplateDTO> UpdateEmailTemplate(Guid id, EmailTemplateDTO model, UserIdentity user);
     }
 }
