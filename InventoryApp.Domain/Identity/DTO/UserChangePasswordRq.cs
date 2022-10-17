@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using InventoryApp.Domain.Helper;
 using System.Text.RegularExpressions;
 
 namespace InventoryApp.Domain.Identity.DTO
@@ -15,15 +16,10 @@ namespace InventoryApp.Domain.Identity.DTO
         {
             RuleFor(p => p.OldPassword).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("Old password cannot be blank");
             RuleFor(p => p.NewPassword).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty()
-                                        .WithMessage("Please enter a new password").Must(IsValidPassword).WithMessage("Invalid password");
+                                        .WithMessage("Please enter a new password").Must(IdentityHelper.IsValidPassword).WithMessage("Invalid password");
             RuleFor(p => p.ReNewPassword).Cascade(CascadeMode.StopOnFirstFailure).Equal(p => p.NewPassword).WithMessage("Password and Re-password are not match");
             RuleFor(p => p.ReNewPassword).NotEmpty().WithMessage("Please confirm new password");
             
-        }
-        private bool IsValidPassword(string password)
-        {
-            Regex passwordRules = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$");
-            return passwordRules.IsMatch(password);
         }
     }
 }

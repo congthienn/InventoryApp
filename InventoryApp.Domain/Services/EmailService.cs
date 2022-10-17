@@ -105,7 +105,6 @@ namespace InventoryApp.Domain.Services
             EmailTemplate emailTemplate = _emailRepository.Get(x => x.Name == EMAILTEMPLATE_CONSTANT.USER_PASSWORD_RESET_EMAIL).FirstOrDefault();
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#email", email);
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#username", userName);
-            emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#password", password);
             await _emailSender.SendEmailAsync(email, emailTemplate.EmailSubject, emailTemplate.EmailContent, true);
         }
 

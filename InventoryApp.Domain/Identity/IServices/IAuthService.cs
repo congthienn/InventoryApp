@@ -15,5 +15,6 @@ namespace InventoryApp.Domain.Identity.IServices
         Task<bool> ChangePasswordAsync(UserChangePasswordRq model, UserIdentity issuer);
         Task<bool> ForgotPasswordAsync(UserForgotPasswordRq model);
         Task<bool> ResetPasswordAsync(ResetPasswordRq model);
+        Task<bool> CheckExistUserPasswordAsync(Guid id, UserCheckPasswordRq model);
     }
 }

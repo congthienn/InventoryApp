@@ -79,5 +79,37 @@ namespace InventoryApp.Domain.Services.Identity
             await _emailService.SendEmailForgotPasswordAsync(user.Email, user.UserName, token);
             return true;
         }
+
+        public async  Task<bool> ResetPasswordAsync(ResetPasswordRq model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                    return false;
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+                if (!result.Succeeded)
+                    return false;
+
+                await _userManager.UpdateAsync(user);
+                await _emailService.SendEmailChangePasswordAsync(user.Email, user.UserName);
+
+                return true;
+                
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw new NotImplementedException(e.Message);
+            }
+        }
+
+        public async Task<bool> CheckExistUserPasswordAsync(Guid id, UserCheckPasswordRq model)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            return await _userManager.CheckPasswordAsync(user, model.Password);       
+        }
     }
 }

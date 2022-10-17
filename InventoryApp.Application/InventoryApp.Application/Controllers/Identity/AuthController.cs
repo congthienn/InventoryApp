@@ -35,10 +35,10 @@ namespace InventoryApp.Application.Controllers.Identity
 
             if (result.IsLockedOut)
                 return BadRequest($"User account locked out, max failed access attemps are {_identityOptions.Value.Lockout.MaxFailedAccessAttempts}");
-            
+
             if (result.IsNotAllowed)
                 return BadRequest("User account is not allowed, make sure your account have been verified");
-            
+
             if (result.RequiresTwoFactor)
                 return BadRequest("Two Factor Login is required");
 
@@ -55,23 +55,53 @@ namespace InventoryApp.Application.Controllers.Identity
                 UserIdentity issuer = GetCurrentUserIdentity();
                 return Ok(await _authService.ChangePasswordAsync(model, issuer));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-        
+
         [Route("forgotPassword")]
         [HttpPost]
-        public async Task<IActionResult> ForgotPasswordAsync([FromBody]UserForgotPasswordRq model)
+        public async Task<IActionResult> ForgotPasswordAsync([FromBody] UserForgotPasswordRq model)
         {
             try
             {
                 return Ok(await _authService.ForgotPasswordAsync(model));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [Route("passwordReset")]
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRq model)
+        {
+            try
+            {
+                return Ok(await _authService.ResetPasswordAsync(model));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Authorize]
+        [Route("checkPassword")]
+        [HttpPost]
+        public async Task<IActionResult> CheckUserPassword([FromBody] UserCheckPasswordRq model)
+        {
+            try
+            {
+                UserIdentity issuer = GetCurrentUserIdentity();
+                return Ok(await _authService.CheckExistUserPasswordAsync(issuer.Id, model));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
