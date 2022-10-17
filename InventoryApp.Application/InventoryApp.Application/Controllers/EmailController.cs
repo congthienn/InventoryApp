@@ -15,7 +15,7 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEmailTemplate([FromBody]EmailTemplateDTO emailTemplate)
+        public async Task<IActionResult> CreateEmailTemplate([FromBody]EmailTemplateCreateModel emailTemplate)
         {
             try
             {
@@ -36,14 +36,14 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<EmailTemplateDTO> GetEmailTemplate()
+        public IEnumerable<EmailTemplateCreateModel> GetEmailTemplate()
         {
             return _emailService.GetEmailTemplate();
         }
 
         [Route("{id}")]
         [HttpGet]
-        public async Task<EmailTemplateDTO> GetTemplate(Guid id)
+        public async Task<EmailTemplateCreateModel> GetTemplate(Guid id)
         {
             return await _emailService.GetTemplate(id);
         }
@@ -64,7 +64,7 @@ namespace InventoryApp.Application.Controllers
 
         [Route("{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateEmailTemplate(Guid id, [FromBody] EmailTemplateDTO emailTemplate)
+        public async Task<IActionResult> UpdateEmailTemplate(Guid id, [FromBody] EmailTemplateCreateModel emailTemplate)
         {
             try
             {

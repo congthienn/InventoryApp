@@ -43,7 +43,7 @@ namespace InventoryApp.Domain.Services
                 EMAILTEMPLATE_CONSTANT.USER_PASSWORD_RESET_EMAIL
             };
         }
-        public async Task<Guid> CreateEmailTemplate(EmailTemplateDTO model, UserIdentity user)
+        public async Task<Guid> CreateEmailTemplate(EmailTemplateCreateModel model, UserIdentity user)
         {
             try
             {
@@ -61,15 +61,15 @@ namespace InventoryApp.Domain.Services
             }
         }
 
-        public IEnumerable<EmailTemplateDTO> GetEmailTemplate()
+        public IEnumerable<EmailTemplateCreateModel> GetEmailTemplate()
         {
-            return _mapper.Map<IEnumerable<EmailTemplateDTO>>(_emailRepository.Get());
+            return _mapper.Map<IEnumerable<EmailTemplateCreateModel>>(_emailRepository.Get());
         }
 
-        public async Task<EmailTemplateDTO> GetTemplate(Guid id)
+        public async Task<EmailTemplateCreateModel> GetTemplate(Guid id)
         {
             EmailTemplate emailTemplate = await _emailRepository.GetByID(id);
-            return _mapper.Map<EmailTemplateDTO>(emailTemplate);
+            return _mapper.Map<EmailTemplateCreateModel>(emailTemplate);
         }
 
         public async Task SendEmailChangePasswordAsync(string email, string username)
@@ -125,7 +125,7 @@ namespace InventoryApp.Domain.Services
             
         }
 
-        public async Task<EmailTemplateDTO> UpdateEmailTemplate(Guid id, EmailTemplateDTO model, UserIdentity user)
+        public async Task<EmailTemplateCreateModel> UpdateEmailTemplate(Guid id, EmailTemplateCreateModel model, UserIdentity user)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace InventoryApp.Domain.Services
                 await _emailRepository.Update(emailTemplate);
                 _unitOfWork.Save();
 
-                return _mapper.Map<EmailTemplateDTO>(emailTemplate);
+                return _mapper.Map<EmailTemplateCreateModel>(emailTemplate);
             }
             catch(Exception e)
             {

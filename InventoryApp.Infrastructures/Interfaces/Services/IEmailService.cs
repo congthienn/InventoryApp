@@ -11,15 +11,15 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
 {
     public interface IEmailService
     {
-        IEnumerable<EmailTemplateDTO> GetEmailTemplate();
-        Task<Guid> CreateEmailTemplate(EmailTemplateDTO model, UserIdentity user);
+        IEnumerable<EmailTemplateCreateModel> GetEmailTemplate();
+        Task<Guid> CreateEmailTemplate(EmailTemplateCreateModel model, UserIdentity user);
         Task SendEmailChangePasswordAsync(string email, string username);
         Task SendEmailResetPasswordAsync(string email, string userName, string password);
         Task SendEmailForgotPasswordAsync(string email, string userName, string code);
         Task SendEmailCreateNewUserAsync(string email, string userName, string password);
-        Task<EmailTemplateDTO> GetTemplate(Guid id);
+        Task<EmailTemplateCreateModel> GetTemplate(Guid id);
         IEnumerable<string> GetListEmailTemplateNames();
         Task<bool> DeleteEmailTemplate(Guid id);
-        Task<EmailTemplateDTO> UpdateEmailTemplate(Guid id, EmailTemplateDTO model, UserIdentity user);
+        Task<EmailTemplateCreateModel> UpdateEmailTemplate(Guid id, EmailTemplateCreateModel model, UserIdentity user);
     }
 }

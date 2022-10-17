@@ -2,14 +2,14 @@
 
 namespace InventoryApp.Infrastructures.Models.DTO
 {
-    public class EmailTemplateDTO
+    public class EmailTemplateCreateModel
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string EmailContent { get; set; }
         public string EmailSubject { get; set; }
     }
-    public class EmailTemplateModelValidator : AbstractValidator<EmailTemplateDTO>
+    public class EmailTemplateModelValidator : AbstractValidator<EmailTemplateCreateModel>
     {
         public EmailTemplateModelValidator()
         {

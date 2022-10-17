@@ -17,7 +17,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
                                                 ForMember(dest => dest.Phone_Code, opt => opt.MapFrom(src => src.PhoneCode)).ReverseMap();
             CreateMap<Districts, DistrictDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
-            CreateMap<EmailTemplate, EmailTemplateDTO>().ReverseMap();
+            CreateMap<EmailTemplate, EmailTemplateCreateModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
