@@ -21,6 +21,7 @@ namespace InventoryApp.Domain.EmailSender
                 Port = _emailSettings.MailPort,
                 EnableSsl = _emailSettings.EnableSSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
                 Credentials = new System.Net.NetworkCredential(_emailSettings.Sender, _emailSettings.Password),
                 Timeout = _emailSettings.Timeout
             };

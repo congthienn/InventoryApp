@@ -9,7 +9,7 @@ namespace InventoryApp.Infrastructures.GenericRepository
 {
     public interface IGenericRepository<TEntity> where TEntity :class
     {
-        Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> filter = null,
+        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "");
         Task<TEntity> GetByID(object id);

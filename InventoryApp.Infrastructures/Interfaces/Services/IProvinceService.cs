@@ -12,9 +12,9 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     public interface IProvinceService
     {
         Task AddProvince(ProvinceDTO provinceDTO, DistrictDTO districtDTO, IEnumerable<WardDTO> wardDTO);
-        Task<IEnumerable<Provinces>> GetProvinces();
-        Task<IEnumerable<Districts>> GetDitrictsByProvinceId(int provinceId);
-        Task<IEnumerable<Wards>> GeWardsByDistrictId(int districtId);
+        IEnumerable<Provinces> GetProvinces();
+        IEnumerable<Districts> GetDitrictsByProvinceId(int provinceId);
+        IEnumerable<Wards> GeWardsByDistrictId(int districtId);
         IQueryable GetProvinceById(int provinceId);
         IQueryable GetDistrictById(int districtId);
         Task<bool> RepositoryIsNotEmpty();

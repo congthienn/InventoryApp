@@ -1,5 +1,6 @@
-﻿using InventoryApp.Data;
+﻿using InventoryApp.Data.Helper;
 using InventoryApp.Data.Models;
+using InventoryApp.Data;
 using InventoryApp.Infrastructures.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace InventoryApp.Domain.Helper.SeedData
                 {
                     var userManagement = serviceProvider.GetService<UserManager<Users>>();
                     Guid guid = Guid.NewGuid();
-                    var user = new Users
+                    Users user = new Users
                     {
                         Id = guid,
                         UserName = "Systems",
@@ -34,8 +35,13 @@ namespace InventoryApp.Domain.Helper.SeedData
                         Status = true,
                         EmailConfirmed = true,
                     };
-                    user.CreateBy(user);
-                    user.UpdateBy(user);
+                    UserIdentity userIdentity = new UserIdentity
+                    {
+                        Id = guid,
+                        UserName = user.UserName
+                    };
+                    user.CreateBy(userIdentity);
+                    user.UpdateBy(userIdentity);
                     await userManagement.CreateAsync(user, "SystemPassword@1");
                 }
             }

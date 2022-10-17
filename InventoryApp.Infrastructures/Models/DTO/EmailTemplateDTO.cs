@@ -1,20 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace InventoryApp.Infrastructures.Models.DTO
 {
     public class EmailTemplateDTO
     {
-        [Required(ErrorMessage = "Please enter email name")]
+        public Guid Id { get; private set; } = Guid.NewGuid();
         public string Name { get; set; }
-        [Required(ErrorMessage = "Please enter email content")]
         public string EmailContent { get; set; }
-        [Required(ErrorMessage = "Please enter email subject")]
         public string EmailSubject { get; set; }
+    }
+    public class EmailTemplateModelValidator : AbstractValidator<EmailTemplateDTO>
+    {
+        public EmailTemplateModelValidator()
+        {
+            RuleFor(p => p.Name).NotEmpty().WithMessage("Please enter email name");
+            RuleFor(p => p.EmailContent).NotEmpty().WithMessage("Please enter email content");
+            RuleFor(p => p.EmailSubject).NotEmpty().WithMessage("Please enter email subject");
+        }
     }
 }

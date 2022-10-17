@@ -1,22 +1,21 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using InventoryApp.Data;
 using InventoryApp.Data.Models;
 using InventoryApp.Domain.EmailSender;
 using InventoryApp.Domain.Helper;
 using InventoryApp.Domain.Helper.SeedData;
-using InventoryApp.Domain.JwtBearer;
+using InventoryApp.Domain.Identity.DTO;
 using InventoryApp.Domain.ServiceCollection;
 using InventoryApp.Infrastructures.Autofac;
-using InventoryApp.Infrastructures.Helper;
+using InventoryApp.Infrastructures.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
-
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllers();
 
 //Config EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -32,12 +31,24 @@ builder.Services.IdentityConfiguration();
 //Add JwtBearer
 builder.Services.AddJwtBearerAuthentication();
 
-////Add Automapper
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//Add Automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 //AddController
 builder.Services.AddControllers();
+
+//Configuration FluentValidation
+builder.Services.AddFluentValidationAutoValidation(config => 
+{
+    config.ImplicitlyValidateChildProperties = true;
+    config.DisableDataAnnotationsValidation = true;
+});
+
+builder.Services.AddValidatorsFromAssemblyContaining<SignInModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<EmailTemplateModelValidator>();
+
+
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -72,8 +83,9 @@ AutomaticCreateDatabase.Run(app);
 SeedDataProvinces.Run();
 SeedDataSystemAdmin.Run(builder.Services.BuildServiceProvider());
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

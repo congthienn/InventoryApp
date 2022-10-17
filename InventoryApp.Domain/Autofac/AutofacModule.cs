@@ -6,6 +6,8 @@ using InventoryApp.Infrastructures.Repositories;
 using InventoryApp.Domain.JwtBearer;
 using InventoryApp.Domain.Services.Identity;
 using InventoryApp.Domain.Identity.IServices;
+using InventoryApp.Domain.Services;
+using InventoryApp.Domain.EmailSender;
 
 namespace InventoryApp.Infrastructures.Autofac
 {
@@ -33,6 +35,9 @@ namespace InventoryApp.Infrastructures.Autofac
         private void RegisterIdentityService(ContainerBuilder builder)
         {
             builder.RegisterType<AuthService>().As<IAuthService>();
+            builder.RegisterType<EmailService>().As<IEmailService>();
+            builder.RegisterType<ProvinceService>().As<IProvinceService>();
+            builder.RegisterType<EmailSender>().As<IEmailSender>();
         }
     }
 }

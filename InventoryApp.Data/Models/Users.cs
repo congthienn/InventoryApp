@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using InventoryApp.Data.Helper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,12 +21,13 @@ namespace InventoryApp.Data.Models
 
         public string? AvatarURL { get; set; }
 
-        public void CreateBy(Users issuer)
+
+        public void CreateBy(UserIdentity issuer)
         {
             CreatedDate = GetTime();
             CreatedByUserId = issuer.Id;
         }
-        public void UpdateBy(Users issuer)
+        public void UpdateBy(UserIdentity issuer)
         {
             UpdatedDate = GetTime();
             UpdatedByUserId = issuer.Id;

@@ -7,10 +7,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\InventoryApp.Common\InventoryApp.Common.csproj" />
     <ProjectReference Include="..\InventoryApp.Data\InventoryApp.Data.csproj" />
   </ItemGroup>
   

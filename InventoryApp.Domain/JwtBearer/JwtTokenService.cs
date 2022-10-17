@@ -30,7 +30,7 @@ namespace InventoryApp.Domain.JwtBearer
 
             var claims = new List<Claim>();
             string tokenSubject = _configuration.GetSection("Security:Jwt:Subject").Value;
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, tokenSubject));
+            claims.Add(new Claim("Subject:", tokenSubject));
 
             if (roles != null)
                 foreach (var role in roles)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,11 +10,16 @@ namespace InventoryApp.Domain.Identity.DTO
 {
     public class SignInModelRq
     {
-        [Required(ErrorMessage = "Please enter your login email")]
-        [EmailAddress(ErrorMessage = "Email address is not valid")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Please enter the login password")]
-        
         public string Password { get; set; }
+    }
+    public class SignInModelValidator : AbstractValidator<SignInModelRq>
+    {
+        public SignInModelValidator()
+        {
+            RuleFor(p => p.Email).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("Please enter your login email");
+            RuleFor(p => p.Email).EmailAddress().WithMessage("Email address is not valid");
+            RuleFor(p => p.Password).NotEmpty().WithMessage("Please enter the login password");
+        }
     }
 }

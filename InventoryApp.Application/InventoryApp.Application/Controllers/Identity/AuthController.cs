@@ -1,7 +1,9 @@
 ﻿using InventoryApp.Common.ApiActionResult;
+using InventoryApp.Data.Helper;
 using InventoryApp.Domain.Identity.DTO;
 using InventoryApp.Domain.Identity.IServices;
 using InventoryApp.Domain.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,8 +12,7 @@ using System.Security.Claims;
 
 namespace InventoryApp.Application.Controllers.Identity
 {
-    [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly IAuthService _authService;
         private readonly IJwtTokenService _jwtTokenService;
@@ -42,6 +43,36 @@ namespace InventoryApp.Application.Controllers.Identity
                 return BadRequest("Two Factor Login is required");
 
             return BadRequest("Email or Password does not match");
+        }
+
+        [Authorize]
+        [Route("changePassword")]
+        [HttpPut]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] UserChangePasswordRq model)
+        {
+            try
+            {
+                UserIdentity issuer = GetCurrentUserIdentity();
+                return Ok(await _authService.ChangePasswordAsync(model, issuer));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [Route("forgotPassword")]
+        [HttpPost]
+        public async Task<IActionResult> ForgotPasswordAsync([FromBody]UserForgotPasswordRq model)
+        {
+            try
+            {
+                return Ok(await _authService.ForgotPasswordAsync(model));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

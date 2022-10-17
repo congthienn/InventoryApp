@@ -14,8 +14,14 @@ namespace InventoryApp.Domain.ServiceCollection
         private static IConfigurationRoot _configuration = Appsetting.GetConfiguration();
         public static AuthenticationBuilder AddJwtBearerAuthentication(this IServiceCollection services)
         {
-            return services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(cfg =>
-            {
+            return services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(cfg => {
                 cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = true,

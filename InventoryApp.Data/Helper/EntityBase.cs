@@ -19,12 +19,12 @@ namespace InventoryApp.Data.Helper
         [ForeignKey("UpdatedByUserId")]
         public Users? UpdatedByUser { get; set; }
 
-        public void CreateBy(Users issuer)
+        public void CreateBy(UserIdentity issuer)
         {
             CreatedDate = GetTime();
             CreatedByUserId = issuer.Id;
         }
-        public void UpdateBy(Users issuer)
+        public void UpdateBy(UserIdentity issuer)
         {
             UpdatedDate = GetTime();
             UpdatedByUserId = issuer.Id;

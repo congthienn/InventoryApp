@@ -34,16 +34,16 @@ namespace InventoryApp.Infrastructures.Services
             try
             {
                 _unitOfWork.CreateTransaction();
-                Provinces province = new Provinces(); _mapper.Map(provinceDTO, province);
+                Provinces province = _mapper.Map<Provinces>(provinceDTO);
                 if (!ProvinceExist(province.Code).Result)
                     await _provinceRepository.Insert(province);
 
-                Districts district = new Districts(); _mapper.Map(districtDTO, district);
+                Districts district = _mapper.Map<Districts>(districtDTO);
                 district.ProvinceId = province.Code;
                 await _districtRepository.Insert(district);
                 foreach(WardDTO wardDTO in wardsDTO)
                 {
-                    Wards ward = new Wards(); _mapper.Map(wardDTO, ward);
+                    Wards ward = _mapper.Map<Wards>(wardDTO);
                     ward.DistrictId = district.Code;
                     await _wardRepository.Insert(ward);
                 }
@@ -54,7 +54,7 @@ namespace InventoryApp.Infrastructures.Services
             {
                 _log.Error(e.Message);
                 _unitOfWork.Rollback();
-                throw new NotImplementedException();
+                throw new NotImplementedException(e.Message);
             }
         }
 
@@ -63,9 +63,9 @@ namespace InventoryApp.Infrastructures.Services
             return _districtRepository.GetDistrictById(districtId);
         }
 
-        public async Task<IEnumerable<Districts>> GetDitrictsByProvinceId(int provinceId)
+        public IEnumerable<Districts> GetDitrictsByProvinceId(int provinceId)
         {
-            return await _districtRepository.Get(x=>x.ProvinceId == provinceId);
+            return _districtRepository.Get(x=>x.ProvinceId == provinceId);
         }
 
         public IQueryable GetProvinceById(int provinceId)
@@ -73,14 +73,14 @@ namespace InventoryApp.Infrastructures.Services
             return _provinceRepository.GetProvinceById(provinceId);
         }
 
-        public async Task<IEnumerable<Provinces>> GetProvinces()
+        public IEnumerable<Provinces> GetProvinces()
         {
-            return await _provinceRepository.Get();
+            return _provinceRepository.Get();
         }
 
-        public async Task<IEnumerable<Wards>> GeWardsByDistrictId(int districtId)
+        public IEnumerable<Wards> GeWardsByDistrictId(int districtId)
         {
-            return await _wardRepository.Get(x => x.DistrictId == districtId);
+            return _wardRepository.Get(x => x.DistrictId == districtId);
         }
 
         public async Task<bool> RepositoryIsNotEmpty()
