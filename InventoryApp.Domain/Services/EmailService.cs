@@ -68,8 +68,7 @@ namespace InventoryApp.Domain.Services
 
         public async Task<EmailTemplateCreateModel> GetTemplate(Guid id)
         {
-            EmailTemplate emailTemplate = await _emailRepository.GetByID(id);
-            return _mapper.Map<EmailTemplateCreateModel>(emailTemplate);
+            return _mapper.Map<EmailTemplateCreateModel>(await _emailRepository.GetByID(id));
         }
 
         public async Task SendEmailChangePasswordAsync(string email, string username)
@@ -113,6 +112,9 @@ namespace InventoryApp.Domain.Services
             try
             {
                 EmailTemplate emailTemplate = await _emailRepository.GetByID(id);
+                if (emailTemplate == null)
+                    return false;
+
                 await _emailRepository.Delete(emailTemplate);
                 _unitOfWork.Save();
                 return true;
@@ -130,9 +132,9 @@ namespace InventoryApp.Domain.Services
             try
             {
                 var emailTemplate = await _emailRepository.GetByID(id);
-          
-                if(emailTemplate == null) 
-                    return null;
+
+                if (emailTemplate == null)
+                    throw new NotImplementedException();
 
                 emailTemplate.EmailSubject = model.EmailSubject;
                 emailTemplate.EmailContent = model.EmailContent;

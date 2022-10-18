@@ -14,7 +14,7 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Roles.Name), IsUnique = true)]
     public class Roles : IdentityRole<Guid>
     {
-        public override Guid Id { get; set; } = Guid.NewGuid();
+        public override Guid Id { get; set; }
         public DateTime CreatedDate { get; private set; }
         public Guid CreatedByUserId { get; private set; }
         [ForeignKey("CreatedByUserId")]
@@ -24,12 +24,12 @@ namespace InventoryApp.Data.Models
         [ForeignKey("UpdatedByUserId")]
         public Users? UpdatedByUser { get; set; }
 
-        public void CreateBy(Users issuer)
+        public void CreateBy(UserIdentity issuer)
         {
             CreatedDate = GetTime();
             CreatedByUserId = issuer.Id;
         }
-        public void UpdateBy(Users issuer)
+        public void UpdateBy(UserIdentity issuer)
         {
             UpdatedDate = GetTime();
             UpdatedByUserId = issuer.Id;

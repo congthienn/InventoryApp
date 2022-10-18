@@ -68,12 +68,17 @@ namespace InventoryApp.Domain.Helper.SeedData
                 {
                     var userManagement = serviceProvider.GetService<UserManager<Users>>();
                     var roleManagement = serviceProvider.GetService<RoleManager<Roles>>();
-                    Users users = userManagement.FindByNameAsync("Systems").Result;
+                    Users user = userManagement.FindByNameAsync("Systems").Result;
+                    UserIdentity userIdentity = new UserIdentity
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName
+                    };
                     foreach (var role in listRole)
                     {
                         Roles newRole = new Roles { Name = role };
-                        newRole.CreateBy(users);
-                        newRole.UpdateBy(users);
+                        newRole.CreateBy(userIdentity);
+                        newRole.UpdateBy(userIdentity);
                         await roleManagement.CreateAsync(newRole);
                     }
                 }
