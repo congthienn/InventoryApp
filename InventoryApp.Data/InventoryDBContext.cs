@@ -13,7 +13,7 @@ namespace InventoryApp.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserRoles>().HasKey(table => new { table.RoleId, table.UserId });
+            builder.Entity<UserRoles>().HasKey(table => new { table.UserId, table.RoleId });
             builder.Entity<UserLogins>().HasKey(table => new { table.LoginProvider, table.ProviderKey });
             builder.Entity<UserTokens>().HasKey(table => new { table.UserId, table.LoginProvider,table.Name });
         }

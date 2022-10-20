@@ -79,12 +79,16 @@ namespace InventoryApp.Domain.Services
             await _emailSender.SendEmailAsync(email, emailTemplate.EmailSubject, emailTemplate.EmailContent, true);
         }
 
-        public async Task SendEmailCreateNewUserAsync(string email, string userName, string password)
+        public async Task SendEmailCreateNewUserAsync(string email, string userName, string password, string token)
         {
+            string urlCode = HttpUtility.UrlEncode(token);
+            string urConfirmEmail = $"<a href='{Appsetting.GetAppSettingValue("EmailURL:ConfirmEmail")}?email={email}&token={urlCode}'>" +
+               $"Nhấn vào đây để kích hoạt tài khoản.</a>";
             EmailTemplate emailTemplate = _emailRepository.Get(x => x.Name == EMAILTEMPLATE_CONSTANT.NEW_USER_CREATION_EMAIL).FirstOrDefault();
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#email", email);
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#username", userName);
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#password", password);
+            emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#url", urConfirmEmail);
             await _emailSender.SendEmailAsync(email, emailTemplate.EmailSubject, emailTemplate.EmailContent, true);
         }
 

@@ -10,9 +10,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<Users>
     {
-        IQueryable<Users> GetManagerUsers();
-        IQueryable<Users> GetDirectorUsers();
-        IQueryable<Users> GetEmployeeUsers();
-        Task<Users> GetUserByPhoneNumber(string phoneNumber);
+        IQueryable GetRoleByUser(Guid userId);
     }
 }

@@ -16,7 +16,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task SendEmailChangePasswordAsync(string email, string username);
         Task SendEmailResetPasswordAsync(string email, string userName, string password);
         Task SendEmailForgotPasswordAsync(string email, string userName, string code);
-        Task SendEmailCreateNewUserAsync(string email, string userName, string password);
+        Task SendEmailCreateNewUserAsync(string email, string userName, string password, string token);
         Task<EmailTemplateCreateModel> GetTemplate(Guid id);
         IEnumerable<string> GetListEmailTemplateNames();
         Task<bool> DeleteEmailTemplate(Guid id);

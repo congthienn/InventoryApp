@@ -26,5 +26,6 @@ namespace InventoryApp.Domain.Identity.Models
         public IEnumerable<string>? Roles { get; set; }
         public Users UserIdentity { get; set; }
         public string AvatarURL { set; get; }
+        public bool EmailConfirmed { get; set; }
     }
 }

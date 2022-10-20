@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace InventoryApp.Domain.Services.Identity
 {
@@ -35,6 +36,7 @@ namespace InventoryApp.Domain.Services.Identity
                 return new SignInModel { Succeeded = false };
 
             var signInResult = new SignInModel(await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure));
+            signInResult.EmailConfirmed = user.EmailConfirmed;
             if (!signInResult.Succeeded)
                 return signInResult;
 
@@ -88,7 +90,8 @@ namespace InventoryApp.Domain.Services.Identity
                 if (user == null)
                     return false;
 
-                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                var token = HttpUtility.UrlDecode(model.Token);
+                var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
 
                 if (!result.Succeeded)
                     return false;

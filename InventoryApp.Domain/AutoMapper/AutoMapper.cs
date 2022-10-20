@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InventoryApp.Data.Models;
 using InventoryApp.Domain.Identity.DTO.Roles;
+using InventoryApp.Domain.Identity.DTO.Users;
 using InventoryApp.Infrastructures.Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<EmailTemplate, EmailTemplateCreateModel>().ReverseMap();
             CreateMap<Roles, RoleModelRq>().ReverseMap();
+            CreateMap<Users, UserUpdateRq>().ReverseMap();
+            CreateMap<Users, UserModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

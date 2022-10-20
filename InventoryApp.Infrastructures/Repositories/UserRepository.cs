@@ -15,24 +15,9 @@ namespace InventoryApp.Infrastructures.Repositories
            
         }
 
-        public IQueryable<Users> GetDirectorUsers()
+        public IQueryable GetRoleByUser(Guid userId)
         {
-            return (IQueryable<Users>)_context.UserRoles.Include(x => x.Role).Where(x => x.Role.Name == ROLE_CONSTANT.DIRECTOR);
-        }
-
-        public IQueryable<Users> GetEmployeeUsers()
-        {
-            return (IQueryable<Users>)_context.UserRoles.Include(x => x.Role).Where(x => x.Role.Name == ROLE_CONSTANT.EMPLOYEE);
-        }
-
-        public IQueryable<Users> GetManagerUsers()
-        {
-            return (IQueryable<Users>)_context.UserRoles.Include(x => x.Role).Where(x => x.Role.Name == ROLE_CONSTANT.MANAGER);
-        }
-
-        public async Task<Users> GetUserByPhoneNumber(string phoneNumber)
-        {
-            return await _dbSet.Where(x => x.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
+            return _context.Set<UserRoles>().Include(x=>x.Role).Where(x=>x.UserId == userId).Select(x=>x.Role.Name);
         }
     }
 }

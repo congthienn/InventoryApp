@@ -14,6 +14,7 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public RoleRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+
         }
 
         public IQueryable GetUserRole(Guid userId)

@@ -27,6 +27,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<WardRepository>().As<IWardRepository>();
             builder.RegisterType<EmailRepository>().As<IEmailRepository>();
             builder.RegisterType<RoleRepository>().As<IRoleRepository>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -40,6 +41,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<ProvinceService>().As<IProvinceService>();
             builder.RegisterType<EmailSender>().As<IEmailSender>();
             builder.RegisterType<RoleService>().As<IRoleService>();
+            builder.RegisterType<UserService>().As<IUserService>();
         }
     }
 }

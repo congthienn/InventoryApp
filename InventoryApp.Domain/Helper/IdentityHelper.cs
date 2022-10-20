@@ -14,5 +14,10 @@ namespace InventoryApp.Domain.Helper
             Regex passwordRules = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$");
             return passwordRules.IsMatch(password);
         }
+        public static bool IsValidPhoneNumber(string phoneNumber)
+        {
+            Regex phoneNumberRules = new Regex(@"^\d{10}$");
+            return phoneNumberRules.IsMatch(phoneNumber);
+        }
     }
 }
