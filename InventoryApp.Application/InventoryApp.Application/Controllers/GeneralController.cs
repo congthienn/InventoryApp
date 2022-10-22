@@ -35,7 +35,7 @@ namespace InventoryApp.Application.Controllers
             }
             catch(Exception e)
             {
-                throw new NotImplementedException(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
@@ -50,7 +50,7 @@ namespace InventoryApp.Application.Controllers
             }
             catch(Exception e)
             {
-                throw new NotImplementedException(e.Message);
+                return BadRequest(e.Message);
             }
         }
 

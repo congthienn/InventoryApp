@@ -21,10 +21,15 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<EmailTemplate, EmailTemplateCreateModel>().ReverseMap();
             CreateMap<Roles, RoleModelRq>().ReverseMap();
+
             CreateMap<Users, UserUpdateRq>().ReverseMap();
             CreateMap<Users, UserModelRq>().ReverseMap();
+
             CreateMap<Company, CompanyModelRq>().ReverseMap();
             CreateMap<Company, CompanyUpdateModelRq>().ReverseMap();
+
+            CreateMap<Branches, BranchUpdateModel>().ReverseMap();
+            CreateMap<Branches, BranchModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

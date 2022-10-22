@@ -70,9 +70,8 @@ namespace InventoryApp.Domain.Services
             try
             {
                 Company company = await _companyRepository.GetByID(model.Id);
-                if (company == null)
-                    throw new NotImplementedException("Comany not found");
                 _mapper.Map(model, company);
+                company.CodeName = StringHelper.NormalizeString(company.CompanyName);
                 company.UpdateBy(userIdentity);
 
                 await _companyRepository.Update(company);

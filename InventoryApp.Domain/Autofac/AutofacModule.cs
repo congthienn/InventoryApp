@@ -29,21 +29,22 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<RoleRepository>().As<IRoleRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<CompanyRepository>().As<ICompanyRepository>();
+            builder.RegisterType<BranchReporitory>().As<IBranchRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
             builder.RegisterType<ProvinceService>().As<IProvinceService>();
             builder.RegisterType<JwtTokenService>().As<IJwtTokenService>();
+            builder.RegisterType<GeneralService>().As<IGeneralService>();
+            builder.RegisterType<BranchService>().As<IBranchService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<EmailService>().As<IEmailService>();
-            builder.RegisterType<ProvinceService>().As<IProvinceService>();
             builder.RegisterType<EmailSender>().As<IEmailSender>();
             builder.RegisterType<RoleService>().As<IRoleService>();
             builder.RegisterType<UserService>().As<IUserService>();
-            builder.RegisterType<GeneralService>().As<IGeneralService>();
         }
     }
 }
