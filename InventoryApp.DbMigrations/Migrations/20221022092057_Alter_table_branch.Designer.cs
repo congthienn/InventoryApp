@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221022092057_Alter_table_branch")]
+    partial class Alter_table_branch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +35,16 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AppelationOfForeignTrader")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("BranchMain")
                         .HasColumnType("bit");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CodeName")
                         .IsRequired()
@@ -73,6 +79,9 @@ namespace InventoryApp.DbMigrations.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("ForeignName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LogoURL")
                         .HasColumnType("nvarchar(max)");
 
@@ -83,6 +92,9 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Property<int>("ProvinceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShortName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxCode")
                         .IsRequired()
@@ -171,7 +183,7 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("CategoryMaterial");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.Company", b =>
+            modelBuilder.Entity("InventoryApp.Data.Models.Companies", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,9 +194,13 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AppelationOfForeignTrader")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CodeName")
                         .IsRequired()
@@ -216,6 +232,9 @@ namespace InventoryApp.DbMigrations.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("ForeignName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LogoURL")
                         .HasColumnType("nvarchar(max)");
 
@@ -226,6 +245,9 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Property<int>("ProvinceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ShortName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxCode")
                         .IsRequired()
@@ -270,7 +292,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Department", b =>
@@ -2084,7 +2106,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
             modelBuilder.Entity("InventoryApp.Data.Models.Branches", b =>
                 {
-                    b.HasOne("InventoryApp.Data.Models.Company", "Companies")
+                    b.HasOne("InventoryApp.Data.Models.Companies", "Companies")
                         .WithMany()
                         .HasForeignKey("CompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2152,7 +2174,7 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.Company", b =>
+            modelBuilder.Entity("InventoryApp.Data.Models.Companies", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
                         .WithMany()
@@ -2630,7 +2652,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
             modelBuilder.Entity("InventoryApp.Data.Models.Manufacturer", b =>
                 {
-                    b.HasOne("InventoryApp.Data.Models.Company", "Companies")
+                    b.HasOne("InventoryApp.Data.Models.Companies", "Companies")
                         .WithMany()
                         .HasForeignKey("CompaniesId")
                         .OnDelete(DeleteBehavior.Cascade)

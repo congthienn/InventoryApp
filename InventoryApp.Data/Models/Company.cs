@@ -10,23 +10,19 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Data.Models
 {
-    [Table("Companies")]
-    [Index(nameof(Companies.Email), IsUnique = true)]
-    [Index(nameof(Companies.PhoneNumber), IsUnique = true)]
-    [Index(nameof(Companies.Code), IsUnique = true)]
-    [Index(nameof(Companies.TaxCode), IsUnique = true)]
-    [Index(nameof(Companies.Fax), IsUnique = true)]
-    [Index(nameof(Companies.Code), IsUnique = true)]
-    public class Companies : EntityBase
+    [Table("Company")]
+    [Index(nameof(Company.Email), IsUnique = true)]
+    [Index(nameof(Company.PhoneNumber), IsUnique = true)]
+    [Index(nameof(Company.Code), IsUnique = true)]
+    [Index(nameof(Company.TaxCode), IsUnique = true)]
+    [Index(nameof(Company.Fax), IsUnique = true)]
+    [Index(nameof(Company.Code), IsUnique = true)]
+    public class Company : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
         [Unicode(true)]
         public string CompanyName { get; set; }
-        public string? AppelationOfForeignTrader { get; set; }
-        public string? ForeignName { get; set; }
-        public string? ShortName { get; set; }
-        [MaxLength(50)]
         public string Code { get; set; }
         public string CodeName { get; set; }
         [Unicode(true)]

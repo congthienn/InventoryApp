@@ -33,6 +33,6 @@ namespace InventoryApp.Data.Models
         public int WardId { get; set; }
         public Wards? Ward { get; set; }
         public Guid CompaniesId { get; set; }
-        public Companies Companies { get; set; }
+        public Company Companies { get; set; }
     }
 }

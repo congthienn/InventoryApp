@@ -23,10 +23,6 @@ namespace InventoryApp.Data.Models
         public Guid Id { get; set; }
         [Unicode(true)]
         public string CompanyName { get; set; }
-        public string? AppelationOfForeignTrader { get; set; }
-        public string? ForeignName { get; set; }
-        public string? ShortName { get; set; }
-        [MaxLength(50)]
         public string Code { get; set; }
         public string CodeName { get; set; }
         [Unicode(true)]
@@ -47,6 +43,7 @@ namespace InventoryApp.Data.Models
         public string? WebsiteURL { get; set; }
         public string? FacebookName { get; set; }
         public Guid CompaniesId { get; set; }
-        public Companies Companies { get; set; }
+        public Company Companies { get; set; }
+        public bool BranchMain { get; set; } = false;
     }
 }

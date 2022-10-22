@@ -12,9 +12,6 @@ namespace InventoryApp.Infrastructures.Models.DTO
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public string CompanyName { get; set; }
-        public string? AppelationOfForeignTrader { get; set; }
-        public string? ForeignName { get; set; }
-        public string? ShortName { get; set; }
         public string Code { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }

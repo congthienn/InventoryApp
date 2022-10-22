@@ -24,7 +24,7 @@ namespace InventoryApp.Data
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<UserLogins> UserLogins { get; set; }
         public DbSet<UserTokens> UserTokens { get; set; }
-        public DbSet<Companies> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<EmailTemplate> EmailTemplate { get; set; }
         public DbSet<PermissionGroup> PermissionGroup { get; set; }
         public DbSet<PermissionMembership> PermissionMembership { get; set; }

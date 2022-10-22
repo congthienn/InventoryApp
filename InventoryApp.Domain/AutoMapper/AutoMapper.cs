@@ -23,8 +23,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Roles, RoleModelRq>().ReverseMap();
             CreateMap<Users, UserUpdateRq>().ReverseMap();
             CreateMap<Users, UserModelRq>().ReverseMap();
-            CreateMap<Companies, CompanyModelRq>().ReverseMap();
-            CreateMap<Companies, CompanyUpdateModelRq>().ReverseMap();
+            CreateMap<Company, CompanyModelRq>().ReverseMap();
+            CreateMap<Company, CompanyUpdateModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

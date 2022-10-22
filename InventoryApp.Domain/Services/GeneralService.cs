@@ -38,7 +38,7 @@ namespace InventoryApp.Domain.Services
                 if (await CompanyInformationAlreadyExists())
                     throw new NotImplementedException();
 
-                Companies companies = _mapper.Map<Companies>(model);
+                Company companies = _mapper.Map<Company>(model);
                 companies.CodeName = StringHelper.NormalizeString(companies.CompanyName);
                 companies.CreateBy(userIdentity);
                 companies.UpdateBy(userIdentity);
@@ -69,7 +69,7 @@ namespace InventoryApp.Domain.Services
         {
             try
             {
-                Companies company = await _companyRepository.GetByID(model.Id);
+                Company company = await _companyRepository.GetByID(model.Id);
                 if (company == null)
                     throw new NotImplementedException("Comany not found");
                 _mapper.Map(model, company);
