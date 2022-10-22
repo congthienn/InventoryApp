@@ -30,6 +30,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<CompanyRepository>().As<ICompanyRepository>();
             builder.RegisterType<BranchReporitory>().As<IBranchRepository>();
+            builder.RegisterType<UserBranchRepository>().As<IUserBranchRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -37,6 +38,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<JwtTokenService>().As<IJwtTokenService>();
             builder.RegisterType<GeneralService>().As<IGeneralService>();
             builder.RegisterType<BranchService>().As<IBranchService>();
+            builder.RegisterType<UserBranchService>().As<IUserBranchService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {
@@ -45,6 +47,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<EmailSender>().As<IEmailSender>();
             builder.RegisterType<RoleService>().As<IRoleService>();
             builder.RegisterType<UserService>().As<IUserService>();
+            
         }
     }
 }

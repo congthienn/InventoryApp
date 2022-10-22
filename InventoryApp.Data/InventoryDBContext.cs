@@ -13,12 +13,14 @@ namespace InventoryApp.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<UserBranches>().HasKey(table => new { table.UserId, table.BranchId });
             builder.Entity<UserRoles>().HasKey(table => new { table.UserId, table.RoleId });
             builder.Entity<UserLogins>().HasKey(table => new { table.LoginProvider, table.ProviderKey });
             builder.Entity<UserTokens>().HasKey(table => new { table.UserId, table.LoginProvider,table.Name });
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
+        public DbSet<UserBranches> UserBranches { get; set; }
         public DbSet<UserClaims> UserClaims { get; set; }
         public DbSet<RoleClaims> RoleClaims { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
