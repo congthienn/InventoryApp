@@ -23,6 +23,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Roles, RoleModelRq>().ReverseMap();
             CreateMap<Users, UserUpdateRq>().ReverseMap();
             CreateMap<Users, UserModelRq>().ReverseMap();
+            CreateMap<Companies, CompanyModelRq>().ReverseMap();
+            CreateMap<Companies, CompanyUpdateModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
@@ -31,7 +33,6 @@ namespace InventoryApp.Infrastructures.AutoMapper
         {
             return new MapperConfiguration(cfg => cfg.AddProfile<AutoMapper>());
         }
-        
         public static class Map<TEntity, TEntityDTO> where TEntity : class where TEntityDTO : class
         {
             public static TEntity Run(IMapper mapper,TEntityDTO entityDTO)

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using InventoryApp.Domain.Helper;
+using InventoryApp.Common.Helper;
 
 namespace InventoryApp.Domain.Identity.DTO
 {

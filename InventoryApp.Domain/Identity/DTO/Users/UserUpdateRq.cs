@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using InventoryApp.Common.Helper;
 using InventoryApp.Domain.Helper;
 
 namespace InventoryApp.Domain.Identity.DTO.Users

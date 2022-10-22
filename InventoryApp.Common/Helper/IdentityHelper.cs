@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace InventoryApp.Domain.Helper
+namespace InventoryApp.Common.Helper
 {
     public static class IdentityHelper
     {
