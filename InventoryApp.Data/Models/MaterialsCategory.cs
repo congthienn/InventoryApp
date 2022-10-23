@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +11,14 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("CategoryMaterial")]
-    public class CategoryMaterials : EntityBase
+    [Index(nameof(Code), IsUnique = true)]
+    public class MaterialsCategory : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string CodeName { get; set; }
+        public List<Materials>? Materials { get; set; }
     }
 }

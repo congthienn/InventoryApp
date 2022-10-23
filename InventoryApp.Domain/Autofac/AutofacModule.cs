@@ -15,10 +15,10 @@ namespace InventoryApp.Infrastructures.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             RegisterRepository(builder);
             RegisterService(builder);
             RegisterIdentityService(builder);
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
         }
         private void RegisterRepository(ContainerBuilder builder)
         {
@@ -34,6 +34,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<SupplierGroupRepository>().As<ISupplierGroupRepository>();
             builder.RegisterType<SupplierRepository>().As<ISupplierRepository>();
             builder.RegisterType<ShipmentRepository>().As<IShipmentRepository>();
+            builder.RegisterType<MaterialCategoryRepository>().As<IMaterialCategoryRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -45,6 +46,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<SupplierGroupService>().As<ISupplierGroupService>();
             builder.RegisterType<SupplierService>().As<ISupplierService>();
             builder.RegisterType<ShipmentService>().As<IShipmentService>();
+            builder.RegisterType<MaterialCategoryService>().As<IMaterialCategoryService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {
