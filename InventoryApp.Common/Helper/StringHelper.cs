@@ -19,5 +19,15 @@ namespace InventoryApp.Common.Helper
         {
             return text.Trim().ToLower().RemoveExtraWhitespace().Replace(" ", "-");
         }
+        
+        public static string CreateCode(string code)
+        {
+            Regex regex = new Regex(@"[\d]");
+            int numberCode = Convert.ToInt32(code.Replace(regex.Replace(code, ""), ""));
+            numberCode++;
+            int numberLength = numberCode.ToString().Length;
+            int removeLength = code.Length - numberLength;
+            return code.Remove(removeLength, numberLength) + numberCode.ToString();
+        }
     }
 }

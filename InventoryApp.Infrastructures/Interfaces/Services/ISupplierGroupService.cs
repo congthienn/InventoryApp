@@ -1,10 +1,7 @@
 ﻿using InventoryApp.Data.Helper;
+using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InventoryApp.Infrastructures.Interfaces.Services
 {
@@ -14,5 +11,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         IEnumerable<SupplierGroupModelRq> GetAllSupplierGroup();
         Task<SupplierGroupModelRq> UpdateSupplierGroup(Guid supplierGroupId, SupplierGroupModelRq model, UserIdentity userIdentity);
         Task<bool> DeleteSupplierGroup(Guid supplierGroupId);
+        IQueryable GetAllSupplierByGroupId(Guid supplierGroupId);
     }
 }

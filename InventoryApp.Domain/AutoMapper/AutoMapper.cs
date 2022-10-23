@@ -31,6 +31,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Branches, BranchModelRq>().ReverseMap();
             CreateMap<UserBranches, UserBranchModelRq>().ReverseMap();
             CreateMap<SupplierGroup, SupplierGroupModelRq>().ReverseMap();
+
+            CreateMap<Supplier, SupplierModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

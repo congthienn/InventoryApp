@@ -2,7 +2,6 @@
 using InventoryApp.Infrastructures.Interfaces.Services;
 using InventoryApp.Infrastructures.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryApp.Application.Controllers
@@ -59,6 +58,13 @@ namespace InventoryApp.Application.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [Route("getSuppliers/{supplierGroupId}")]
+        [HttpGet]
+        public IQueryable GetAllSupplierByGroupId(Guid supplierGroupId)
+        {
+            return _supplierGroupService.GetAllSupplierByGroupId(supplierGroupId);
         }
     }
 }

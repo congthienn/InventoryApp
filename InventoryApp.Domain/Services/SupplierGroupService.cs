@@ -64,6 +64,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IQueryable GetAllSupplierByGroupId(Guid supplierGroupId)
+        {
+            return _supplierGroupRepository.GetAllSupplierByGroupId(supplierGroupId);
+        }
+
         public IEnumerable<SupplierGroupModelRq> GetAllSupplierGroup()
         {
             return _mapper.Map<IEnumerable<SupplierGroupModelRq>>(_supplierGroupRepository.Get());
