@@ -33,6 +33,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<SupplierGroup, SupplierGroupModelRq>().ReverseMap();
 
             CreateMap<Supplier, SupplierModelRq>().ReverseMap();
+            CreateMap<Shipment, ShipmentModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

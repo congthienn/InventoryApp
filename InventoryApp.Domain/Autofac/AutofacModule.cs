@@ -33,6 +33,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<UserBranchRepository>().As<IUserBranchRepository>();
             builder.RegisterType<SupplierGroupRepository>().As<ISupplierGroupRepository>();
             builder.RegisterType<SupplierRepository>().As<ISupplierRepository>();
+            builder.RegisterType<ShipmentRepository>().As<IShipmentRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -43,6 +44,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<UserBranchService>().As<IUserBranchService>();
             builder.RegisterType<SupplierGroupService>().As<ISupplierGroupService>();
             builder.RegisterType<SupplierService>().As<ISupplierService>();
+            builder.RegisterType<ShipmentService>().As<IShipmentService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {

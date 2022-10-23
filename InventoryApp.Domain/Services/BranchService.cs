@@ -75,6 +75,16 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<BranchModelRq>>(_branchRepository.Get());
         }
 
+        public IQueryable GetAllShipmentByBranch(Guid branchId)
+        {
+            return _branchRepository.GetAllShipmentByBranch(branchId);
+        }
+
+        public async Task<BranchModelRq> GetBranchById(Guid branchId)
+        {
+            return _mapper.Map<BranchModelRq>(await _branchRepository.GetByID(branchId));
+        }
+
         public async Task<bool> MainBranchAlreadyExists()
         {
             return await _branchRepository.MainBranchAlreadyExists();

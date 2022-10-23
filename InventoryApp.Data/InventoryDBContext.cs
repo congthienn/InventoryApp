@@ -58,5 +58,6 @@ namespace InventoryApp.Data
         public DbSet<InventoryMaterialPeriod> InventoryMaterialPeriod { get; set; }
         public DbSet<InventoryMaterial> InventoryMaterials { get; set; }
         public DbSet<InventoryMaterialPeriodDetail> InventoryMaterialPeriodDetails { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
     }
 }

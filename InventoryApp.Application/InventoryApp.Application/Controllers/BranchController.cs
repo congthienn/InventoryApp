@@ -24,6 +24,12 @@ namespace InventoryApp.Application.Controllers
             return _branchService.GetAllBranches();
         }
 
+        [HttpGet("{branchId}")]
+        public async Task<IActionResult> GetBranchById(Guid branchId)
+        {
+            return Ok(await _branchService.GetBranchById(branchId));
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddBranch([FromBody]BranchModelRq model)
         {
@@ -68,6 +74,13 @@ namespace InventoryApp.Application.Controllers
         public async Task<IActionResult> MainBranchAlreadyExists()
         {
             return Ok(await _branchService.MainBranchAlreadyExists());
+        }
+
+        [Route("{branchId}/getShipment")]
+        [HttpGet]
+        public IQueryable GetAllShipmentByBranch(Guid branchId)
+        {
+            return _branchService.GetAllShipmentByBranch(branchId);
         }
     }
 }

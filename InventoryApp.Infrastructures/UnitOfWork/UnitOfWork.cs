@@ -59,9 +59,5 @@ namespace InventoryApp.Infrastructures
         {
             _context.SaveChanges();
         }
-        public class Repository<TEntity> : GenericRepository<TEntity> where TEntity : class
-        {
-            public Repository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
-        }
     }
 }

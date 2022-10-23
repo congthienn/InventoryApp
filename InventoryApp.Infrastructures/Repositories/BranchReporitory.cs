@@ -16,6 +16,11 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public IQueryable GetAllShipmentByBranch(Guid branchId)
+        {
+            return _dbSet.Include(x => x.Shipments).Where(x => x.Id == branchId).Select(x=>x.Shipments);
+        }
+
         public async Task<bool> MainBranchAlreadyExists()
         {
             return await _dbSet.AnyAsync(x => x.BranchMain);

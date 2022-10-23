@@ -10,5 +10,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface IBranchRepository : IGenericRepository<Branches>
     {
         Task<bool> MainBranchAlreadyExists();
+        IQueryable GetAllShipmentByBranch(Guid branchId);
     }
 }

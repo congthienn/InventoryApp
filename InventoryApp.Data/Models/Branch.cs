@@ -45,5 +45,6 @@ namespace InventoryApp.Data.Models
         public Guid CompaniesId { get; set; }
         public Company Companies { get; set; }
         public bool BranchMain { get; set; } = false;
+        public List<Shipment>? Shipments { get; set; }
     }
 }
