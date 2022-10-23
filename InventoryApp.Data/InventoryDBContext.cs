@@ -39,6 +39,7 @@ namespace InventoryApp.Data
         public DbSet<CategoryMaterials> CategoryMaterials { get; set; }
         public DbSet<Manufacturer> Manufacturer { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<SupplierGroup> SupplierGroup { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Warehouses> Warehouses { get; set; }

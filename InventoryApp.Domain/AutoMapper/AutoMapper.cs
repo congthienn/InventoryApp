@@ -15,8 +15,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
     {
         public AutoMapper()
         {
-            CreateMap<Provinces, ProvinceDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).
-                                                ForMember(dest => dest.Phone_Code, opt => opt.MapFrom(src => src.PhoneCode)).ReverseMap();
+            CreateMap<Provinces, ProvinceDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ForMember(dest => dest.Phone_Code, opt => opt.MapFrom(src => src.PhoneCode)).ReverseMap();
             CreateMap<Districts, DistrictDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<EmailTemplate, EmailTemplateCreateModel>().ReverseMap();
@@ -31,6 +30,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Branches, BranchUpdateModel>().ReverseMap();
             CreateMap<Branches, BranchModelRq>().ReverseMap();
             CreateMap<UserBranches, UserBranchModelRq>().ReverseMap();
+            CreateMap<SupplierGroup, SupplierGroupModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
