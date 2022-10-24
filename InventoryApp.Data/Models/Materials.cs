@@ -22,8 +22,8 @@ namespace InventoryApp.Data.Models
         public MaterialUnits? MaterialUnit { get; set; }
         public Guid CategoryMaterialId { get; set; }
         public MaterialsCategory? CategoryMaterial { get; set; }
-        public Guid ManufacturerId { get; set; }
-        public Manufacturer Manufacturer { get; set; }
+        public Guid TrademarkId { get; set; }
+        public Trademark Trademark { get; set; }
         public int MinimumInventory { get; set; }
         public int MaximumInventory { get; set; }
     }

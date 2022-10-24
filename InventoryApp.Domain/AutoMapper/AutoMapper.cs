@@ -36,6 +36,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Shipment, ShipmentModelRq>().ReverseMap();
 
             CreateMap<MaterialsCategory, MaterialCategoryModelRq>().ReverseMap();
+            CreateMap<Trademark, TrademarkModelRq>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
