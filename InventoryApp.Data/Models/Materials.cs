@@ -17,7 +17,8 @@ namespace InventoryApp.Data.Models
         public string Name { get; set; }
         public string CodeName { get; set; }
         public string Code { get; set; }
-        public string Details { get; set; }
+        public int SalePrice { get; set; }
+        public int CostPrice { get; set; }
         public string BaseMaterialUnit { get; set; }
         public Guid CategoryMaterialId { get; set; }
         public MaterialsCategory? CategoryMaterial { get; set; }
@@ -25,5 +26,7 @@ namespace InventoryApp.Data.Models
         public Trademark Trademark { get; set; }
         public int MinimumInventory { get; set; }
         public int MaximumInventory { get; set; }
+        public string Weight { get; set; }
+        public string DetailedDescription { get; set; }
     }
 }
