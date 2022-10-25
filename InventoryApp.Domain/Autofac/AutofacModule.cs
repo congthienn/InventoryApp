@@ -36,6 +36,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<ShipmentRepository>().As<IShipmentRepository>();
             builder.RegisterType<MaterialCategoryRepository>().As<IMaterialCategoryRepository>();
             builder.RegisterType<TrademarkRepository>().As<ITrademarkRepository>();
+            builder.RegisterType<MaterialUnitRepository>().As<IMaterialUnitRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -49,6 +50,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<ShipmentService>().As<IShipmentService>();
             builder.RegisterType<MaterialCategoryService>().As<IMaterialCategoryService>();
             builder.RegisterType<TrademarkService>().As<ITrademarkService>();
+            builder.RegisterType<MaterialUnitService>().As<IMaterialUnitService>();
         
         }
         private void RegisterIdentityService(ContainerBuilder builder)

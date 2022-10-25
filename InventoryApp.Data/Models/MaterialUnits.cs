@@ -17,7 +17,10 @@ namespace InventoryApp.Data.Models
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
-        public string CodeName { get; set; }
+        public int ExchangeValue { get; set; }
+        public Guid MaterialId { get; set; }
+        public int Price { get; set; }
+        public Materials? Material { get; set; }
+        public bool DirectSales { get; set; }
     }
 }

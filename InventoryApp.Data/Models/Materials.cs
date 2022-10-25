@@ -18,8 +18,7 @@ namespace InventoryApp.Data.Models
         public string CodeName { get; set; }
         public string Code { get; set; }
         public string Details { get; set; }
-        public Guid MaterialUnitId { get; set; }
-        public MaterialUnits? MaterialUnit { get; set; }
+        public string BaseMaterialUnit { get; set; }
         public Guid CategoryMaterialId { get; set; }
         public MaterialsCategory? CategoryMaterial { get; set; }
         public Guid TrademarkId { get; set; }
