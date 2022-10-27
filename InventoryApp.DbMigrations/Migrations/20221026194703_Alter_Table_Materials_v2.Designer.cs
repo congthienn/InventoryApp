@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221026194703_Alter_Table_Materials_v2")]
+    partial class Alter_Table_Materials_v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Branches", (string)null);
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Company", b =>
@@ -231,7 +233,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Company", (string)null);
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Department", b =>
@@ -294,7 +296,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Districts", b =>
@@ -325,7 +327,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("ProvinceId");
 
-                    b.ToTable("Districts", (string)null);
+                    b.ToTable("Districts");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.EmailTemplate", b =>
@@ -370,7 +372,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("EmailTemplate", (string)null);
+                    b.ToTable("EmailTemplate");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Employees", b =>
@@ -479,7 +481,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucher", b =>
@@ -537,7 +539,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("InventoryDeliveryVoucher", (string)null);
+                    b.ToTable("InventoryDeliveryVoucher");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucherDetail", b =>
@@ -591,7 +593,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("InventoryDeliveryVoucherDetail", (string)null);
+                    b.ToTable("InventoryDeliveryVoucherDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryMaterial", b =>
@@ -654,7 +656,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseLocationId");
 
-                    b.ToTable("InventoryMaterial", (string)null);
+                    b.ToTable("InventoryMaterial");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryMaterialPeriod", b =>
@@ -705,7 +707,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("InventoryMaterialPeriod", (string)null);
+                    b.ToTable("InventoryMaterialPeriod");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryMaterialPeriodDetail", b =>
@@ -762,7 +764,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("InventoryMaterialPeriodDetail", (string)null);
+                    b.ToTable("InventoryMaterialPeriodDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucher", b =>
@@ -820,7 +822,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("InventoryReceivingVoucher", (string)null);
+                    b.ToTable("InventoryReceivingVoucher");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucherDetail", b =>
@@ -874,7 +876,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("InventoryReceivingVoucherDetail", (string)null);
+                    b.ToTable("InventoryReceivingVoucherDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialAttribute", b =>
@@ -917,7 +919,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("MaterialAttribute", (string)null);
+                    b.ToTable("MaterialAttribute");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialPicture", b =>
@@ -939,7 +941,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("MaterialId");
 
-                    b.ToTable("MaterialPicture", (string)null);
+                    b.ToTable("MaterialPicture");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Materials", b =>
@@ -957,7 +959,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CodeName")
                         .IsRequired()
@@ -984,7 +986,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SalePrice")
                         .HasColumnType("int");
@@ -1001,26 +1003,21 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
+                    b.Property<string>("Weight")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryMaterialId");
 
-                    b.HasIndex("Code")
-                        .IsUnique();
-
                     b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.HasIndex("TrademarkId");
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Materials", (string)null);
+                    b.ToTable("Materials");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialsCategory", b =>
@@ -1062,7 +1059,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("CategoryMaterial", (string)null);
+                    b.ToTable("CategoryMaterial");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialUnits", b =>
@@ -1110,7 +1107,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("MaterialUnit", (string)null);
+                    b.ToTable("MaterialUnit");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MenuPermissions", b =>
@@ -1217,7 +1214,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("MenuPermissions", (string)null);
+                    b.ToTable("MenuPermissions");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.PermissionGroup", b =>
@@ -1257,7 +1254,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("PermissionGroup", (string)null);
+                    b.ToTable("PermissionGroup");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.PermissionMembership", b =>
@@ -1294,7 +1291,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PermissionMembership", (string)null);
+                    b.ToTable("PermissionMembership");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Provinces", b =>
@@ -1329,7 +1326,7 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("PhoneCode")
                         .IsUnique();
 
-                    b.ToTable("Provinces", (string)null);
+                    b.ToTable("Provinces");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.RoleClaims", b =>
@@ -1353,7 +1350,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Roles", b =>
@@ -1393,7 +1390,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Shipment", b =>
@@ -1435,7 +1432,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Shipment", (string)null);
+                    b.ToTable("Shipment");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Supplier", b =>
@@ -1545,7 +1542,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WardId");
 
-                    b.ToTable("Supplier", (string)null);
+                    b.ToTable("Supplier");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.SupplierGroup", b =>
@@ -1585,7 +1582,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("SupplierGroup", (string)null);
+                    b.ToTable("SupplierGroup");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Trademark", b =>
@@ -1620,7 +1617,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Trademark", (string)null);
+                    b.ToTable("Trademark");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.UserBranches", b =>
@@ -1635,7 +1632,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("UserBranches", (string)null);
+                    b.ToTable("UserBranches");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.UserClaims", b =>
@@ -1659,7 +1656,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.UserLogins", b =>
@@ -1680,7 +1677,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.UserRoles", b =>
@@ -1695,7 +1692,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Users", b =>
@@ -1774,7 +1771,7 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsUnique()
                         .HasFilter("[PhoneNumber] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.UserTokens", b =>
@@ -1793,7 +1790,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Wards", b =>
@@ -1824,7 +1821,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("DistrictId");
 
-                    b.ToTable("Wards", (string)null);
+                    b.ToTable("Wards");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseArea", b =>
@@ -1871,7 +1868,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("WarehouseArea", (string)null);
+                    b.ToTable("WarehouseArea");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseLine", b =>
@@ -1918,7 +1915,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseAreaId");
 
-                    b.ToTable("WarehouseLine", (string)null);
+                    b.ToTable("WarehouseLine");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseLocation", b =>
@@ -1983,7 +1980,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseShelvesId");
 
-                    b.ToTable("WarehouseLocation", (string)null);
+                    b.ToTable("WarehouseLocation");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehousePosition", b =>
@@ -2030,7 +2027,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseRackId");
 
-                    b.ToTable("WarehousePosition", (string)null);
+                    b.ToTable("WarehousePosition");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseRack", b =>
@@ -2077,7 +2074,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseShelvesId");
 
-                    b.ToTable("WarehouseRack", (string)null);
+                    b.ToTable("WarehouseRack");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Warehouses", b =>
@@ -2127,7 +2124,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.ToTable("Warehouses", (string)null);
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseShelves", b =>
@@ -2174,7 +2171,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("WarehouseLineId");
 
-                    b.ToTable("WarehouseShelves", (string)null);
+                    b.ToTable("WarehouseShelves");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Branches", b =>

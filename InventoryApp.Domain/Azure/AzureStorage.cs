@@ -53,13 +53,13 @@ namespace InventoryApp.Domain.Azure
             return $"{uri}/{fileName}";
         }
 
-        public async Task<bool> UploadAsync(IFormFile file)
+        public async Task<bool> UploadAsync(IFormFile file, Guid materialId)
         {
             try
             {
-                BlobClient client = _blobContainerClient.GetBlobClient(file.FileName);
+                BlobClient client = _blobContainerClient.GetBlobClient($"{materialId}-{file.FileName}");
                 var blobHttpHeader = new BlobHttpHeaders { ContentType = "image/jpeg" };
-                await using (Stream? data = file.OpenReadStream())
+                await using (Stream data = file.OpenReadStream())
                 {
                     await client.UploadAsync(data, new BlobUploadOptions { HttpHeaders = blobHttpHeader });
                 }

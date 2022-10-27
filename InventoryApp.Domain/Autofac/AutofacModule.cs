@@ -8,6 +8,7 @@ using InventoryApp.Domain.Services.Identity;
 using InventoryApp.Domain.Identity.IServices;
 using InventoryApp.Domain.Services;
 using InventoryApp.Domain.EmailSender;
+using InventoryApp.Domain.Azure;
 
 namespace InventoryApp.Infrastructures.Autofac
 {
@@ -37,6 +38,8 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<MaterialCategoryRepository>().As<IMaterialCategoryRepository>();
             builder.RegisterType<TrademarkRepository>().As<ITrademarkRepository>();
             builder.RegisterType<MaterialUnitRepository>().As<IMaterialUnitRepository>();
+            builder.RegisterType<MaterialRepository>().As<IMaterialRepository>();
+            builder.RegisterType<AzureStorage>().As<IAzureStorage>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -51,6 +54,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<MaterialCategoryService>().As<IMaterialCategoryService>();
             builder.RegisterType<TrademarkService>().As<ITrademarkService>();
             builder.RegisterType<MaterialUnitService>().As<IMaterialUnitService>();
+            builder.RegisterType<MaterialService>().As<IMaterialService>();
         
         }
         private void RegisterIdentityService(ContainerBuilder builder)
