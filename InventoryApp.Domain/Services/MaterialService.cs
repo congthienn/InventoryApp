@@ -51,7 +51,7 @@ namespace InventoryApp.Domain.Services
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
 
-                await UploadFileToAzureStorage(prictures, material.Id);
+                await UploadMultipleFilesToAzureStorage(prictures, material.Id);
                 return _mapper.Map<ShowMaterialModel>(material);
             }
             catch(Exception e)
@@ -75,7 +75,7 @@ namespace InventoryApp.Domain.Services
             }
         }
 
-        private async Task UploadFileToAzureStorage(List<IFormFile> prictures, Guid materialId)
+        private async Task UploadMultipleFilesToAzureStorage(List<IFormFile> prictures, Guid materialId)
         {
             foreach (IFormFile file in prictures)
             {
@@ -128,9 +128,68 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<ShowMaterialModel>(material);
         }
 
-        public Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity)
+        public async Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _unitOfWork.CreateTransaction();
+                Materials material = await _materialRepository.GetByID(materialId);
+                if (material == null)
+                    throw new NotImplementedException("Material not found");
+
+                _mapper.Map(model, material);
+                material.Id = materialId;
+                material.CodeName = StringHelper.NormalizeString(model.Name);
+                material.UpdateBy(userIdentity);
+
+                await _materialRepository.Update(material);
+                AddMaterialPicture(prictures, materialId);
+
+                _unitOfWork.Save();
+                _unitOfWork.Commit();
+
+                await UploadMultipleFilesToAzureStorage(prictures, materialId);
+                return _mapper.Map<ShowMaterialModel>(material);
+            }
+            catch(Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                throw new NotImplementedException(e.Message);
+            }
+        }
+
+        public async Task<bool> DeleteMaterialPictureById(int pictureId)
+        {
+            try
+            {
+                MaterialPicture materialPicture = await _materialRepository.GetMaterialPictureById(pictureId);
+                if (materialPicture == null)
+                    throw new NotImplementedException("Picture not found");
+
+                await _materialRepository.DeleteMaterialPictureById(pictureId);
+                _unitOfWork.Save();
+                await _azureStorage.DeleteAsync(materialPicture.PictureURL);
+                return true;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                throw new NotImplementedException(e.Message);
+            }
+        }
+
+        public async Task<bool> SetMaterialStatus(Guid materialId, StatusModel status, UserIdentity userIdentity)
+        {
+            Materials material = await _materialRepository.GetByID(materialId);
+            if (material == null)
+                throw new NotImplementedException("Material not found");
+
+            material.StopBusiness = status.Status;
+            material.UpdateBy(userIdentity);
+            _unitOfWork.Save();
+
+            return true;
         }
     }
 }

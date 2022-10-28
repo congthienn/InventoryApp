@@ -55,5 +55,41 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("picture/{pictureId}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeletePictureById(int pictureId)
+        {
+            try
+            {
+                return Ok(await _materialService.DeleteMaterialPictureById(pictureId));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{materialId}")]
+        public async Task<IActionResult> UpdateMaterial(Guid materialId, [FromForm] MaterialModelRq model, List<IFormFile> Prictures)
+        {
+            try
+            {
+                UserIdentity userIdentity = GetCurrentUserIdentity();
+                return Ok(await _materialService.UpdateMaterial(materialId, model, Prictures, userIdentity));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("{materialId}/setStatus")]
+        [HttpPut]
+        public async Task<IActionResult> SetMaterialStatus(Guid materialId,[FromBody] StatusModel status)
+        {
+            UserIdentity userIdentity = GetCurrentUserIdentity();
+            return Ok(await _materialService.SetMaterialStatus(materialId, status, userIdentity));
+        }
     }
 }

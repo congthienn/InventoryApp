@@ -12,6 +12,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         Task AddMaterialPicture(MaterialPicture materialPicture);
         Task DeleteMaterialPictureById(int materialPictureId);
+        Task<MaterialPicture> GetMaterialPictureById(int pictureId);
         Task DeleteAllPictureOfMaterial(Guid materialId);
         Task<Materials> GetMaterialById(Guid materialId);
         Task<string> GetLastCode();

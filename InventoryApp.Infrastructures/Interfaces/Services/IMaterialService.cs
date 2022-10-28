@@ -17,5 +17,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity);
         Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity);
         Task<bool> DeleteMaterial(Guid materialId);
+        Task<bool> DeleteMaterialPictureById(int pictureId);
+        Task<bool> SetMaterialStatus(Guid materialId, StatusModel status, UserIdentity userIdentity);
     }
 }

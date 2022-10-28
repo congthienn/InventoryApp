@@ -31,7 +31,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public async Task DeleteMaterialPictureById(int materialPictureId)    
         {
-            MaterialPicture materialPictures = await _dbSetMaterialPictures.FindAsync(materialPictureId);
+            MaterialPicture materialPictures = await GetMaterialPictureById(materialPictureId);
             _dbSetMaterialPictures.Remove(materialPictures);
         }
 
@@ -43,6 +43,11 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task<Materials> GetMaterialById(Guid materialId)
         {
             return await _dbSet.Include(x => x.Pictures).Where(x => x.Id == materialId).FirstOrDefaultAsync();
+        }
+
+        public async Task<MaterialPicture> GetMaterialPictureById(int pictureId)
+        {
+            return await _dbSetMaterialPictures.FindAsync(pictureId);
         }
     }
 }
