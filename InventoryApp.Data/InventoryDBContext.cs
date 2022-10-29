@@ -17,6 +17,7 @@ namespace InventoryApp.Data
             builder.Entity<UserRoles>().HasKey(table => new { table.UserId, table.RoleId });
             builder.Entity<UserLogins>().HasKey(table => new { table.LoginProvider, table.ProviderKey });
             builder.Entity<UserTokens>().HasKey(table => new { table.UserId, table.LoginProvider,table.Name });
+            builder.Entity<MaterialAttributeValue>().HasKey(table => new { table.MaterialId, table.MaterialAttributeId });
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
@@ -59,5 +60,6 @@ namespace InventoryApp.Data
         public DbSet<InventoryMaterial> InventoryMaterials { get; set; }
         public DbSet<InventoryMaterialPeriodDetail> InventoryMaterialPeriodDetails { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
+        public DbSet<MaterialAttributeValue> MaterialAttributeValues { get; set; }
     }
 }

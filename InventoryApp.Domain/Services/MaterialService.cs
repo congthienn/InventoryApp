@@ -1,9 +1,4 @@
 ﻿using InventoryApp.Infrastructures.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.Models.DTO;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +28,7 @@ namespace InventoryApp.Domain.Services
             _logger = logger;
             _azureStorage = azureStorage;
         }
-        public async Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity)
+        public async Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity)
         {
             try
             {
@@ -46,7 +41,8 @@ namespace InventoryApp.Domain.Services
                 material.CreateBy(userIdentity); material.UpdateBy(userIdentity);
 
                 await _materialRepository.Insert(material);
-                AddMaterialPicture(prictures, material.Id);
+                await AddMaterialPicture(prictures, material.Id);
+                await AddMaterialAttributeValue(attributeValue, material.Id, userIdentity);
 
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
@@ -61,8 +57,7 @@ namespace InventoryApp.Domain.Services
                 throw new NotImplementedException(e.Message);
             }
         }
-
-        private async void AddMaterialPicture(List<IFormFile> prictures, Guid materialId)
+        private async Task AddMaterialPicture(List<IFormFile> prictures, Guid materialId)
         {
             foreach (IFormFile file in prictures)
             {
@@ -74,7 +69,6 @@ namespace InventoryApp.Domain.Services
                 await _materialRepository.AddMaterialPicture(materialPicture);
             }
         }
-
         private async Task UploadMultipleFilesToAzureStorage(List<IFormFile> prictures, Guid materialId)
         {
             foreach (IFormFile file in prictures)
@@ -100,7 +94,9 @@ namespace InventoryApp.Domain.Services
                     throw new NotImplementedException("Material not found");
 
                 await _materialRepository.DeleteAllPictureOfMaterial(materialId);
+                await _materialRepository.DeleteAllMaterialAttributeValueByMaterialId(materialId);
                 await _materialRepository.Delete(material);
+
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
 
@@ -116,19 +112,16 @@ namespace InventoryApp.Domain.Services
                 throw new NotImplementedException(e.Message);
             }
         }
-
         public IEnumerable<ShowMaterialModel> GetAllMaterials()
         {
             return _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialRepository.Get());
         }
-
         public async Task<ShowMaterialModel> GetMaterialById(Guid materialId)
         {
             Materials material = await _materialRepository.GetMaterialById(materialId);
             return _mapper.Map<ShowMaterialModel>(material);
         }
-
-        public async Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<IFormFile> prictures, UserIdentity userIdentity)
+        public async Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity)
         {
             try
             {
@@ -143,7 +136,8 @@ namespace InventoryApp.Domain.Services
                 material.UpdateBy(userIdentity);
 
                 await _materialRepository.Update(material);
-                AddMaterialPicture(prictures, materialId);
+                await AddMaterialPicture(prictures, materialId);
+                await UpdateMaterialAttributeValue(attributeValue, materialId, userIdentity);
 
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
@@ -158,7 +152,6 @@ namespace InventoryApp.Domain.Services
                 throw new NotImplementedException(e.Message);
             }
         }
-
         public async Task<bool> DeleteMaterialPictureById(int pictureId)
         {
             try
@@ -178,7 +171,6 @@ namespace InventoryApp.Domain.Services
                 throw new NotImplementedException(e.Message);
             }
         }
-
         public async Task<bool> SetMaterialStatus(Guid materialId, StatusModel status, UserIdentity userIdentity)
         {
             Materials material = await _materialRepository.GetByID(materialId);
@@ -190,6 +182,31 @@ namespace InventoryApp.Domain.Services
             _unitOfWork.Save();
 
             return true;
+        }
+        private async Task AddMaterialAttributeValue(List<MaterialAttributeValueModel> attributeValue, Guid materialId, UserIdentity userIdentity)
+        {
+            foreach(var model in attributeValue)
+            {
+                MaterialAttributeValue materialAttributeValue = _mapper.Map<MaterialAttributeValue>(model);
+                materialAttributeValue.MaterialId = materialId;
+                materialAttributeValue.CreateBy(userIdentity); materialAttributeValue.UpdateBy(userIdentity);
+                await _materialRepository.AddMaterialAttributeValue(materialAttributeValue);
+            }
+        }
+        private async Task UpdateMaterialAttributeValue(List<MaterialAttributeValueModel> attributeValue, Guid materialId, UserIdentity userIdentity)
+        {
+            foreach (var model in attributeValue)
+            {
+                MaterialAttributeValue materialAttributeValue = await _materialRepository.GetMaterialAttributeValue(materialId, model.MaterialAttributeId);
+                _mapper.Map(model, materialAttributeValue);
+                materialAttributeValue.UpdateBy(userIdentity);
+                await _materialRepository.UpdateMaterialAttributeValue(materialAttributeValue);
+            }
+        }
+
+        public async Task<IEnumerable<ShowMaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId)
+        {
+            return _mapper.Map<IEnumerable<ShowMaterialAttributeValue>>(await _materialRepository.GetMaterialAttributeValue(materialId));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.Interfaces.Services;
 using InventoryApp.Infrastructures.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +18,17 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMaterial([FromForm]MaterialModelRq model, List<IFormFile> Prictures)
+        public async Task<IActionResult> AddMaterial([FromForm]MaterialModelRq model, [FromForm]List<MaterialAttributeValueModel> AttributeValue, List<IFormFile> Prictures)
         {
             try
             {
+                AttributeValue.Add(new MaterialAttributeValueModel()
+                {
+                    MaterialAttributeId = 6,
+                    Value = "128 GB"
+                });
                 UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _materialService.AddMaterial(model, Prictures, userIdentity));
+                return Ok(await _materialService.AddMaterial(model, AttributeValue, Prictures, userIdentity));
             }
             catch(Exception e)
             {
@@ -35,7 +41,6 @@ namespace InventoryApp.Application.Controllers
         {
             return _materialService.GetAllMaterials();
         }
-
 
         [HttpGet("{materialId}")]
         public async Task<IActionResult> GetMaterialById(Guid materialId)
@@ -71,12 +76,12 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpPut("{materialId}")]
-        public async Task<IActionResult> UpdateMaterial(Guid materialId, [FromForm] MaterialModelRq model, List<IFormFile> Prictures)
+        public async Task<IActionResult> UpdateMaterial(Guid materialId, [FromForm]MaterialModelRq model, [FromForm]List<MaterialAttributeValueModel> AttributeValue, List<IFormFile> Prictures)
         {
             try
             {
                 UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _materialService.UpdateMaterial(materialId, model, Prictures, userIdentity));
+                return Ok(await _materialService.UpdateMaterial(materialId, model, AttributeValue, Prictures, userIdentity));
             }
             catch(Exception e)
             {
@@ -90,6 +95,13 @@ namespace InventoryApp.Application.Controllers
         {
             UserIdentity userIdentity = GetCurrentUserIdentity();
             return Ok(await _materialService.SetMaterialStatus(materialId, status, userIdentity));
+        }
+
+        [Route("{materialId}/GetAttributeValue")]
+        [HttpGet]
+        public async Task<IEnumerable<ShowMaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId)
+        {
+            return await _materialService.GetMaterialAttributeValue(materialId);
         }
     }
 }

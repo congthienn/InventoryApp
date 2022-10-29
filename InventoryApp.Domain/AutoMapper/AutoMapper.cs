@@ -44,6 +44,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<MaterialPicture, ShowMaterialPicture>().ReverseMap();
 
             CreateMap<MaterialAttribute, MaterialAttributeModel>().ReverseMap();
+            CreateMap<MaterialAttributeValue, MaterialAttributeValueModel>().ReverseMap();
+            CreateMap<MaterialAttributeValue, ShowMaterialAttributeValue>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

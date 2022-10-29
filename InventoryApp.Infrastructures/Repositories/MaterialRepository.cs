@@ -13,9 +13,16 @@ namespace InventoryApp.Infrastructures.Repositories
     public class MaterialRepository : GenericRepository<Materials>, IMaterialRepository
     {
         private readonly DbSet<MaterialPicture> _dbSetMaterialPictures;
+        private readonly DbSet<MaterialAttributeValue> _dbSetMaterialAttributeValue;
         public MaterialRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _dbSetMaterialPictures = _context.Set<MaterialPicture>();
+            _dbSetMaterialAttributeValue = _context.Set<MaterialAttributeValue>();
+        }
+
+        public async Task AddMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
+        {
+            await _dbSetMaterialAttributeValue.AddAsync(materialAttributeValue);
         }
 
         public async Task AddMaterialPicture(MaterialPicture materialPicture)
@@ -23,10 +30,21 @@ namespace InventoryApp.Infrastructures.Repositories
             await _dbSetMaterialPictures.AddAsync(materialPicture);
         }
 
+        public async Task DeleteAllMaterialAttributeValueByMaterialId(Guid materialId)
+        {
+            IEnumerable<MaterialAttributeValue> materialAttributeValues = GetMaterialAttributeValueList(materialId);
+            _dbSetMaterialAttributeValue.RemoveRange(materialAttributeValues);
+        }
+
         public async Task DeleteAllPictureOfMaterial(Guid materialId)
         {
             List<MaterialPicture> materialPictures = _dbSetMaterialPictures.Where(x=>x.MaterialId == materialId).ToList();
             _dbSetMaterialPictures.RemoveRange(materialPictures);
+        }
+
+        public async Task DeleteMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
+        {
+           _dbSetMaterialAttributeValue.Remove(materialAttributeValue);
         }
 
         public async Task DeleteMaterialPictureById(int materialPictureId)    
@@ -40,6 +58,21 @@ namespace InventoryApp.Infrastructures.Repositories
             return _dbSet.OrderByDescending(x=>x.CreatedDate).Select(x=>x.Code).FirstOrDefault();
         }
 
+        public async Task<MaterialAttributeValue> GetMaterialAttributeValue(Guid materialId, int materialAttributeId)
+        {
+            return await _dbSetMaterialAttributeValue.Where(x => x.MaterialId == materialId && x.MaterialAttributeId == materialAttributeId).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<MaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId)
+        {
+            return await _dbSetMaterialAttributeValue.Include(x=>x.MaterialAttribute).Where(x=>x.MaterialId == materialId).ToListAsync();
+        }
+
+        public IEnumerable<MaterialAttributeValue> GetMaterialAttributeValueList(Guid materialId)
+        {
+            return _dbSetMaterialAttributeValue.Where(x => x.MaterialId == materialId);
+        }
+
         public async Task<Materials> GetMaterialById(Guid materialId)
         {
             return await _dbSet.Include(x => x.Pictures).Where(x => x.Id == materialId).FirstOrDefaultAsync();
@@ -48,6 +81,11 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task<MaterialPicture> GetMaterialPictureById(int pictureId)
         {
             return await _dbSetMaterialPictures.FindAsync(pictureId);
+        }
+
+        public async Task UpdateMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
+        {
+            _dbSetMaterialAttributeValue.Update(materialAttributeValue);
         }
     }
 }

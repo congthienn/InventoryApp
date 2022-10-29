@@ -16,5 +16,13 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         Task DeleteAllPictureOfMaterial(Guid materialId);
         Task<Materials> GetMaterialById(Guid materialId);
         Task<string> GetLastCode();
+
+        Task AddMaterialAttributeValue(MaterialAttributeValue materialAttributeValue);
+        Task UpdateMaterialAttributeValue(MaterialAttributeValue materialAttributeValue);
+        Task<MaterialAttributeValue> GetMaterialAttributeValue(Guid materialId, int materialAttributeId);
+        Task DeleteMaterialAttributeValue(MaterialAttributeValue materialAttributeValue); 
+        IEnumerable<MaterialAttributeValue> GetMaterialAttributeValueList(Guid materialId);
+        Task DeleteAllMaterialAttributeValueByMaterialId(Guid materialId);
+        Task<IEnumerable<MaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId);
     }
 }
