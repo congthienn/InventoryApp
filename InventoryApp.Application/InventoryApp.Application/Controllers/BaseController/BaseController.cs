@@ -59,24 +59,23 @@ namespace InventoryApp.Application.Controllers
         {
             try
             {
-                var oid = GetCurrentUserId();
-                if (oid != null)
+                Guid oid = GetCurrentUserId();
+                if (oid == null) return null;
+
+                var issuer = new UserIdentity
                 {
-                    var issuer = new UserIdentity
-                    {
-                        Id = oid,
-                        UserName = GetCurrentUserName(),
-                        Roles = GetCurrentUserRoles()
-                    };
-                    return issuer;
-                }
+                    Id = oid,
+                    UserName = GetCurrentUserName(),
+                    Roles = GetCurrentUserRoles()
+                };
+                return issuer;
             }
             catch (Exception e)
             {
                 _logger = LoggerHelper.GetConfig();
                 _logger.Error(e.Message);
+                return null;
             }
-            return null;
         }
     }
 }

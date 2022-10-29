@@ -62,5 +62,18 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [Route("{categoryId}/GetAllMaterials")]
+        [HttpGet]
+        public IEnumerable<ShowMaterialModel> GetAllMaterialByCategoryId(Guid categoryId)
+        {
+            return _materialCategoryService.GetAllMaterialByCategoryId(categoryId);
+        }
+
+        [Route("{categoryId}/GetAllMaterialAttribute")]
+        [HttpGet]
+        public IEnumerable<MaterialAttributeModel> GetAllMaterialAttributeByCategoryId(Guid categoryId)
+        {
+            return _materialCategoryService.GetAllMaterialAttributeByCategoryId(categoryId);
+        }
     }
 }

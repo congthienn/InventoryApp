@@ -12,9 +12,14 @@ namespace InventoryApp.Infrastructures.Repositories
 
         }
 
-        public IQueryable GetAllMaterialByCategoryId(Guid categoryId)
+        public IEnumerable<MaterialAttribute> GetAllMaterialAttributeByCategoryId(Guid categoryId)
         {
-            return _dbSet.Include(x => x.Materials).Where(x => x.Id == categoryId);
+            return _dbSet.Include(x => x.Materials).Where(x => x.Id == categoryId).Select(x => x.MaterialAttributes).FirstOrDefault();
+        }
+
+        public IEnumerable<Materials> GetAllMaterialByCategoryId(Guid categoryId)
+        {
+            return _dbSet.Include(x => x.Materials).Where(x => x.Id == categoryId).Select(x=>x.Materials).FirstOrDefault();
         }
 
         public async Task<string> GetLastCode()

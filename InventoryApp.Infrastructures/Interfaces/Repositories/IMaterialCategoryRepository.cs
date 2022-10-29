@@ -4,7 +4,8 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IMaterialCategoryRepository : IGenericRepository<MaterialsCategory>
     {
-        IQueryable GetAllMaterialByCategoryId(Guid categoryId);
+        IEnumerable<Materials> GetAllMaterialByCategoryId(Guid categoryId);
         Task<string> GetLastCode();
+        IEnumerable<MaterialAttribute> GetAllMaterialAttributeByCategoryId(Guid categoryId);
     }
 }

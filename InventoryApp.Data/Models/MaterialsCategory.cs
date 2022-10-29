@@ -20,5 +20,6 @@ namespace InventoryApp.Data.Models
         public string Code { get; set; }
         public string CodeName { get; set; }
         public List<Materials>? Materials { get; set; }
+        public List<MaterialAttribute>? MaterialAttributes { get; set; }
     }
 }

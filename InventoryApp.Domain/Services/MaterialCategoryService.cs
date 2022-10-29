@@ -72,6 +72,16 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<MaterialCategoryModelRq>>(_materialCategoryRepository.Get());
         }
 
+        public IEnumerable<MaterialAttributeModel> GetAllMaterialAttributeByCategoryId(Guid categoryId)
+        {
+            return _mapper.Map<IEnumerable<MaterialAttributeModel>>(_materialCategoryRepository.GetAllMaterialAttributeByCategoryId(categoryId));
+        }
+
+        public IEnumerable<ShowMaterialModel> GetAllMaterialByCategoryId(Guid categoryId)
+        {
+            return _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialCategoryRepository.GetAllMaterialByCategoryId(categoryId));
+        }
+
         public async Task<MaterialCategoryModelRq> UpdateMaterialCategory(Guid id, MaterialCategoryModelRq model, UserIdentity userIdentity)
         {
             try

@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("MaterialAttribute")]
-    [Index(nameof(CodeName), IsUnique = true)]
+    [Index(nameof(Name), nameof(MaterialsCategoryId), IsUnique = true)]
     public class MaterialAttribute : EntityBase
     {
         [Key]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MaterialAttributeId { get; set; }
+        [MaxLength(50), Unicode]
         public string Name { get; set; }
-        public string CodeName { get; set; }
-        [MaxLength(10)]
-        public string DataType { get; set; }
+        public Guid MaterialsCategoryId { get; set; }
+        public MaterialsCategory? MaterialsCategory { get; set; }
     }
 }
