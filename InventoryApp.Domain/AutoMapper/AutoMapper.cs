@@ -20,32 +20,26 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Wards, WardDTO>().ForMember(dest => dest.Division_Type, opt => opt.MapFrom(src => src.DivisionType)).ReverseMap();
             CreateMap<EmailTemplate, EmailTemplateCreateModel>().ReverseMap();
             CreateMap<Roles, RoleModelRq>().ReverseMap();
-
             CreateMap<Users, UserUpdateRq>().ReverseMap();
             CreateMap<Users, UserModelRq>().ReverseMap();
-
             CreateMap<Company, CompanyModelRq>().ReverseMap();
             CreateMap<Company, CompanyUpdateModelRq>().ReverseMap();
-
             CreateMap<Branches, BranchUpdateModel>().ReverseMap();
             CreateMap<Branches, BranchModelRq>().ReverseMap();
             CreateMap<UserBranches, UserBranchModelRq>().ReverseMap();
             CreateMap<SupplierGroup, SupplierGroupModelRq>().ReverseMap();
-
             CreateMap<Supplier, SupplierModelRq>().ReverseMap();
             CreateMap<Shipment, ShipmentModelRq>().ReverseMap();
-
             CreateMap<MaterialsCategory, MaterialCategoryModelRq>().ReverseMap();
             CreateMap<Trademark, TrademarkModelRq>().ReverseMap();
             CreateMap<MaterialUnits, MaterialUnitModelRq>().ReverseMap();
-
             CreateMap<Materials, ShowMaterialModel>().ReverseMap();
             CreateMap<Materials, MaterialModelRq>().ReverseMap();
             CreateMap<MaterialPicture, ShowMaterialPicture>().ReverseMap();
-
             CreateMap<MaterialAttribute, MaterialAttributeModel>().ReverseMap();
             CreateMap<MaterialAttributeValue, MaterialAttributeValueModel>().ReverseMap();
             CreateMap<MaterialAttributeValue, ShowMaterialAttributeValue>().ReverseMap();
+            CreateMap<CustomerGroup, CustomerGroupModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
