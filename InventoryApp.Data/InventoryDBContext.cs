@@ -62,5 +62,6 @@ namespace InventoryApp.Data
         public DbSet<Shipment> Shipments { get; set; }
         public DbSet<MaterialAttributeValue> MaterialAttributeValues { get; set; }
         public DbSet<CustomerGroup> CustomerGroup { get; set; }
+        public DbSet<Customer> Customer { get; set; }
     }
 }

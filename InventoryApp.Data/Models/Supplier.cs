@@ -16,7 +16,6 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Supplier.Code), IsUnique = true)]
     [Index(nameof(Supplier.TaxCode), IsUnique = true)]
     [Index(nameof(Supplier.Fax), IsUnique = true)]
-    [Index(nameof(Supplier.Code), IsUnique = true)]
     public class Supplier : EntityBase
     {
         [Key]

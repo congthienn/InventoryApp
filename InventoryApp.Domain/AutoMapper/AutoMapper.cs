@@ -40,6 +40,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<MaterialAttributeValue, MaterialAttributeValueModel>().ReverseMap();
             CreateMap<MaterialAttributeValue, ShowMaterialAttributeValue>().ReverseMap();
             CreateMap<CustomerGroup, CustomerGroupModel>().ReverseMap();
+            CreateMap<Customer, CustomerModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
