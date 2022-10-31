@@ -42,6 +42,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<CustomerGroup, CustomerGroupModel>().ReverseMap();
             CreateMap<Customer, CustomerModel>().ReverseMap();
             CreateMap<Warehouses, WarehouseModel>().ReverseMap();
+            CreateMap<WarehouseArea, WarehouseAreaModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

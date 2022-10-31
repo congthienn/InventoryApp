@@ -63,5 +63,12 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("{warehouseId}/GetAllWarehouseArea")]
+        [HttpGet]
+        public IEnumerable<WarehouseAreaModel> GetAllWarehouseAreas(Guid warehouseId)
+        {
+            return _warehouseService.GetAllWarehouseAreas(warehouseId);
+        }
     }
 }

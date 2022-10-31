@@ -23,5 +23,6 @@ namespace InventoryApp.Data.Models
         public Branches? Branch { get; set; }
         public bool Status { get; set; }
         public string? Remarks { get; set; }
+        public List<WarehouseArea> WarehouseAreas { get; set; }
     }
 }

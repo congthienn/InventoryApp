@@ -1,6 +1,7 @@
 ﻿using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.GenericRepository;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public WarehouseRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+        }
+
+        public IEnumerable<WarehouseArea> GetAllWarehouseAreas(Guid warehouseId)
+        {
+            return _dbSet.Where(x=>x.Id == warehouseId).Select(x=>x.WarehouseAreas).FirstOrDefault();
         }
 
         public async Task<string> GetLastCode()
