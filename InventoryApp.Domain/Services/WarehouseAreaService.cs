@@ -9,7 +9,6 @@ using InventoryApp.Infrastructures.Models.DTO;
 using InventoryApp.Infrastructures.Repositories;
 using Microsoft.Extensions.Logging;
 
-
 namespace InventoryApp.Domain.Services
 {
     public class WarehouseAreaService : IWarehouseAreaService
@@ -68,6 +67,11 @@ namespace InventoryApp.Domain.Services
         public async Task<WarehouseAreaModel> GetWarehouseAreaById(Guid id)
         {
             return _mapper.Map<WarehouseAreaModel>( await _warehouseAreaRepository.GetByID(id));
+        }
+
+        public IEnumerable<WarehouseLineModel> GetWarehouseLine(Guid id)
+        {
+            return _mapper.Map<IEnumerable<WarehouseLineModel>>(_warehouseAreaRepository.GetAllWarehouseLine(id));
         }
 
         public async Task<WarehouseAreaModel> UpdateWarehouseArea(Guid id, WarehouseAreaModel model, UserIdentity userIdentity)

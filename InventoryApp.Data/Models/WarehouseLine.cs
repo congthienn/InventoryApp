@@ -11,15 +11,16 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("WarehouseLine")]
-    [Index(nameof(Code), IsUnique = true)]
+    [Index(nameof(Name), nameof(WarehouseAreaId), IsUnique = true)]
+    [Index(nameof(Code), nameof(WarehouseAreaId), IsUnique = true)]
     public class WarehouseLine : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
+        [Unicode(true)]
         public string Name { get; set; }
-        public string CodeName { get; set; }
         public string Code { get; set; }
         public Guid WarehouseAreaId { get; set; }
-        public WarehouseArea WarehouseArea { get; set; }
+        public WarehouseArea? WarehouseArea { get; set; }
     }
 }

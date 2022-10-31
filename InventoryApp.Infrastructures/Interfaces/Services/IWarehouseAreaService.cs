@@ -10,6 +10,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
 {
     public interface IWarehouseAreaService
     {
+        IEnumerable<WarehouseLineModel> GetWarehouseLine(Guid id);
         Task<WarehouseAreaModel> GetWarehouseAreaById(Guid id);
         Task<WarehouseAreaModel> AddWarehouseArea(WarehouseAreaModel model, UserIdentity userIdentity);
         Task<WarehouseAreaModel> UpdateWarehouseArea(Guid id, WarehouseAreaModel model, UserIdentity userIdentity);

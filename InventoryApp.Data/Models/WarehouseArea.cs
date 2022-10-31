@@ -22,5 +22,6 @@ namespace InventoryApp.Data.Models
         public string Code { get; set; }
         public Guid WarehouseId { get; set; }
         public Warehouses Warehouse { get; set; }
+        public List<WarehouseLine>? WarehouseLines { get; set; }
     }
 }

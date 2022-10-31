@@ -15,6 +15,11 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public IEnumerable<WarehouseLine> GetAllWarehouseLine(Guid warehouseAreaId)
+        {
+            return _dbSet.Where(x => x.Id == warehouseAreaId).Select(x => x.WarehouseLines).FirstOrDefault();
+        }
+
         public async Task<string> GetLastCode(Guid warehouseId)
         {
             return _dbSet.Where(x=>x.WarehouseId == warehouseId).OrderByDescending(x=>x.CreatedDate).Select(x=>x.Code).FirstOrDefault();
