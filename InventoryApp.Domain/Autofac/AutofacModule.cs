@@ -42,7 +42,8 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<AzureStorage>().As<IAzureStorage>();
             builder.RegisterType<MaterialAttributeRepository>().As<IMaterialAttributeRepository>();
             builder.RegisterType<CustomerGroupRepository>().As<ICustomerGroupRepository>();
-            builder.RegisterType<CustomerService>().As<ICustomerService>();
+            builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();
+            builder.RegisterType<WarehouseRepository>().As<IWarehouseRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -60,7 +61,8 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<MaterialService>().As<IMaterialService>();
             builder.RegisterType<MaterialAttributeService>().As<IMaterialAttributeService>();
             builder.RegisterType<CustomerGroupService>().As<ICustomerGroupService>();
-            builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();
+            builder.RegisterType<CustomerService>().As<ICustomerService>();
+            builder.RegisterType<WarehouseService>().As<IWarehouseService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {
