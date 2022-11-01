@@ -59,5 +59,11 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("{warehouseLineId}/GetAllWarehouseShelve")]
+        public IEnumerable<WarehouseShelveModel> GetAllWarehouseShelve(Guid warehouseLineId)
+        {
+            return _warehouseLineService.GetAllWarehouseShelve(warehouseLineId);
+        }
     }
 }

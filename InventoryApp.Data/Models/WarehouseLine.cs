@@ -22,5 +22,6 @@ namespace InventoryApp.Data.Models
         public string Code { get; set; }
         public Guid WarehouseAreaId { get; set; }
         public WarehouseArea? WarehouseArea { get; set; }
+        public List<WarehouseShelves>? WarehouseShelves { get; set; }
     }
 }

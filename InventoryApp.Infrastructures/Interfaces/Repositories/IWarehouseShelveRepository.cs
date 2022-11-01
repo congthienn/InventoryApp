@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
-    public interface IWarehouseLineRepository : IGenericRepository<WarehouseLine>
+    public interface IWarehouseShelveRepository : IGenericRepository<WarehouseShelves>
     {
-        Task<string> GetLastCode(Guid warehouseAreaId);
-        IEnumerable<WarehouseShelves> GetAllWarehouseShelve(Guid warehouseLineId);
+        Task<string> GetLastCode(Guid warehouseLineId);
     }
 }

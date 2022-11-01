@@ -10,6 +10,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
 {
     public interface IWarehouseLineService
     {
+        IEnumerable<WarehouseShelveModel> GetAllWarehouseShelve(Guid warehouseLineId);
         Task<WarehouseLineModel> GetWarehouseLineById(Guid id);
         Task<WarehouseLineModel> AddWarehouseLine(WarehouseLineModel model, UserIdentity userIdentity);
         Task<WarehouseLineModel> UpdateWarehouseLine(Guid id, WarehouseLineModel model, UserIdentity userIdentity);

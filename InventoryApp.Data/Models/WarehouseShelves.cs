@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("WarehouseShelves")]
-    [Index(nameof(Code), IsUnique = true)]
+    [Index(nameof(Code), nameof(WarehouseLineId), IsUnique = true)]
+    [Index(nameof(Name), nameof(WarehouseLineId), IsUnique = true)]
     public class WarehouseShelves : EntityBase
     {
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string CodeName { get; set; }
         public string Code { get; set; }
         public Guid WarehouseLineId { get; set; }
         public WarehouseLine WarehouseLine { get; set; }

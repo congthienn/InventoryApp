@@ -46,6 +46,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<WarehouseRepository>().As<IWarehouseRepository>();
             builder.RegisterType<WarehouseAreaRepository>().As<IWarehouseAreaRepository>();
             builder.RegisterType<WarehouseLineRepository>().As<IWarehouseLineRepository>();
+            builder.RegisterType<WarehouseShelveRepository>().As<IWarehouseShelveRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -67,6 +68,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<WarehouseService>().As<IWarehouseService>();
             builder.RegisterType<WarehouseAreaService>().As<IWarehouseAreaService>();
             builder.RegisterType<WarehouseLineService>().As<IWarehouseLineService>();
+            builder.RegisterType<WarehouseShelveService>().As<IWarehouseShelveService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {

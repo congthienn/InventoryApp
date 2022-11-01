@@ -67,6 +67,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IEnumerable<WarehouseShelveModel> GetAllWarehouseShelve(Guid warehouseLineId)
+        {
+            return _mapper.Map<IEnumerable<WarehouseShelveModel>>(_warehouseLineRepository.GetAllWarehouseShelve(warehouseLineId));
+        }
+
         public async Task<WarehouseLineModel> GetWarehouseLineById(Guid id)
         {
             return _mapper.Map<WarehouseLineModel>(await _warehouseLineRepository.GetByID(id));
