@@ -24,5 +24,10 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         IEnumerable<MaterialAttributeValue> GetMaterialAttributeValueList(Guid materialId);
         Task DeleteAllMaterialAttributeValueByMaterialId(Guid materialId);
         Task<IEnumerable<MaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId);
+
+        Task AddMaterialPosition(MaterialPosition materialPosition);
+        Task DeleteMaterialPositionById(MaterialPosition materialPosition);
+
+        Task<MaterialPosition> GetMaterialPositionById(int id);
     }
 }

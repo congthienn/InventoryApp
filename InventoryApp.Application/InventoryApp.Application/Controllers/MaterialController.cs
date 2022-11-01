@@ -103,5 +103,33 @@ namespace InventoryApp.Application.Controllers
         {
             return await _materialService.GetMaterialAttributeValue(materialId);
         }
+
+        [Route("addPosition")]
+        [HttpPost]
+        public async Task<IActionResult> AddMaterialPosition([FromBody] MaterialPositionModel model)
+        {
+            try
+            {
+                return Ok(await _materialService.AddMaterialPosition(model));
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("updatePosition/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateMaterialPosition(int id, [FromBody] MaterialPositionModel model)
+        {
+            try
+            {
+                return Ok(await _materialService.UpdateMaterialPosition(id, model));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
