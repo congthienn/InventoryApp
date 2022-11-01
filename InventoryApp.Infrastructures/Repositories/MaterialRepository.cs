@@ -14,10 +14,12 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         private readonly DbSet<MaterialPicture> _dbSetMaterialPictures;
         private readonly DbSet<MaterialAttributeValue> _dbSetMaterialAttributeValue;
+        private readonly DbSet<MaterialPosition> _dbMaterialPosition;
         public MaterialRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             _dbSetMaterialPictures = _context.Set<MaterialPicture>();
             _dbSetMaterialAttributeValue = _context.Set<MaterialAttributeValue>();
+            _dbMaterialPosition = _context.Set<MaterialPosition>();
         }
 
         public async Task AddMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
@@ -28,6 +30,11 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task AddMaterialPicture(MaterialPicture materialPicture)
         {
             await _dbSetMaterialPictures.AddAsync(materialPicture);
+        }
+
+        public async Task AddMaterialPosition(MaterialPosition materialPosition)
+        {
+            _dbMaterialPosition.Add(materialPosition);
         }
 
         public async Task DeleteAllMaterialAttributeValueByMaterialId(Guid materialId)
@@ -51,6 +58,11 @@ namespace InventoryApp.Infrastructures.Repositories
         {
             MaterialPicture materialPictures = await GetMaterialPictureById(materialPictureId);
             _dbSetMaterialPictures.Remove(materialPictures);
+        }
+
+        public async Task DeleteMaterialPositionById(MaterialPosition materialPosition)
+        {
+            _dbMaterialPosition.Remove(materialPosition);
         }
 
         public async Task<string> GetLastCode()
@@ -81,6 +93,11 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task<MaterialPicture> GetMaterialPictureById(int pictureId)
         {
             return await _dbSetMaterialPictures.FindAsync(pictureId);
+        }
+
+        public async Task<MaterialPosition> GetMaterialPositionById(int id)
+        {
+            return await _dbMaterialPosition.FindAsync(id);
         }
 
         public async Task UpdateMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
