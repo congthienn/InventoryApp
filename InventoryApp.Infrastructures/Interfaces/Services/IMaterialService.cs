@@ -20,9 +20,5 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<bool> DeleteMaterialPictureById(int pictureId);
         Task<bool> SetMaterialStatus(Guid materialId, StatusModel status, UserIdentity userIdentity);
         Task<IEnumerable<ShowMaterialAttributeValue>> GetMaterialAttributeValue(Guid materialId);
-
-        Task<MaterialPositionModel> AddMaterialPosition(MaterialPositionModel model);
-        Task DeleteMaterialPositionById(int materialPositionId);
-        Task<MaterialPositionModel> UpdateMaterialPosition(int id, MaterialPositionModel model);
     }
 }

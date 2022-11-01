@@ -1117,38 +1117,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("MaterialPicture");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.MaterialPosition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("BrachId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BranchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("WarehouseShelveId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("WarehouseShelveId")
-                        .IsUnique();
-
-                    b.ToTable("MaterialPosition");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.Materials", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3047,31 +3015,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("Material");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.MaterialPosition", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Branches", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
-
-                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.WarehouseShelves", "WarehouseShelve")
-                        .WithMany()
-                        .HasForeignKey("WarehouseShelveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-
-                    b.Navigation("Material");
-
-                    b.Navigation("WarehouseShelve");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.Materials", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.MaterialsCategory", "CategoryMaterial")
@@ -3679,7 +3622,7 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsRequired();
 
                     b.HasOne("InventoryApp.Data.Models.WarehouseLine", "WarehouseLine")
-                        .WithMany("WarehouseShelves")
+                        .WithMany()
                         .HasForeignKey("WarehouseLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3726,11 +3669,6 @@ namespace InventoryApp.DbMigrations.Migrations
             modelBuilder.Entity("InventoryApp.Data.Models.WarehouseArea", b =>
                 {
                     b.Navigation("WarehouseLines");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.WarehouseLine", b =>
-                {
-                    b.Navigation("WarehouseShelves");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Warehouses", b =>

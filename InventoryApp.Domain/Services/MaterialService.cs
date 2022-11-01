@@ -208,45 +208,5 @@ namespace InventoryApp.Domain.Services
         {
             return _mapper.Map<IEnumerable<ShowMaterialAttributeValue>>(await _materialRepository.GetMaterialAttributeValue(materialId));
         }
-
-        public async Task<MaterialPositionModel> AddMaterialPosition(MaterialPositionModel model)
-        {
-            try
-            {
-                MaterialPosition materialPosition = _mapper.Map<MaterialPosition>(model);
-                await _materialRepository.AddMaterialPosition(materialPosition);
-                _unitOfWork.Save();
-                return model;
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e.Message);
-                throw new NotImplementedException(e.Message);
-            }
-        }
-
-        public async Task DeleteMaterialPositionById(int materialPositionId)
-        {
-            try
-            {
-                MaterialPosition materialPosition = await _materialRepository.GetMaterialPositionById(materialPositionId);
-                if (materialPosition == null)
-                    throw new NotImplementedException("Material Position not found");
-
-                await _materialRepository.Delete(materialPosition);
-                _unitOfWork.Save();
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e.Message);
-                throw new NotImplementedException(e.Message);
-            }
-        }
-
-        public async Task<MaterialPositionModel> UpdateMaterialPosition(int id, MaterialPositionModel model)
-        {
-            await DeleteMaterialPositionById(id);
-            return await AddMaterialPosition(model);
-        }
     }
-}   
+}
