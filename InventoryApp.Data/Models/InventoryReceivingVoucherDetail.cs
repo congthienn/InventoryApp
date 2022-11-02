@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,16 +11,15 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("InventoryReceivingVoucherDetail")]
-    public class InventoryReceivingVoucherDetail : EntityBase
+    [Index(nameof(InventoryReceivingVoucherId), nameof(MaterialShipmentId), IsUnique = true)]
+    public class InventoryReceivingVoucherDetail
     {
         [Key]
         public Guid Id { get; set; }
         public Guid InventoryReceivingVoucherId { get; set; }
         public InventoryReceivingVoucher? InventoryReceivingVoucher { get; set; }
-        public Guid MaterialId { get; set; }
-        public Materials? Material { get; set; }
-        public Guid MaterialUnitId { get; set; }
-        public MaterialUnits? MaterialUnit { get; set; }
+        public int MaterialShipmentId { get; set; }
+        public MaterialShipment MaterialShipment { get; set; }
         public int QuatityRequest { get; set; }
         public int QuatityReceiving { get; set; }
         public double Price { get; set; }

@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221102165007_Alter_Table_InventoryReceivingVoucherDetail")]
+    partial class Alter_Table_InventoryReceivingVoucherDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1027,10 +1029,9 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialShipmentId");
+                    b.HasIndex("InventoryReceivingVoucherId");
 
-                    b.HasIndex("InventoryReceivingVoucherId", "MaterialShipmentId")
-                        .IsUnique();
+                    b.HasIndex("MaterialShipmentId");
 
                     b.ToTable("InventoryReceivingVoucherDetail");
                 });

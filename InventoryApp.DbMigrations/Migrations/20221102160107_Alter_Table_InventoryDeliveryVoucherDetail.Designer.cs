@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221102160107_Alter_Table_InventoryDeliveryVoucherDetail")]
+    partial class Alter_Table_InventoryDeliveryVoucherDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1010,11 +1012,20 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("InventoryReceivingVoucherId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("MaterialShipmentId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("MaterialUnitId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -1025,12 +1036,23 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<int>("QuatityRequest")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialShipmentId");
+                    b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("InventoryReceivingVoucherId", "MaterialShipmentId")
-                        .IsUnique();
+                    b.HasIndex("InventoryReceivingVoucherId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("MaterialUnitId");
+
+                    b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("InventoryReceivingVoucherDetail");
                 });
@@ -3021,21 +3043,45 @@ namespace InventoryApp.DbMigrations.Migrations
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucherDetail", b =>
                 {
+                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InventoryApp.Data.Models.InventoryReceivingVoucher", "InventoryReceivingVoucher")
                         .WithMany()
                         .HasForeignKey("InventoryReceivingVoucherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryApp.Data.Models.MaterialShipment", "MaterialShipment")
+                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
                         .WithMany()
-                        .HasForeignKey("MaterialShipmentId")
+                        .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InventoryApp.Data.Models.MaterialUnits", "MaterialUnit")
+                        .WithMany()
+                        .HasForeignKey("MaterialUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
                     b.Navigation("InventoryReceivingVoucher");
 
-                    b.Navigation("MaterialShipment");
+                    b.Navigation("Material");
+
+                    b.Navigation("MaterialUnit");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialAttribute", b =>

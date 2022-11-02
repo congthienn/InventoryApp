@@ -21,9 +21,11 @@ namespace InventoryApp.Data.Models
         public Warehouses? Warehouse { get; set; }
         public Guid BranchRequestId { get; set; }
         public Branches? BranchRequest { get; set; }
-        public Guid EmployeeRequestId { get; set; }
-        public Employees? EmployeeRequest { get; set; }
-        public Guid EmployeeDeliveryId { get; set; }
-        public Employees? EmployeeDelivery { get; set; }
+        public Guid UserRequestId { get; set; }
+        public Users? UserRequest { get; set; }
+        public Guid UserDeliveryId { get; set; }
+        public Users? UserDelivery { get; set; }
+        public Guid UserApproveId { get; set; }
+        public Users? UserApprove { get; set; }
     }
 }

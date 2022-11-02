@@ -64,5 +64,8 @@ namespace InventoryApp.Data
         public DbSet<CustomerGroup> CustomerGroup { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<MaterialPosition> MaterialPosition { get; set; }
+        public DbSet<MaterialShipment> MaterialShipment { get; set; }
+        public DbSet<InventoryDeliveryVoucher_Customer> InventoryDeliveryVoucher_Customers { get; set; }
+        public DbSet<InventoryReceivingVoucher_Supplier> InventoryReceivingVoucher_Shipments { get; set; }
     }
 }
