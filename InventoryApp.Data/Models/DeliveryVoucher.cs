@@ -9,17 +9,23 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Data.Models
 {
-    [Table("InventoryDeliveryVoucher_Customer")]
+    [Table("DeliveryVoucher")]
     [Index(nameof(CustomerId), nameof(InventoryDeliveryVoucherId), IsUnique = true)]
-    public class InventoryDeliveryVoucher_Customer
+    [Index(nameof(Code), IsUnique = true)]
+    public class DeliveryVoucher
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Code { get; set; }
         public Guid CustomerId { get; set; }
         public Customer? Customer { get; set; }
-
         public Guid InventoryDeliveryVoucherId { get; set; }
         public InventoryDeliveryVoucher? InventoryDeliveryVoucher { get; set; }
+        public double MaterialPrice { get; set; }
+        public double Amount { get; set; }
+        public Users? DeliveryUser { get; set; }
+        public Guid DeliveryUserId { get; set; }
+        public DateTime DeliveryDate { get; set; }
     }
 }

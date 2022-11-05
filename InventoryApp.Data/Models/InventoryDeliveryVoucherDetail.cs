@@ -20,9 +20,7 @@ namespace InventoryApp.Data.Models
         public InventoryDeliveryVoucher? InventoryDeliveryVoucher { get; set; }
         public Guid ShipmentId { get; set; }
         public Shipment? Shipment { get; set; }
-        public int QuatityRequest { get; set; }
-        public int QuatityDelivery { get; set; }
-        public double MaterialPrice { get; set; }
-        public double Amount { get; set; }
+        public int QuantityRequest { get; set; }
+        public int QuantityDelivery { get; set; }
     }
 }

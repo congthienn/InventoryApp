@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221105040306_Alter_Table_InventoryDeliveryVoucher_v1")]
+    partial class Alter_Table_InventoryDeliveryVoucher_v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,51 +376,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("CustomerGroup");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.DeliveryVoucher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DeliveryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DeliveryUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InventoryDeliveryVoucherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("MaterialPrice")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("DeliveryUserId");
-
-                    b.HasIndex("InventoryDeliveryVoucherId");
-
-                    b.HasIndex("CustomerId", "InventoryDeliveryVoucherId")
-                        .IsUnique();
-
-                    b.ToTable("DeliveryVoucher");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.Department", b =>
                 {
                     b.Property<Guid>("Id")
@@ -686,15 +643,9 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("GoodsIssueDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Purpose")
                         .HasColumnType("int");
@@ -723,8 +674,6 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("UpdatedByUserId");
 
                     b.HasIndex("UserApproveId");
@@ -736,19 +685,49 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("InventoryDeliveryVoucher");
                 });
 
+            modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucher_Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("InventoryDeliveryVoucherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryDeliveryVoucherId");
+
+                    b.HasIndex("CustomerId", "InventoryDeliveryVoucherId")
+                        .IsUnique();
+
+                    b.ToTable("InventoryDeliveryVoucher_Customer");
+                });
+
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucherDetail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("InventoryDeliveryVoucherId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("QuantityDelivery")
+                    b.Property<double>("MaterialPrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuatityDelivery")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuantityRequest")
+                    b.Property<int>("QuatityRequest")
                         .HasColumnType("int");
 
                     b.Property<Guid>("ShipmentId")
@@ -1040,10 +1019,10 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("QuantityReceiving")
+                    b.Property<int>("QuatityReceiving")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuantityRequest")
+                    b.Property<int>("QuatityRequest")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1509,82 +1488,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("MenuPermissions");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("UpdatedByUserId");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantityRequest")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("OrderId", "MaterialId")
-                        .IsUnique();
-
-                    b.ToTable("OrderDetail");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.PermissionGroup", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1951,82 +1854,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("UpdatedByUserId");
 
                     b.ToTable("SupplierGroup");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("BranchRequestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("CreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BranchRequestId");
-
-                    b.HasIndex("Code")
-                        .IsUnique();
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("SupplierId");
-
-                    b.HasIndex("UpdatedByUserId");
-
-                    b.ToTable("SupplierOrder");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("QuantityRequest")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplierOrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("SupplierOrderId", "MaterialId")
-                        .IsUnique();
-
-                    b.ToTable("SupplierOrderDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Trademark", b =>
@@ -2775,33 +2602,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.DeliveryVoucher", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "DeliveryUser")
-                        .WithMany()
-                        .HasForeignKey("DeliveryUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.InventoryDeliveryVoucher", "InventoryDeliveryVoucher")
-                        .WithMany()
-                        .HasForeignKey("InventoryDeliveryVoucherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("DeliveryUser");
-
-                    b.Navigation("InventoryDeliveryVoucher");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.Department", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.Branches", "Branch")
@@ -2948,10 +2748,6 @@ namespace InventoryApp.DbMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryApp.Data.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedByUserId")
@@ -2980,8 +2776,6 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Navigation("CreatedByUser");
 
-                    b.Navigation("Order");
-
                     b.Navigation("UpdatedByUser");
 
                     b.Navigation("UserApprove");
@@ -2989,6 +2783,25 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("UserRequest");
 
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucher_Customer", b =>
+                {
+                    b.HasOne("InventoryApp.Data.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.InventoryDeliveryVoucher", "InventoryDeliveryVoucher")
+                        .WithMany()
+                        .HasForeignKey("InventoryDeliveryVoucherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("InventoryDeliveryVoucher");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucherDetail", b =>
@@ -3461,60 +3274,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.Order", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Branches", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.OrderDetail", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.PermissionGroup", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
@@ -3694,60 +3453,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrder", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Branches", "BranchRequest")
-                        .WithMany()
-                        .HasForeignKey("BranchRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Supplier", "Supplier")
-                        .WithMany()
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
-                        .WithMany()
-                        .HasForeignKey("UpdatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BranchRequest");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("Supplier");
-
-                    b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrderDetail", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.SupplierOrder", "SupplierOrder")
-                        .WithMany()
-                        .HasForeignKey("SupplierOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("SupplierOrder");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Trademark", b =>

@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221105051317_Create_Table_SupplierOrder")]
+    partial class Create_Table_SupplierOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2002,33 +2004,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("SupplierOrder");
                 });
 
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid>("MaterialId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("QuantityRequest")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SupplierOrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("SupplierOrderId", "MaterialId")
-                        .IsUnique();
-
-                    b.ToTable("SupplierOrderDetail");
-                });
-
             modelBuilder.Entity("InventoryApp.Data.Models.Trademark", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3729,25 +3704,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("Supplier");
 
                     b.Navigation("UpdatedByUser");
-                });
-
-            modelBuilder.Entity("InventoryApp.Data.Models.SupplierOrderDetail", b =>
-                {
-                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.SupplierOrder", "SupplierOrder")
-                        .WithMany()
-                        .HasForeignKey("SupplierOrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("SupplierOrder");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Trademark", b =>
