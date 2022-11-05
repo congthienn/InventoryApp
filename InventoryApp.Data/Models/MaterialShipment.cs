@@ -22,5 +22,6 @@ namespace InventoryApp.Data.Models
         public Guid ShipmentId { get; set; }
         public Shipment? Shipment { get; set; }
         public int MaterialQuantity { get; set; }
+        public int QuantityInStock { get; set; }
     }
 }
