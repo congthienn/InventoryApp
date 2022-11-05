@@ -46,6 +46,8 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<WarehouseLine, WarehouseLineModel>().ReverseMap();
             CreateMap<WarehouseShelves, WarehouseShelveModel>().ReverseMap();
             CreateMap<MaterialPosition, MaterialPositionModel>().ReverseMap();
+            CreateMap<Order, OrderModel>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper
