@@ -75,9 +75,9 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<BranchModelRq>>(_branchRepository.Get());
         }
 
-        public IQueryable GetAllShipmentByBranch(Guid branchId)
+        public IEnumerable<ShipmentModelRq> GetAllShipmentByBranch(Guid branchId)
         {
-            return _branchRepository.GetAllShipmentByBranch(branchId);
+            return  _mapper.Map<IEnumerable<ShipmentModelRq>>(_branchRepository.GetAllShipmentByBranch(branchId));
         }
 
         public async Task<BranchModelRq> GetBranchById(Guid branchId)

@@ -78,7 +78,7 @@ namespace InventoryApp.Application.Controllers
 
         [Route("{branchId}/getShipment")]
         [HttpGet]
-        public IQueryable GetAllShipmentByBranch(Guid branchId)
+        public IEnumerable<ShipmentModelRq> GetAllShipmentByBranch(Guid branchId)
         {
             return _branchService.GetAllShipmentByBranch(branchId);
         }

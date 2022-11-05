@@ -16,6 +16,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<BranchModelRq> UpdateBranch(BranchUpdateModel model, UserIdentity userIdentity);
         Task<bool> DeleteBranch(Guid branchId);
         Task<bool> MainBranchAlreadyExists();
-        IQueryable GetAllShipmentByBranch(Guid branchId);
+        IEnumerable<ShipmentModelRq> GetAllShipmentByBranch(Guid branchId);
     }
 }
