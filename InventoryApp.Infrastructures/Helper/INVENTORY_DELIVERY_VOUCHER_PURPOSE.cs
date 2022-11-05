@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InventoryApp.Infrastructures.Helper
 {
-    public enum PURPOSE
+    public enum INVENTORY_DELIVERY_VOUCHER_PURPOSE
     {
         Retail,
         Delivery

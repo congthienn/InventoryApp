@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace InventoryApp.Data.Models
 {
     [Table("InventoryDeliveryVoucherDetail")]
-    [Index(nameof(InventoryDeliveryVoucherId), nameof(ShipmentId), IsUnique =true)]
+    [Index(nameof(InventoryDeliveryVoucherId), nameof(ShipmentId), IsUnique = true)]
     public class InventoryDeliveryVoucherDetail
     {
         [Key]

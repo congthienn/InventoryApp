@@ -49,6 +49,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<WarehouseShelveRepository>().As<IWarehouseShelveRepository>();
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
             builder.RegisterType<SupplierOrderRepository>().As<ISupplierOrderRepository>();
+            builder.RegisterType<InventoryDeliveryVoucherRepository>().As<IInventoryDeliveryVoucherRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -73,6 +74,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<WarehouseShelveService>().As<IWarehouseShelveService>();
             builder.RegisterType<OrderService>().As<IOrderService>();
             builder.RegisterType<SupplierOrderService>().As<ISupplierOrderService>();
+            builder.RegisterType<InventoryDeliveryVoucherService>().As<IInventoryDeliveryVoucherService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)
         {
