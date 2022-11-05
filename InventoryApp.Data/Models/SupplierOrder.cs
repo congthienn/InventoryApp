@@ -18,6 +18,7 @@ namespace InventoryApp.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Code { get; set; }
+        public int Status { get; set; }
         public DateTime OrderDate { get; set; }
         public Guid SupplierId { get; set; }
         public Supplier? Supplier { get; set; }

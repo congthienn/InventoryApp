@@ -27,5 +27,7 @@ namespace InventoryApp.Data.Models
         public Users? UserReceive { get; set; }
         public Guid UserApproveId { get; set; }
         public Users? UserApprove { get; set; }
+        public int? SupplierOrderId { get; set; }
+        public SupplierOrder SupplierOrder { get; set; }
     }
 }
