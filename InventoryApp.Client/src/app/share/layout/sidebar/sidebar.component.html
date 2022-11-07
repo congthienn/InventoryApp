@@ -1,0 +1,79 @@
+<div class="left-side-menu">
+
+    <div class="slimscroll-menu">
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <ul class="metismenu" id="side-menu">
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i><fa-icon [icon]="fadashboard"></fa-icon></i>
+                        <span>Trang chủ</span>
+                        <span class="badge badge-info badge-pill float-right"> </span>
+                    </a>
+                </li>           
+                <li>
+                    <a (click)="managerMaterial = !managerMaterial" [attr.aria-expanded]="!managerMaterial"  class="waves-effect">
+                        <i><fa-icon [icon]="faparachutebox"></fa-icon></i>
+                        <span>Danh mục sản phẩm</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerMaterial" aria-expanded="false">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-buttons.html">Thêm mới</a></li>
+                        <li><a href="ui-fontawesome.html">Số liệu thống kê</a></li>
+                    </ul>
+                </li>
+               <li>
+                    <a (click)="managerShipment = !managerShipment" [attr.aria-expanded]="!managerShipment"  class="waves-effect">
+                        <i><fa-icon [icon]="faboxesstacked"></fa-icon></i>
+                        <span>Lô hàng </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerShipment" aria-expanded="false">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-fontawesome.html">Số liệu thống kê</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="managerPartner = !managerPartner" [attr.aria-expanded]="!managerPartner"  class="waves-effect">
+                        <i><fa-icon [icon]="fapeoplegroup"></fa-icon></i>
+                        <span>Đối tác</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerPartner" aria-expanded="false">
+                        <li><a href="ui-typography.html">Nhóm khách hàng</a></li>
+                        <li><a href="ui-typography.html">Khách hàng</a></li>
+                        <li><a href="ui-typography.html">Nhóm nhà cung cấp</a></li>
+                        <li><a href="ui-typography.html">Nhà cung cấp</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="managerBranch = !managerBranch" [attr.aria-expanded]="!managerBranch"  class="waves-effect">
+                        <i><fa-icon [icon]="fabuilding"></fa-icon></i>
+                        <span>Chi nhánh</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerBranch" aria-expanded="false">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-typography.html">Thêm mới</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="manaagerWarehouse = !manaagerWarehouse" [attr.aria-expanded]="!manaagerWarehouse"  class="waves-effect">
+                        <i><fa-icon [icon]="faWarehouse"></fa-icon></i>
+                       
+                        <span>Kho hàng</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="manaagerWarehouse" aria-expanded="false">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-typography.html">Số liệu thống kê</a></li>
+                        <li><a href="ui-typography.html">Vị trí sản phẩm</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
