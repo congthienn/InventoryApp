@@ -1,0 +1,33 @@
+.collapse_item{
+    background: #162339;
+}
+.collapse_item > .menu-arrow{
+    transform: rotate(90deg);
+}
+.slimscroll-menu{
+    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    overflow: hidden;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #162339; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(158, 165, 171);
+}

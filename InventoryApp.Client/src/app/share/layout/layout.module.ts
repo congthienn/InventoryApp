@@ -4,20 +4,23 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { FooterModule } from './footer/footer.module';
+import { HeaderModule } from './header/header.module';
 
 
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    FooterComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
-    SidebarModule
+    SidebarModule,
+    HeaderModule,
+    FooterModule
   ],
   exports:[
-    SidebarModule
+    SidebarModule,
+    FooterModule,
+    HeaderModule
   ]
 })
 export class LayoutModule { }

@@ -1,5 +1,4 @@
 <div class="left-side-menu">
-
     <div class="slimscroll-menu">
         <!--- Sidemenu -->
         <div id="sidebar-menu">
@@ -7,40 +6,57 @@
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i><fa-icon [icon]="fadashboard"></fa-icon></i>
-                        <span>Trang chủ</span>
+                        <span>Tổng quan </span>
                         <span class="badge badge-info badge-pill float-right"> </span>
                     </a>
                 </li>           
                 <li>
-                    <a (click)="managerMaterial = !managerMaterial" [attr.aria-expanded]="!managerMaterial"  class="waves-effect">
+                    <a (click)="Click('managerMaterial')" data-toggle="collapse" data-target="#managerMaterial"  class="waves-effect" [ngClass]="{'collapse_item' : !managerMaterial}">
                         <i><fa-icon [icon]="faparachutebox"></fa-icon></i>
                         <span>Danh mục sản phẩm</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerMaterial" aria-expanded="false">
+                    <ul id="managerMaterial" class="collapse nav-second-level" data-parent="#side-menu">
                         <li><a href="ui-typography.html">Danh sách</a></li>
                         <li><a href="ui-buttons.html">Thêm mới</a></li>
+                        <li><a href="ui-typography.html">Nhóm sản phẩm</a></li>
                         <li><a href="ui-fontawesome.html">Số liệu thống kê</a></li>
+                        <li><a href="ui-typography.html">Đặt hàng</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="Click('managerWarehouse')" data-toggle="collapse" data-target="#managerWarehouse" class="waves-effect" [ngClass]="{'collapse_item' : !managerWarehouse}">
+                        <i><fa-icon [icon]="faWarehouse"></fa-icon></i>
+                       
+                        <span>Kho hàng</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul id="managerWarehouse" class="collapse nav-second-level" data-parent="#side-menu">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-typography.html">Xuất kho</a></li>
+                        <li><a href="ui-typography.html">Nhập kho</a></li>
+                        <li><a href="ui-typography.html">Số liệu thống kê</a></li>
+                        <li><a href="ui-typography.html">Vị trí sản phẩm</a></li>
                     </ul>
                 </li>
                <li>
-                    <a (click)="managerShipment = !managerShipment" [attr.aria-expanded]="!managerShipment"  class="waves-effect">
+                    <a (click)="Click('managerShipment')" data-toggle="collapse" data-target="#managerShipment" [ngClass]="{'collapse_item' : !managerShipment}"  class="waves-effect">
                         <i><fa-icon [icon]="faboxesstacked"></fa-icon></i>
                         <span>Lô hàng </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerShipment" aria-expanded="false">
+                    <ul id="managerShipment" class="collapse nav-second-level" data-parent="#side-menu">
                         <li><a href="ui-typography.html">Danh sách</a></li>
                         <li><a href="ui-fontawesome.html">Số liệu thống kê</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a (click)="managerPartner = !managerPartner" [attr.aria-expanded]="!managerPartner"  class="waves-effect">
+                    <a (click)="Click('managerPartner')" data-toggle="collapse" data-target="#managerPartner" [ngClass]="{'collapse_item' : !managerPartner}" class="waves-effect">
                         <i><fa-icon [icon]="fapeoplegroup"></fa-icon></i>
                         <span>Đối tác</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerPartner" aria-expanded="false">
+                    <ul id="managerPartner" class="collapse nav-second-level" data-parent="#side-menu">
                         <li><a href="ui-typography.html">Nhóm khách hàng</a></li>
                         <li><a href="ui-typography.html">Khách hàng</a></li>
                         <li><a href="ui-typography.html">Nhóm nhà cung cấp</a></li>
@@ -48,27 +64,74 @@
                     </ul>
                 </li>
                 <li>
-                    <a (click)="managerBranch = !managerBranch" [attr.aria-expanded]="!managerBranch"  class="waves-effect">
+                    <a (click)="Click('order')" data-toggle="collapse" data-target="#order" class="waves-effect" [ngClass]="{'collapse_item' : !order}">
+                        <i><fa-icon [icon]="faReorder"></fa-icon></i>
+                       
+                        <span>Đơn đặt hàng</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul id="order" class="collapse nav-second-level" data-parent="#side-menu">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-typography.html">Thêm mới</a></li>
+                        <li><a href="ui-typography.html">Số liệu thống kê</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="Click('report')" data-toggle="collapse" data-target="#report"  class="waves-effect" [ngClass]="{'collapse_item' : !report}">
+                        <i><fa-icon [icon]="faBook"></fa-icon></i>
+                       
+                        <span>Báo cáo</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul id="report" class="collapse nav-second-level" data-parent="#side-menu">
+                        <li><a href="ui-typography.html">Tài chính</a></li>
+                        <li><a href="ui-typography.html">Bán hàng</a></li>
+                        <li><a href="ui-typography.html">Khách hàng</a></li>
+                        <li><a href="ui-typography.html">Nhà cung cấp</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="Click('managerBranch')" data-toggle="collapse" data-target="#managerBranch" class="waves-effect" [ngClass]="{'collapse_item' : !managerBranch}">
                         <i><fa-icon [icon]="fabuilding"></fa-icon></i>
                         <span>Chi nhánh</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="managerBranch" aria-expanded="false">
+                    <ul id="managerBranch" class="collapse nav-second-level" data-parent="#side-menu">
                         <li><a href="ui-typography.html">Danh sách</a></li>
                         <li><a href="ui-typography.html">Thêm mới</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a (click)="manaagerWarehouse = !manaagerWarehouse" [attr.aria-expanded]="!manaagerWarehouse"  class="waves-effect">
-                        <i><fa-icon [icon]="faWarehouse"></fa-icon></i>
-                       
-                        <span>Kho hàng</span>
+                    <a (click)="Click('managerUser')" data-toggle="collapse" data-target="#managerUser"  class="waves-effect" [ngClass]="{'collapse_item' : !managerUser}">
+                        <i><fa-icon [icon]="faUsers"></fa-icon></i>
+                        <span>Quản lý tài khoản</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul class="nav-second-level" #collapse="ngbCollapse" [(ngbCollapse)]="manaagerWarehouse" aria-expanded="false">
+                    <ul id="managerUser" class="collapse nav-second-level" data-parent="#side-menu">
                         <li><a href="ui-typography.html">Danh sách</a></li>
-                        <li><a href="ui-typography.html">Số liệu thống kê</a></li>
-                        <li><a href="ui-typography.html">Vị trí sản phẩm</a></li>
+                        <li><a href="ui-typography.html">Thêm mới</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="Click('role')" data-toggle="collapse" data-target="#role"  class="waves-effect" [ngClass]="{'collapse_item' : !role}">
+                        <i><fa-icon [icon]="faUserSecret"></fa-icon></i>
+                        <span>Chức vụ - Vai trò</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul id="role" class="collapse nav-second-level" data-parent="#side-menu">
+                        <li><a href="ui-typography.html">Danh sách</a></li>
+                        <li><a href="ui-typography.html">Phân quyền</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a (click)="Click('generalSetting')" data-toggle="collapse" data-target="#generalSetting"  class="waves-effect" [ngClass]="{'collapse_item' : !generalSetting}">
+                        <i><fa-icon [icon]="faGear"></fa-icon></i>
+                        <span>Cài đặt chung</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul id="generalSetting" class="collapse nav-second-level" data-parent="#side-menu">
+                        <li><a href="ui-typography.html">Thông tin công ty</a></li>
+                        <li><a href="ui-typography.html">Mẫu email chung</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { HeaderComponent } from './share/layout/header/header.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'InventoryApp.Client';
+  
+  public collapseSidebar = false;
+  Click(value: boolean){
+    this.collapseSidebar = value;
+  }
 }
