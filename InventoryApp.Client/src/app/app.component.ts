@@ -8,8 +8,5 @@ import { HeaderComponent } from './share/layout/header/header.component';
 export class AppComponent {
   title = 'InventoryApp.Client';
   
-  public collapseSidebar = false;
-  Click(value: boolean){
-    this.collapseSidebar = value;
-  }
+ 
 }

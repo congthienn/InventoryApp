@@ -1,0 +1,14 @@
+<div class="" [ngClass]="{'sidebar-enable enlarged' : collapseSidebar}">
+    <div id="wrapper">
+        <app-header (clickButton) = Click($event)></app-header>
+        <app-sidebar></app-sidebar>
+        <div class="content-page">
+            <div class="content">
+                <div class="container-fluid">
+                    <router-outlet></router-outlet>
+                </div>  
+            </div>  
+           <app-footer></app-footer>
+        </div>
+    </div>
+</div>
