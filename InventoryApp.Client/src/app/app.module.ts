@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { SimpleNotificationsModule } from 'angular2-notifications';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { LoginModule } from './auth/login/login.module';
 import { LayoutModule } from './share/layout/layout.module';
 import { AdminLayoutComponent } from './share/admin-layout/admin-layout.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     AdminLayoutComponent
   ],
   imports: [
+    SimpleNotificationsModule.forRoot(),
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     LayoutModule,

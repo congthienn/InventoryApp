@@ -7,8 +7,6 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
 
-
-
 @NgModule({
   declarations: [],
   imports: [

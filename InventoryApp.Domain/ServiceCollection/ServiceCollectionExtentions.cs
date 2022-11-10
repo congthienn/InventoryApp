@@ -49,7 +49,7 @@ namespace InventoryApp.Domain.ServiceCollection
                 options.SignIn.RequireConfirmedAccount = true;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(Convert.ToDouble(_configuration.GetSection("Security:Jwt:TokenTimeOutMinutes").Value));
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.MaxFailedAccessAttempts = 100;
                 options.Lockout.AllowedForNewUsers = true;
             });
         }

@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   declarations: [
@@ -9,8 +11,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormGroup,
+    FormsModule,
+    BrowserModule,
     ReactiveFormsModule,
+    SimpleNotificationsModule.forRoot()
   ],
   exports:[
     LoginComponent
