@@ -17,6 +17,15 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
 //Config EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
@@ -66,6 +75,7 @@ builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(LoggerHelper.GetConfig());
 builder.Logging.AddConsole();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -85,7 +95,7 @@ SeedDataSystemAdmin.Run(builder.Services.BuildServiceProvider());
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("CorsPolicy");
 app.MapControllers();
 
 app.Run();
