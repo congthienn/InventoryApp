@@ -21,6 +21,16 @@ namespace InventoryApp.Infrastructures.Repositories
             return _dbSet.Include(x => x.Shipments).Where(x => x.Id == branchId).Select(x=>x.Shipments).FirstOrDefault();
         }
 
+        public async Task<Branches> GetBranchByCode(string code)
+        {
+            return await _dbSet.Where(x => x.Code == code).FirstOrDefaultAsync();
+        }
+
+        public async Task<string> GetLastCode()
+        {
+            return await _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefaultAsync();
+        }
+
         public async Task<bool> MainBranchAlreadyExists()
         {
             return await _dbSet.AnyAsync(x => x.BranchMain);

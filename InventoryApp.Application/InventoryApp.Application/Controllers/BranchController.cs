@@ -25,9 +25,9 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpGet("{branchId}")]
-        public async Task<IActionResult> GetBranchById(Guid branchId)
+        public async Task<IActionResult> GetBranchById(string code)
         {
-            return Ok(await _branchService.GetBranchById(branchId));
+            return Ok(await _branchService.GetBranchById(code));
         }
 
         [HttpPost]

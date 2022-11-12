@@ -12,8 +12,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public string CompanyName { get; set; }
-        public string Code { get; set; }
-        public string CodeName { get; set; }
+        public string Code { get; private set; }
         public string Address { get; set; }
         public int ProvinceId { get; set; }
         public int DistrictId { get; set; }

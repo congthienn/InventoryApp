@@ -34,8 +34,9 @@ namespace InventoryApp.Domain.Services
         {
             try
             {
-                
                 Branches branch = _mapper.Map<Branches>(model);
+                string code = await _branchRepository.GetLastCode();
+                branch.Code = code == null ? "CN00001" : StringHelper.CreateCode(code);
                 branch.CodeName = StringHelper.NormalizeString(branch.CompanyName);
                 branch.CreateBy(userIdentity);
                 branch.UpdateBy(userIdentity);
@@ -80,9 +81,9 @@ namespace InventoryApp.Domain.Services
             return  _mapper.Map<IEnumerable<ShipmentModelRq>>(_branchRepository.GetAllShipmentByBranch(branchId));
         }
 
-        public async Task<BranchModelRq> GetBranchById(Guid branchId)
+        public async Task<BranchModelRq> GetBranchById(string code)
         {
-            return _mapper.Map<BranchModelRq>(await _branchRepository.GetByID(branchId));
+            return _mapper.Map<BranchModelRq>(await _branchRepository.GetBranchByCode(code));
         }
 
         public async Task<bool> MainBranchAlreadyExists()
@@ -95,12 +96,13 @@ namespace InventoryApp.Domain.Services
             try
             {
                 Branches branch = await _branchRepository.GetByID(model.Id);
+                string code = branch.Code;
                 _mapper.Map(model, branch);
 
                 branch.CodeName = StringHelper.NormalizeString(branch.CompanyName);
                 branch.UpdateBy(userIdentity);
                 branch.BranchMain = !MainBranchAlreadyExists().Result ? branch.BranchMain : false;
-
+                branch.Code = code;
                 await _branchRepository.Update(branch);
                 _unitOfWork.Save();
 
