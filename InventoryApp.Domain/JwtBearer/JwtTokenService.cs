@@ -35,11 +35,11 @@ namespace InventoryApp.Domain.JwtBearer
             if (roles != null)
                 foreach (var role in roles)
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
+                    claims.Add(new Claim("Role", role));
                 }
 
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, userIdInString));
+            claims.Add(new Claim("UserName", user.UserName));
+            claims.Add(new Claim("UserId", userIdInString));
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Security:Jwt:SecurityKey").Value));
             var sigingCredential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

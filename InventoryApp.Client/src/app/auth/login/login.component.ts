@@ -1,8 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationAnimationType, NotificationsService, NotificationType, Options } from 'angular2-notifications';
 import { AuthService } from '../auth.service';
+import { LoginModule } from './login.module';
+import { LoginModel } from './model/loginModel';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,18 +12,13 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   signinForm!: FormGroup;
-  @ViewChild('errorLogin') errorLogin!: TemplateRef<any>;
+  userLogin!: LoginModel;
+  
   constructor(
-    private formBuild: FormBuilder,
     private authService: AuthService,
-    private router: Router,
     private notification: NotificationsService
   ) { 
-    this.signinForm = this.formBuild.group({
-      email: [''],
-      password: [''],
-      remember:[]
-    });
+    this.userLogin = {} as LoginModel;  
   }
   public options : Options = {
     position: ["top", "right"],
@@ -43,6 +40,15 @@ export class LoginComponent implements OnInit {
     });   
   }
   ngOnInit(): void {
+    this.signinForm = new FormGroup({
+      email: new FormControl(this.userLogin.email, [
+        Validators.required,
+        Validators.email
+      ]),
+      password: new FormControl(this.userLogin.password,Validators.required),
+      remember:new FormControl(this.userLogin.remember)
+    });
   }
-
+  get email() { return this.signinForm.get('email'); }
+  get password() { return this.signinForm.get('password'); }
 }

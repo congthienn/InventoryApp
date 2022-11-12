@@ -31,3 +31,6 @@
 ::-webkit-scrollbar-thumb:hover {
     background: rgb(158, 165, 171);
 }
+ul{
+    padding: 0!important;
+}

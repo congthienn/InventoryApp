@@ -6,7 +6,5 @@ import { HeaderComponent } from './share/layout/header/header.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'InventoryApp.Client';
-  
- 
+  title = 'InventoryApp';
 }

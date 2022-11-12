@@ -11,7 +11,8 @@ export class HeaderComponent implements OnInit {
 
   public clicked = false;
   @Output() clickButton = new EventEmitter<boolean>();
-  
+
+  public userName:string = this.authService.getUserName();
   constructor(public authService: AuthService, public router: Router) { 
   }
 
@@ -21,9 +22,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut(){
-    console.log("Logout");
     this.authService.logOut();
   }
+
 
   ngOnInit(): void {
   }

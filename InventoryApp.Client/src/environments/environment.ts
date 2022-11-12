@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  serverURL: 'https://localhost:44342/api' 
+  serverURL: 'https://localhost:44342/api',
+  keyToken:'access_token',
+  claimTypesName:'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
+  claimTypesNameIdentifier:'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
 };
 
 /*

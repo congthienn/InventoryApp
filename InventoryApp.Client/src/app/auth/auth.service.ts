@@ -3,9 +3,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginModel } from './login/model/loginModel';
-import { catchError, iif, Observable, tap, throwError } from 'rxjs';
-import { DatePipe } from '@angular/common';
-
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import jwt_decode from "jwt-decode";
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +24,7 @@ export class AuthService {
     const url = `${this.authURL}/signIn`;
     return this.http.post(url, user, this.httpOptions).pipe(
           tap((response: any) =>{
-            localStorage.setItem('access_token', response.access_token);
+            localStorage.setItem(environment.keyToken, response.access_token);
             if(user.remember){
               var time = new Date();
               time.setDate(time.getDate() + 3);
@@ -39,7 +38,7 @@ export class AuthService {
       )
   }
   logOut() {
-    let removeToken = localStorage.removeItem('access_token');
+    let removeToken = localStorage.removeItem(environment.keyToken);
     localStorage.removeItem('remember');
     if (removeToken == null) {
       this.router.navigate(['/login']);
@@ -47,7 +46,7 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem(environment.keyToken);
   }
   stillConfirmedRememberLogin() : boolean {
     var rememberLogin = localStorage.getItem('remember');
@@ -59,11 +58,20 @@ export class AuthService {
     return true;
   }
 
-  get isLoggedIn(): boolean {
-    let authToken = localStorage.getItem('access_token');
+  isLoggedIn(): boolean {
+    let authToken = localStorage.getItem(environment.keyToken);
     return authToken !== null ? true : false;
   }
   
+  getUserName(): any{
+    let token = localStorage.getItem(environment.keyToken);
+    if(token !== null){
+      const tokenPayload = jwt_decode<any>(token);
+      return tokenPayload.UserName;
+    }
+    return false;
+  }
+
   handleError(error: HttpErrorResponse) {
     let msg = '';
     if (error.error instanceof ErrorEvent) {
@@ -75,4 +83,5 @@ export class AuthService {
     }
     return throwError(msg);
   }
+
 }

@@ -34,7 +34,6 @@ namespace InventoryApp.Domain.Services.Identity
             _logger = logger;
             _mapper = mapper;
         }
-
         
         public async Task<bool> ActivateUserAccount(ConfirmEmailModelRq model)
         {
