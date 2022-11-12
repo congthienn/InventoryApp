@@ -34,3 +34,6 @@
 ul{
     padding: 0!important;
 }
+.link{
+    cursor: pointer;
+}

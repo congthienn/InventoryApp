@@ -6,6 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './footer/footer.module';
 import { HeaderModule } from './header/header.module';
+import { PageTitleComponent } from './page-title/page-title.component';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,7 @@ import { HeaderModule } from './header/header.module';
   exports:[
     SidebarModule,
     FooterModule,
-    HeaderModule
+    HeaderModule,
   ]
 })
 export class LayoutModule { }

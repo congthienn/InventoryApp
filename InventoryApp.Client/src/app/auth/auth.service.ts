@@ -19,7 +19,7 @@ export class AuthService {
   signIn(user: LoginModel): Observable<any> {
 
     if(this.stillConfirmedRememberLogin())
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/tong-quan']);
 
     const url = `${this.authURL}/signIn`;
     return this.http.post(url, user, this.httpOptions).pipe(
@@ -30,7 +30,7 @@ export class AuthService {
               time.setDate(time.getDate() + 3);
               localStorage.setItem('remember', time.toString());
             }
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/tong-quan']);
           }),
           catchError((error: HttpErrorResponse): Observable<any> =>{
               return throwError(error);
@@ -58,7 +58,7 @@ export class AuthService {
     return true;
   }
 
-  isLoggedIn(): boolean {
+  get isLoggedIn(): boolean {
     let authToken = localStorage.getItem(environment.keyToken);
     return authToken !== null ? true : false;
   }
