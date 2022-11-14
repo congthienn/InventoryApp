@@ -13,7 +13,7 @@ export interface PageTitle {
 })
 export class PageTitleComponent implements OnInit {
 
-  @Input() Title!: string;
+  @Input() title!: string;
   @Input() pageTitle!: PageTitle[];
   constructor() { }
 

@@ -3,3 +3,67 @@
     padding-top: 5px;
     color: red;
 }
+
+body{
+    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+/* width */
+body::-webkit-scrollbar {
+    width: 5px;
+}
+/* Track */
+body::-webkit-scrollbar-track {
+    border-radius: 10px;
+    overflow: hidden;
+}
+/* Handle */
+body::-webkit-scrollbar-thumb {
+    background: transparent; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+    background: #162339;
+}
+.select2-container .select2-selection--single{
+    height: calc(1.5em + 0.9rem + 2px) !important;
+}
+.select2-container--default .select2-selection--single{
+    border-radius: 0.2rem !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 5px !important;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+    background-color:  #3bc0c3 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 35px !important;
+}
+/* Border Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container{
+    border-color: red;
+}
+/* Arrow Color */
+.ng-select.ng-invalid.ng-touched .ng-arrow-wrapper .ng-arrow{
+    border-color: red transparent transparent
+}
+/* Placeholder Color */
+.ng-select.ng-invalid.ng-touched .ng-select-container .ng-placeholder{
+    color: red;
+}
+.specialInput{
+    opacity: 0;
+    height:0;
+    padding: 0 !important;
+    border: 0 !important;
+}
+.specialFormGroup{
+    margin-bottom: 0 !important;
+}

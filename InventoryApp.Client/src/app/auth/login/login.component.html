@@ -16,17 +16,17 @@
             <div class="card-body">
               <form class="js-validate" [formGroup]="signinForm" (ngSubmit)="loginUser()">
                 <div class="js-form-message form-group">
-                  <label class="input-label" for="signinSrEmail">Email</label>
-                  <input type="email" class="form-control form-control-lg" name="email" formControlName="email" tabindex="1" >
+                  <label class="input-label" for="email">Email</label>
+                  <input type="email" class="form-control form-control-lg" name="email" formControlName="email" tabindex="1" id="email" >
                   <div class="feedback" *ngIf="email?.errors?.['required'] && (email?.dirty)">Vui lòng nhập email đăng nhập</div>
                   <div class="feedback" *ngIf="email?.errors?.['email']">Địa chỉ email không hợp lệ</div>  
                 </div>            
                 <div class="js-form-message form-group">
-                  <label class="input-label" for="signupSrPassword" tabindex="0">
+                  <label class="input-label" for="password" tabindex="0">
                     <span class="d-flex justify-content-between align-items-center">Password</span>
                   </label>
                   <div class="input-group input-group-merge">
-                    <input type="password" class="js-toggle-password form-control form-control-lg" name="password" formControlName="password">  
+                    <input type="password" class="js-toggle-password form-control form-control-lg" name="password" formControlName="password" id="password">  
                   </div>
                   <div class="feedback" *ngIf="password?.errors?.['required'] && (email?.dirty)">Vui lòng nhập mật khẩu</div>
                 </div>
@@ -36,7 +36,9 @@
                     <label class="custom-control-label text-muted" for="termsCheckbox"> Remember me</label>
                   </div>
                 </div>
-                <button type="submit" [disabled]="!signinForm.valid" class="btn btn-lg btn-block btn_login text-white">Sign in</button>
+                <button type="submit" [disabled]="!signinForm.valid || clickLogin" class="btn btn-lg btn-block btn_login text-white">
+                  Sign in <span class="" [ngClass]="clickLogin ? 'spinner-border spinner-border-sm' : ''"></span>
+                </button>
               </form>
             </div>
           </div>
@@ -46,5 +48,4 @@
         </div>
       </div>
     </div>
-    <simple-notifications [options]="options"></simple-notifications>
   </main>

@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotificationAnimationType, NotificationsService, NotificationType, Options } from 'angular2-notifications';
+import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import { AuthService } from '../auth.service';
 import { LoginModule } from './login.module';
 import { LoginModel } from './model/loginModel';
@@ -13,31 +13,28 @@ import { LoginModel } from './model/loginModel';
 export class LoginComponent implements OnInit {
   signinForm!: FormGroup;
   userLogin!: LoginModel;
-  
+  clickLogin = false;
   constructor(
     private authService: AuthService,
-    private notification: NotificationsService
+    private sweetalertService: SweetalertService,
+    private router: Router
   ) { 
     this.userLogin = {} as LoginModel;  
   }
-  public options : Options = {
-    position: ["top", "right"],
-    timeOut: 3000,
-    showProgressBar: true,
-    pauseOnHover: true,
-    clickToClose: true,
-    animate: NotificationAnimationType.FromRight
-  }
-
   showErrorMessage = false;
   loginUser() {
+    this.clickLogin = true;
     this.authService.signIn(this.signinForm.value).subscribe(
-      (response) =>{
-        this.showErrorMessage = false;
+      response => {
+        this.router.navigate(['/tong-quan']);
       },
-      (error) => {
-        this.notification.error('', 'Đăng nhập không thành công');
+      error => {
+        this.loginFailed();
+        this.clickLogin = false;
     });   
+  }
+  loginFailed() {
+    this.sweetalertService.alertMini("Đăng nhập thất bại!","Email hoặc mật khẩu không chính xác","error");
   }
   ngOnInit(): void {
     this.signinForm = new FormGroup({

@@ -11,6 +11,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BranchModule } from './module/branch/branch.module';
 import { DashboardModule } from './module/dashboard/dashboard.module';
+import { CommonModule } from '@angular/common';
+import { AgGridModule } from 'ag-grid-angular';
+
 
 @NgModule({
   declarations: [
@@ -18,16 +21,18 @@ import { DashboardModule } from './module/dashboard/dashboard.module';
     AdminLayoutComponent
   ],
   imports: [
+    AgGridModule,
     SimpleNotificationsModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     LayoutModule,
     AuthModule,
     BranchModule,
-    DashboardModule
+    DashboardModule,
   ],
   providers: [
     {

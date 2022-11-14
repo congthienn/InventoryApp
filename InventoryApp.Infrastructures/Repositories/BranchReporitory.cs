@@ -16,6 +16,21 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public async Task<bool> EmailAlreadyExists(string email)
+        {
+            return await _dbSet.AnyAsync(x=>x.Email == email);
+        }
+
+        public async Task<bool> FaxAlreadyExists(string fax)
+        {
+            return await _dbSet.AnyAsync(x => x.Fax == fax);
+        }
+
+        public IEnumerable<Branches> GetAllBranch()
+        {
+           return _dbSet.Include(x=>x.Province).Include(x=>x.District).Include(x=>x.Ward);
+        }
+
         public IEnumerable<Shipment> GetAllShipmentByBranch(Guid branchId)
         {
             return _dbSet.Include(x => x.Shipments).Where(x => x.Id == branchId).Select(x=>x.Shipments).FirstOrDefault();
@@ -34,6 +49,16 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task<bool> MainBranchAlreadyExists()
         {
             return await _dbSet.AnyAsync(x => x.BranchMain);
+        }
+
+        public async Task<bool> NameAlreadyExists(string name)
+        {
+            return await _dbSet.AnyAsync(x => x.CompanyName == name);
+        }
+
+        public async Task<bool> PhoneAlreadyExists(string phone)
+        {
+            return await _dbSet.AnyAsync(x => x.PhoneNumber == phone);
         }
     }
 }

@@ -20,11 +20,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        builder => builder
-        .WithOrigins("http://localhost:4200")
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials());
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                   .AllowCredentials();
+        });
 });
 //Config EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -93,9 +95,11 @@ AutomaticCreateDatabase.Run(app);
 SeedDataProvinces.Run();
 SeedDataSystemAdmin.Run(builder.Services.BuildServiceProvider());
 
+
 app.UseAuthentication();
-app.UseAuthorization();
 app.UseCors("CorsPolicy");
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

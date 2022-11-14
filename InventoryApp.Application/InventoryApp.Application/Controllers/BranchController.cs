@@ -82,5 +82,30 @@ namespace InventoryApp.Application.Controllers
         {
             return _branchService.GetAllShipmentByBranch(branchId);
         }
+        [Route("NameAlreadyExists/{name}")]
+        [HttpGet]
+        public async Task<IActionResult> NameAlreadyExists(string name)
+        {
+            return Ok(await _branchService.NameAlreadyExists(name));
+        }
+        [Route("EmailAlreadyExists/{email}")]
+        [HttpGet]
+        public async Task<IActionResult> EmailAlreadyExists(string email)
+        {
+            return Ok(await _branchService.EmailAlreadyExists(email));
+        }
+        [Route("PhoneAlreadyExists/{phone}")]
+        [HttpGet]
+        public async Task<IActionResult> PhoneAlreadyExists(string phone)
+        {
+            return Ok(await _branchService.PhoneAlreadyExists(phone));
+        }
+
+        [Route("FaxAlreadyExists/{fax}")]
+        [HttpGet]
+        public async Task<IActionResult> FaxAlreadyExists(string fax)
+        {
+            return Ok(await _branchService.FaxAlreadyExists(fax));
+        }
     }
 }

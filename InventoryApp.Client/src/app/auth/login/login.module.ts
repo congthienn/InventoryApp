@@ -12,7 +12,6 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
   imports: [
     CommonModule,
     FormsModule,
-    BrowserModule,
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot()
   ],

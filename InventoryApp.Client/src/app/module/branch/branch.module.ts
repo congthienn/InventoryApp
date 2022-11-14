@@ -5,6 +5,7 @@ import { BranchRoutingModule } from './branch-routing.module';
 import { BranchListModule } from './branch-list/branch-list.module';
 import { AddBranchModule } from './add-branch/add-branch.module';
 import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { RouterModule } from '@angular/router';
     BranchRoutingModule,
     RouterModule,
     BranchListModule,
-    AddBranchModule
+    AddBranchModule,
   ]
 })
 export class BranchModule { }

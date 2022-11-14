@@ -1,109 +1,98 @@
-<app-page-title Title={{Title}}  [pageTitle]="pageTite"></app-page-title>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="header-title mb-4">Basic Form</h4>
-
-                <form class="parsley-examples" action="#">
+<app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
+<form [formGroup]="addBranchForm" (ngSubmit)="addBranch()">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-4">Thông tin cơ bản</h4>
                     <div class="form-group">
-                        <label for="userName">User Name<span class="text-danger">*</span></label>
-                        <input type="text" name="nick" parsley-trigger="change" required="" placeholder="Enter user name" class="form-control" id="userName">
+                        <label for="name">Tên chi nhánh<span class="text-danger">*</span></label>
+                        <input type="text" name="nick" parsley-trigger="change" class="form-control" formControlName="companyName" id="name">
+                        <div class="feedback" *ngIf="companyName?.errors?.['required'] && (companyName?.dirty)">Tên chi nhánh không được để trống</div>
                     </div>
                     <div class="form-group">
-                        <label for="emailAddress">Email address<span class="text-danger">*</span></label>
-                        <input type="email" name="email" parsley-trigger="change" required="" placeholder="Enter email" class="form-control" id="emailAddress">
+                        <label for="email">Địa chỉ email<span class="text-danger">*</span></label>
+                        <input type="email" name="email" parsley-trigger="change" class="form-control" id="email" formControlName="email">
+                        <div class="feedback" *ngIf="email?.errors?.['required'] && (email?.dirty)">Địa chỉ email không được để trống</div>
+                        <div class="feedback" *ngIf="email?.errors?.['email'] && (email?.dirty)">Địa chỉ email không hợp lệ</div>
                     </div>
                     <div class="form-group">
-                        <label for="pass1">Password<span class="text-danger">*</span></label>
-                        <input id="pass1" type="password" placeholder="Password" required="" class="form-control">
+                        <label for="taxCode">Mã số thuế<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="taxCode" formControlName="taxCode">
+                        <div class="feedback" *ngIf="taxCode?.errors?.['required'] && (taxCode?.dirty)">Mã số thuế không được để trống</div>
                     </div>
                     <div class="form-group">
-                        <label for="passWord2">Confirm Password <span class="text-danger">*</span></label>
-                        <input data-parsley-equalto="#pass1" type="password" required="" placeholder="Password" class="form-control" id="passWord2">
+                        <label for="phone">Số điện thoại<span class="text-danger">*</span></label>
+                        <input id="phone" type="phone" class="form-control" formControlName="phoneNumber">
+                        <div class="feedback" *ngIf="phoneNumber?.errors?.['required'] && (phoneNumber?.dirty)">Số điện thoại không được để trống</div>
+                        <div class="feedback" *ngIf="(phoneNumber?.errors?.['maxlength'] || phoneNumber?.errors?.['pattern'] || phoneNumber?.errors?.['minlength']) && (phoneNumber?.dirty)">Số điện thoại không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fax">Số Fax<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="fax" formControlName="fax">
+                        <div class="feedback" *ngIf="fax?.errors?.['required'] && (fax?.dirty)">Số fax không được để trống</div>
                     </div>
                     <div class="form-group">
                         <div class="checkbox checkbox-purple">
-                            <input id="checkbox6a" type="checkbox">
+                            <input id="checkbox6a" type="checkbox" formControlName="branchMain">
                             <label for="checkbox6a">
-                                Remember me
+                                Chi nhánh chính
                             </label>
                         </div>
-
                     </div>
-
-                    <div class="form-group text-right mb-0">
-                        <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
-                            Submit
-                        </button>
-                        <button type="reset" class="btn btn-secondary waves-effect waves-light">
-                            Cancel
-                        </button>
-                    </div>
-
-                </form>
+                </div>
             </div>
         </div>
-        <!-- end card -->
-    </div>
-    <!-- end col -->
-
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="header-title mb-4">Horizontal Form</h4>
-
-                <form class="parsley-examples">
-                    <div class="form-group row">
-                        <label for="inputEmail3" class="col-md-4 col-form-label">Email<span class="text-danger">*</span></label>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-4">Địa chỉ chi nhánh</h4>
+                    <div class="form-group row specialFormGroup">
+                        <label for="province" class="col-md-4 col-form-label">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
                         <div class="col-md-7">
-                            <input type="email" required="" parsley-type="email" class="form-control" id="inputEmail3" placeholder="Email">
-                        </div>
+                            <ng-select2  (valueChanged)="changeProvinceValue($event)" [data]="provinceList" aria-required="true"></ng-select2>
+                            <div class="feedback" *ngIf="provinceId?.errors?.['required'] && (provinceId?.touched)">Địa chỉ tỉnh thành không được để trống</div>
+                            <input type="text" class="specialInput" formControlName="provinceId" id="province"> 
+                        </div>      
                     </div>
-                    <div class="form-group row">
-                        <label for="hori-pass1" class="col-md-4 col-form-label">Password<span class="text-danger">*</span></label>
-                        <div class="col-md-7">
-                            <input id="hori-pass1" type="password" placeholder="Password" required="" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="hori-pass2" class="col-md-4 col-form-label">Confirm Password
+                    <div class="form-group row specialFormGroup">
+                        <label for="district" class="col-md-4 col-form-label">Quận (Huyện)
                             <span class="text-danger">*</span></label>
                         <div class="col-md-7">
-                            <input data-parsley-equalto="#hori-pass1" type="password" required="" placeholder="Password" class="form-control" id="hori-pass2">
+                            <ng-select2  (valueChanged)="changeDistrictValue($event)" [data]="districtList" aria-required="true"></ng-select2>
+                            <div class="feedback" *ngIf="districtId?.errors?.['required'] && (districtId?.touched)">Địa chỉ quận huyện không được để trống</div>
+                            <input type="text" class="specialInput" formControlName="districtId" id="district">    
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="webSite" class="col-md-4 col-form-label">Web Site<span class="text-danger">*</span></label>
+                    <div class="form-group row specialFormGroup">
+                        <label for="ward" class="col-md-4 col-form-label">Phường (Xã)<span class="text-danger">*</span></label>
                         <div class="col-md-7">
-                            <input type="url" required="" parsley-type="url" class="form-control" id="webSite" placeholder="URL">
+                            <ng-select2  (valueChanged)="changeWardValue($event)" [data]="wardList" aria-required="true"></ng-select2>
+                            <div class="feedback" *ngIf="wardId?.errors?.['required'] && (wardId?.touched)">Địa chỉ xã phường không được để trống</div>
+                            <input type="text" class="specialInput" formControlName="wardId" id="ward">       
                         </div>
+                        
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-8 offset-md-4">
-                            <div class="checkbox checkbox-purple">
-                                <input id="checkbox6" type="checkbox">
-                                <label for="checkbox6">
-                                    Remember me
-                                </label>
-                            </div>
+                        <label for="address" class="col-md-4 col-form-label">Tên đường - Số nhà<span class="text-danger">*</span></label>
+                        <div class="col-md-7">
+                            <input type="string" class="form-control" formControlName="address" id="address">
+                            <div class="feedback" *ngIf="address?.errors?.['required'] && (address?.dirty)">Tên đường - Số nhà không được để trống</div>
                         </div>
                     </div>
+                   
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light mr-1">
-                                Register
+                            <button type="submit" [disabled]="!addBranchForm.valid || submitData" class="btn btn-primary waves-effect waves-light mr-1">
+                                Cập nhật <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
                             </button>
-                            <button type="reset" class="btn btn-secondary waves-effect waves-light">
+                            <button type="reset"  class="btn btn-secondary waves-effect waves-light">
                                 Cancel
                             </button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-        <!-- end card -->
     </div>
-    <!-- end col -->
-</div>
+</form>

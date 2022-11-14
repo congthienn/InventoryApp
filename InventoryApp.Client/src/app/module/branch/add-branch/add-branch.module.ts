@@ -4,6 +4,8 @@ import { AddBranchComponent } from './add-branch.component';
 import { RouterModule } from '@angular/router';
 import { LayoutModule } from 'src/app/share/layout/layout.module';
 import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelect2Module } from 'ng-select2';
 
 
 
@@ -12,7 +14,10 @@ import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.modu
   imports: [
     CommonModule,
     RouterModule,
-    PageTitleModule
+    FormsModule,
+    ReactiveFormsModule,
+    PageTitleModule,
+    NgSelect2Module
   ],
   exports: [AddBranchComponent]
 })

@@ -1,5 +1,6 @@
 ﻿using InventoryApp.Data.Helper;
 using InventoryApp.Domain.Helper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -7,13 +8,14 @@ namespace InventoryApp.Application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorsPolicy")]
     public abstract class BaseController : ControllerBase
     {
         private Serilog.ILogger _logger;
         [ApiExplorerSettings(IgnoreApi = true)]
         private string GetCurrentUser()
         {
-            var claim = this.User.FindFirst(ClaimTypes.NameIdentifier);
+            var claim = this.User.FindFirst("UserId");
             return claim?.Value;
         }
 
@@ -45,13 +47,13 @@ namespace InventoryApp.Application.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private string GetCurrentUserName()
         {
-            return this.User.FindFirst(ClaimTypes.Name).Value;
+            return this.User.FindFirst("UserName").Value;
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         private List<string> GetCurrentUserRoles()
         {
-            return this.User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+            return this.User.FindAll("Role").Select(r => r.Value).ToList();
         }
 
         [ApiExplorerSettings(IgnoreApi = true)]

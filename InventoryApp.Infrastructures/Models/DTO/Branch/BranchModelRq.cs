@@ -15,8 +15,11 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public string Code { get; private set; }
         public string Address { get; set; }
         public int ProvinceId { get; set; }
+        public ProvinceDTO Province { get; private set; }
         public int DistrictId { get; set; }
+        public DistrictDTO District { get; private set; }
         public int WardId { get; set; }
+        public WardDTO Ward { get; private set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Fax { get; set; }
@@ -32,7 +35,6 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public BranchModelValidator()
         {
             RuleFor(p => p.CompanyName).NotEmpty();
-            RuleFor(p => p.Code).NotEmpty();
             RuleFor(p => p.Email).NotEmpty().EmailAddress();
             RuleFor(p => p.PhoneNumber).NotEmpty().Must(IdentityHelper.IsValidPhoneNumber);
             RuleFor(p => p.TaxCode).NotEmpty();

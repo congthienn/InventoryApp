@@ -71,9 +71,20 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public async Task<bool> EmailAlreadyExists(string email)
+        {
+            return await _branchRepository.EmailAlreadyExists(email);
+        }
+
+        public async Task<bool> FaxAlreadyExists(string fax)
+        {
+            return await _branchRepository.FaxAlreadyExists(fax);
+        }
+
         public IEnumerable<BranchModelRq> GetAllBranches()
         {
-            return _mapper.Map<IEnumerable<BranchModelRq>>(_branchRepository.Get());
+            var test = _branchRepository.GetAllBranch().OrderByDescending(x => x.CreatedDate);
+            return _mapper.Map<IEnumerable<BranchModelRq>>(_branchRepository.GetAllBranch().OrderByDescending(x=>x.CreatedDate));
         }
 
         public IEnumerable<ShipmentModelRq> GetAllShipmentByBranch(Guid branchId)
@@ -89,6 +100,16 @@ namespace InventoryApp.Domain.Services
         public async Task<bool> MainBranchAlreadyExists()
         {
             return await _branchRepository.MainBranchAlreadyExists();
+        }
+
+        public async Task<bool> NameAlreadyExists(string name)
+        { 
+            return await _branchRepository.NameAlreadyExists(name);
+        }
+
+        public async Task<bool> PhoneAlreadyExists(string phone)
+        {
+            return await _branchRepository.PhoneAlreadyExists(phone);
         }
 
         public async Task<BranchModelRq> UpdateBranch(BranchUpdateModel model, UserIdentity userIdentity)

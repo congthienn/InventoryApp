@@ -12,7 +12,8 @@ export class AuthService {
 
   private authURL = `${environment.serverURL}/auth`;
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
   };
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -30,7 +31,6 @@ export class AuthService {
               time.setDate(time.getDate() + 3);
               localStorage.setItem('remember', time.toString());
             }
-            this.router.navigate(['/tong-quan']);
           }),
           catchError((error: HttpErrorResponse): Observable<any> =>{
               return throwError(error);
@@ -44,12 +44,12 @@ export class AuthService {
       this.router.navigate(['/login']);
     }
   }
-
+  
   getToken() {
     return localStorage.getItem(environment.keyToken);
   }
   stillConfirmedRememberLogin() : boolean {
-    var rememberLogin = localStorage.getItem('remember');
+    let rememberLogin = localStorage.getItem('remember');
     if(rememberLogin == null)
         return false;
     if(new Date() > new Date(rememberLogin)){
@@ -83,5 +83,4 @@ export class AuthService {
     }
     return throwError(msg);
   }
-
 }

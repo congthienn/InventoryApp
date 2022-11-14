@@ -17,5 +17,9 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<bool> DeleteBranch(Guid branchId);
         Task<bool> MainBranchAlreadyExists();
         IEnumerable<ShipmentModelRq> GetAllShipmentByBranch(Guid branchId);
+        Task<bool> NameAlreadyExists(string name);
+        Task<bool> EmailAlreadyExists(string email);
+        Task<bool> PhoneAlreadyExists(string phone);
+        Task<bool> FaxAlreadyExists(string fax);
     }
 }
