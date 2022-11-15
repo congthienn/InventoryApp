@@ -36,6 +36,7 @@ export class AddBranchComponent implements OnInit {
       active: true
     },
   ]
+  public _mainBranchAlreadyExists = false;
   public submitData = false;
   public select2_province!:string;
   public exampleData!: Array<Select2OptionData>;
@@ -87,15 +88,23 @@ export class AddBranchComponent implements OnInit {
     })
    
     this.getProvinceList();
-    this.branchService.ObjectAvailable(ObjectCheckPath.Name, "CongThien").subscribe(data => {
-      console.log(data);
-    })
+    this.mainBranchAlreadyExists();
+  }
+  mainBranchAlreadyExists(){
+    this.branchService.checkMainBranch().subscribe(
+      response => {
+        this._mainBranchAlreadyExists = response;
+      },
+      error => {
+        this._mainBranchAlreadyExists = false;
+      }
+    )
   }
   showSuccess() {  
     this.sweetalertService.alertAction("/chi-nhanh","Cập nhật dữ liệu thành công");
   }
   showError(){
-    this.sweetalertService.alertMini("Không thể cập nhật dữ liệu","Vui lòng kiểm tra lại", "success");
+    this.sweetalertService.alertMini("Không thể cập nhật dữ liệu","Vui lòng kiểm tra lại", "error");
   }
   get companyName() { return this.addBranchForm.get('companyName'); }
   get email() { return this.addBranchForm.get('email'); }
@@ -137,12 +146,14 @@ export class AddBranchComponent implements OnInit {
     })
   }
   addBranch(){
+    this.submitData = true;
     this.branchService.addBranch(this.addBranchForm.value).subscribe(
       response => {
         this.showSuccess();
       },
       error => {
         this.showError();
+        this.submitData = false;
       }
     )
   }

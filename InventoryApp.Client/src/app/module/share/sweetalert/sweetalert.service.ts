@@ -31,23 +31,6 @@ export class SweetalertService {
     })
   }
   public alertDelete(){
-    Swal.fire({
-      title: 'Bạn muốn xóa dữ liệu?',
-      text: "Có thể sẽ ảnh hưởng đến những dữ liệu khác",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Xóa dữ liệu',
-      cancelButtonText: 'Hủy bỏ'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      }
-    })
+    
   }
 }

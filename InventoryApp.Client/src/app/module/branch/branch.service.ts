@@ -27,10 +27,33 @@ export class BranchService {
       tap((response: any) => {
         return response;
       }),
-      catchError((error: HttpErrorResponse): Observable<any> =>{
+      catchError((error: any): Observable<any> => {
         return throwError(error);
       })
     );
+  }
+  checkMainBranch():Observable<any>{
+    let url = `${this.branchURL}/mainBranchAlreadyExists`;
+    return this.http.get(url, this.httpOptions).pipe(
+      tap((response:any) =>{
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error);
+      })
+    )
+  }
+  deleteBranch(id:string):Observable<any>{
+    let url = `${this.branchURL}/${id}`
+    return this.http.delete(url, this.httpOptions).pipe(
+      tap((response:any) =>{
+        return response;
+      },
+      catchError((error:any):Observable<any> => {
+        return throwError(error);
+      })
+      )
+    )
   }
   getAllBranch():Observable<any>{
     return this.http.get(this.branchURL, this.httpOptions).pipe(

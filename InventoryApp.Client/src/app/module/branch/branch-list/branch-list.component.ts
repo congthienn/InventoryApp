@@ -53,7 +53,7 @@ export class BranchListComponent implements OnInit {
     this.updateColumnDefs();
     this.getAllBranch();
   }
-  private getAllBranch(){
+  public getAllBranch(){
     this.branchService.getAllBranch().subscribe(response =>{
       this.branchData = response;
       var dataRowTemp: any[]= [];
@@ -81,7 +81,7 @@ export class BranchListComponent implements OnInit {
   private updateColumnDefs() {
     this.columnDefs  =  [
       { field: 'id',  
-        width: 90,
+        width: 100,
         headerName: "",
         suppressFilter: false,
         filter: false,

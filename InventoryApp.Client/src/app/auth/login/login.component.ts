@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     });   
   }
   loginFailed() {
-    this.sweetalertService.alertMini("Đăng nhập thất bại!","Email hoặc mật khẩu không chính xác","error");
+    this.sweetalertService.alertMini("Đăng nhập thất bại!", "Email hoặc mật khẩu không chính xác","error");
   }
   ngOnInit(): void {
     this.signinForm = new FormGroup({
