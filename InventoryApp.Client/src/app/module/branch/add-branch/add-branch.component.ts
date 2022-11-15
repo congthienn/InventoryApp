@@ -147,6 +147,9 @@ export class AddBranchComponent implements OnInit {
   }
   addBranch(){
     this.submitData = true;
+    if(this._mainBranchAlreadyExists){
+      this.addBranchForm.patchValue({branchMain: false})
+    }
     this.branchService.addBranch(this.addBranchForm.value).subscribe(
       response => {
         this.showSuccess();
