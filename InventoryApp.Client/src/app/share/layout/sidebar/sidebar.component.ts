@@ -18,7 +18,7 @@ export interface ChildrenItems {
 
 export const ROUTES: RouteInfo[] = [
   {
-    path: '/san-pham',
+    path: 'san-pham',
     title: 'Danh mục sản phẩm',
     icontype: faParachuteBox,
     collapse: 'managerMaterial',
@@ -29,7 +29,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/kho-hang',
+    path: 'kho-hang',
     title: 'Kho hàng',
     icontype: faWarehouse,
     collapse: 'managerWarehouse',
@@ -43,7 +43,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/chi-nhanh',
+    path: 'chi-nhanh',
     title: 'Chi nhánh',
     icontype: faBuilding,
     collapse: 'managerBranch',
@@ -54,13 +54,13 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/lo-hang',
+    path: 'lo-hang',
     title: 'Lô hàng',
     icontype: faBoxesStacked,
     collapse: 'managerShipment',
     roleAccess: true,
     children: [
-      { path: 'danh-sach',title: 'Danh sách'},
+      { path: '',title: 'Danh sách'},
       { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
     ],
   },
@@ -76,7 +76,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/don-dat-hang',
+    path: 'don-dat-hang',
     title: 'Đơn đặt hàng',
     icontype: faReorder,
     collapse: 'order',
@@ -89,7 +89,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/bao-cao',
+    path: 'bao-cao',
     title: 'Báo cáo',
     icontype: faBook,
     collapse: 'report',
@@ -102,7 +102,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/quan-ly-tai-khoan',
+    path: 'quan-ly-tai-khoan',
     title: 'Quản lý tài khoản',
     icontype: faUsers,
     collapse: 'managerUser',
@@ -113,7 +113,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/chuc-vu-vai-tro',
+    path: 'chuc-vu-vai-tro',
     title: 'Chức vụ - Vai trò',
     icontype: faUserSecret,
     collapse: 'role',
@@ -124,7 +124,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/cai-dat-chung',
+    path: 'cai-dat-chung',
     title: 'Cài đặt chung',
     icontype: faGear,
     collapse: 'role',

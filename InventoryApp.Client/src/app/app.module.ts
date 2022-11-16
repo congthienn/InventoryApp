@@ -13,20 +13,23 @@ import { BranchModule } from './module/branch/branch.module';
 import { DashboardModule } from './module/dashboard/dashboard.module';
 import { CommonModule } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
-import { CustomerGroupModule } from './module/business-partner/customer/customer-group/customer-group.module';
-import { AddCustomerGroupModule } from './module/business-partner/customer/customer-group/add-customer-group/add-customer-group.module';
-import { CustomerListModule } from './module/business-partner/customer/customer-list/customer-list.module';
 import { SupplierModule } from './module/business-partner/supplier/supplier.module';
 import { CustomerModule } from './module/business-partner/customer/customer.module';
+import { ShipmentModule } from './module/shipment/shipment.module';
+import { MaterialModule } from './module/material/material.module';
+import { QuillModule } from 'ngx-quill';
+import { TrademarkModule } from './module/trademark/trademark.module';
+import { CategoryMaterialModule } from './module/category-material/category-material.module';
 
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent,
     AdminLayoutComponent
   ],
   imports: [
     AgGridModule,
+    QuillModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
     HttpClientModule,
     FormsModule,
@@ -39,7 +42,11 @@ import { CustomerModule } from './module/business-partner/customer/customer.modu
     BranchModule,
     DashboardModule,
     CustomerModule,
-    SupplierModule
+    SupplierModule,
+    ShipmentModule,
+    MaterialModule,
+    TrademarkModule,
+    CategoryMaterialModule
   ],
   providers: [
     {

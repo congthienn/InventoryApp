@@ -31,7 +31,7 @@ export class CustomerGroupComponent implements OnInit{
 	constructor(public activeModal: NgbActiveModal, private modalService: NgbModal, private customerGroupService: CustomerGroupService) {}
   ngOnInit(): void {
     this.columnDefs  =  [
-      { field: "name", headerName:"TÊN NHÓM KHÁCH HÀNG",width:400, cellStyle: {fontWeight: '500'}}, 
+      { field: "name", headerName:"NHÓM KHÁCH HÀNG",width:400, cellStyle: {fontWeight: '500'}}, 
       { field: 'id',  
         width: 100,
         headerName: "",

@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title">Thêm mới loại sản phẩm</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">&times;</button>
+</div>
+<form [formGroup]="addCategoryMaterialForm" (ngSubmit)="addCategoryMaterial()">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">Loại sản phẩm<span class="text-danger">*</span></label>
+            <input type="text" name="nick" parsley-trigger="change" class="form-control" formControlName="name" id="name">
+            <div class="feedback" *ngIf="name?.errors?.['required'] && (name?.dirty)">Loại sản phẩm sản phẩm không được để trống</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" [disabled]="!addCategoryMaterialForm.valid || submitData" class="btn btn-primary btn-sm waves-effect waves-light mr-1">
+            Lưu dữ liệu <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
+        </button>
+        <button type="reset" class="btn btn-secondary btn-sm waves-effect waves-light"
+            (click)="activeModal.close()">
+            Đóng
+        </button>
+    </div>
+</form>

@@ -60,7 +60,7 @@ export class SupplierListComponent implements OnInit {
           cellRenderer: ActionButtonComponent,
         }, 
         { field: "code", headerName:"MÃ NCC", cellStyle: {fontWeight: '500'}}, 
-        { field: 'supplierName', headerName: "TÊN NHÀ CUNG CẤP", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
+        { field: 'supplierName', headerName: "NHÀ CUNG CẤP", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
         { field: 'phoneNumber', headerName: "SỐ ĐIỆN THOẠI"},
         { field: 'supplierGroup', headerName: "NHÓM NHÀ CUNG CẤP", width:250, resizable:true},
         { field: 'email', headerName: "EMAIL", width:250},

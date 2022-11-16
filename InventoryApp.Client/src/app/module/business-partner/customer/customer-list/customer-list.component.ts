@@ -63,7 +63,7 @@ export class CustomerListComponent implements OnInit {
           cellRenderer: ActionButtonComponent,
         }, 
         { field: "code", headerName:"MÃ KH", cellStyle: {fontWeight: '500'}}, 
-        { field: 'customerName', headerName: "TÊN KHÁCH HÀNG", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
+        { field: 'customerName', headerName: "KHÁCH HÀNG", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
         { field: 'phoneNumber', headerName: "SỐ ĐIỆN THOẠI"},
         { field: 'branch', headerName: "CHI NHÁNH", resizable:true },
         { field: 'customerGroup', headerName: "NHÓM KHÁCH HÀNG", width:250, resizable:true},
