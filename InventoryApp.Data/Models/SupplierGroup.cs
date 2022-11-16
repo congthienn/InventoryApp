@@ -19,7 +19,7 @@ namespace InventoryApp.Data.Models
         [Unicode(true)]
         public string Name { get; set; }
         [Unicode(true)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public List<Supplier>? Suppliers { get; set;}
     }

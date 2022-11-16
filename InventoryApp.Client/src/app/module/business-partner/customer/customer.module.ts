@@ -5,6 +5,8 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { AddCustomerModule } from './add-customer/add-customer.module';
 import { CustomerListModule } from './customer-list/customer-list.module';
 import { AgGridModule } from 'ag-grid-angular';
+import { CustomerGroupModule } from './customer-group/customer-group.module';
+import { AddCustomerGroupModule } from './customer-group/add-customer-group/add-customer-group.module';
 
 @NgModule({
   declarations: [
@@ -13,8 +15,10 @@ import { AgGridModule } from 'ag-grid-angular';
     CommonModule,
     CustomerRoutingModule,
     AddCustomerModule,
+    AgGridModule,
+    CustomerGroupModule,
+    AddCustomerGroupModule,
     CustomerListModule,
-    AgGridModule
   ]
 })
 export class CustomerModule { }

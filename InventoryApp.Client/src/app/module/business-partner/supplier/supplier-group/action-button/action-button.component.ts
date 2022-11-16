@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
-import { CustomerService } from '../../service/customer.service';
-import { CustomerListComponent } from '../customer-list.component';
+import { SupplierGroupService } from '../../service/supplier-group.service';
+import { SupplierGroupComponent } from '../supplier-group.component';
 
 @Component({
   selector: 'app-action-button',
@@ -12,18 +12,18 @@ import { CustomerListComponent } from '../customer-list.component';
   styleUrls: ['./action-button.component.css']
 })
 export class ActionButtonComponent implements ICellRendererAngularComp {
-  constructor(private customerService: CustomerService, private sweetalertService: SweetalertService,
-    private customerListComponent  : CustomerListComponent
-    ){}
   private params: any;
-  public clickDelete = false;
+  clickDelete = false;
+  constructor(private sweetalertService: SweetalertService, 
+    private supplierGroupService: SupplierGroupService,
+    private modalService: NgbModal
+  ) { }
   refresh() {
     return false;
   }
   agInit(params: any): void {
     this.params = params;
   }
-
   btnDelete() {  
     this.clickDelete = true;
     Swal.fire({
@@ -44,7 +44,7 @@ export class ActionButtonComponent implements ICellRendererAngularComp {
   }
 
   deleteCustomerGroup(id:string){
-    this.customerService.deleteCustomerData(id).subscribe(
+    this.supplierGroupService.deleteData(id).subscribe(
       response => {
         Swal.fire({
           title: 'Success!',
@@ -52,7 +52,8 @@ export class ActionButtonComponent implements ICellRendererAngularComp {
           icon: "success",
           confirmButtonText: 'Done'
         }).then((result) => {
-          this.customerListComponent.getAllCustomer();
+          this.modalService.dismissAll();
+          this.modalService.open(SupplierGroupComponent);
         })
       },
       error => {
@@ -63,4 +64,5 @@ export class ActionButtonComponent implements ICellRendererAngularComp {
   btnUpdate(){
     console.log(this.params.value);
   } 
+
 }

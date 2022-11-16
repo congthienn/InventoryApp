@@ -7,10 +7,10 @@ import { BranchService } from 'src/app/module/branch/branch.service';
 import { ProvinceService } from 'src/app/module/province/province.service';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
-import { CustomerGroupService } from '../customer-group.service';
 import { CustomerGroupComponent } from '../customer-group/customer-group.component';
-import { CustomerService } from '../customer.service';
+import { CustomerService } from '../service/customer.service';
 import { Customer } from '../model/customer';
+import { CustomerGroupService } from '../service/customer-group.service';
 
 @Component({
   selector: 'app-add-customer',

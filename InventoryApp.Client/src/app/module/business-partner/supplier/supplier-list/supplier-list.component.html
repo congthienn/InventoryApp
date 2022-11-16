@@ -1,0 +1,38 @@
+<app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
+<div class="card">
+  
+  <div class="card-body table-responsive">
+    
+      <h4 class="m-t-0 header-title mb-4"><b>Danh sách nhà cung cấp</b></h4>
+      <div style="display: flex; align-content: space-between ;">
+        <div style="display: flex; column-gap: 10px;flex: 1; ">
+          <label class="col-form-label">Hiển thị</label>
+          <div style="width: 70px;">
+            <select class="form-control" (change)="onPageSizeChanged()" id="page-size">
+              <option value="10" selected="">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <label class="col-form-label">phần tử</label>
+        </div>
+        <button routerLink="/nha-cung-cap/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
+          <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm thông tin nhà cung cấp
+        </button>
+      </div>  
+      
+    <ag-grid-angular
+      style="width: 100%; height: 600px;"
+      class="ag-theme-alpine mt-1"  
+      [rowData]="dataRow"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs"
+      [alwaysShowHorizontalScroll]="true"
+      [alwaysShowVerticalScroll]="true"
+      [gridOptions]="gridOptions"
+      [paginationPageSize]="sizePagination"
+    > 
+    </ag-grid-angular>
+  </div>
+</div>

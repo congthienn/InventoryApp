@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
-import { CustomerGroupService } from '../../customer-group.service';
+import { CustomerGroupService } from '../../service/customer-group.service';
 import { CustomerGroupComponent } from '../customer-group.component';
 
 @Component({

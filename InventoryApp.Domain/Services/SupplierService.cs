@@ -71,7 +71,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<SupplierModelRq> GetAllSuppliers()
         {
-            return _mapper.Map<IEnumerable<SupplierModelRq>>(_supplierRepository.Get().OrderByDescending(x=>x.CreatedDate));
+            return _mapper.Map<IEnumerable<SupplierModelRq>>(_supplierRepository.GetAllSupplier());
         }
 
         public async Task<SupplierModelRq> UpdateSupplier(Guid id, SupplierModelRq model, UserIdentity userIdentity)

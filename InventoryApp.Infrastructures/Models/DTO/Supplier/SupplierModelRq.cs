@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using InventoryApp.Common.Helper;
+using InventoryApp.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,13 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public bool Status { get; set; } = true;
         public string Address { get; set; }
         public int ProvinceId { get; set; }
+        public ProvinceDTO Province { get; set; }
         public int DistrictId { get; set; }
+        public DistrictDTO District { get; set; }
         public int WardId { get; set; }
+        public WardDTO Ward { get; set; }
         public Guid SupplierGroupId { get; set; }
+        public SupplierGroupModelRq SupplierGroup { get; set; }
     }
     public class SuppplierModelValidator : AbstractValidator<SupplierModelRq>
     {

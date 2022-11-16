@@ -4,8 +4,8 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
 import { AddCustomerComponent } from '../../add-customer/add-customer.component';
-import { CustomerGroupService } from '../../customer-group.service';
 import { CustomerGroup } from '../../model/customerGroup';
+import { CustomerGroupService } from '../../service/customer-group.service';
 import { CustomerGroupComponent } from '../customer-group.component';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
-import { CustomerService } from '../customer.service';
+import { CustomerService } from '../service/customer.service';
 import { Customer } from '../model/customer';
 import { ActionButtonComponent } from './action-button/action-button.component';
 

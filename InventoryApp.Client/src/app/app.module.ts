@@ -16,6 +16,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { CustomerGroupModule } from './module/business-partner/customer/customer-group/customer-group.module';
 import { AddCustomerGroupModule } from './module/business-partner/customer/customer-group/add-customer-group/add-customer-group.module';
 import { CustomerListModule } from './module/business-partner/customer/customer-list/customer-list.module';
+import { SupplierModule } from './module/business-partner/supplier/supplier.module';
+import { CustomerModule } from './module/business-partner/customer/customer.module';
 
 
 @NgModule({
@@ -36,9 +38,8 @@ import { CustomerListModule } from './module/business-partner/customer/customer-
     AuthModule,
     BranchModule,
     DashboardModule,
-    CustomerGroupModule,
-    AddCustomerGroupModule,
-    CustomerListModule
+    CustomerModule,
+    SupplierModule
   ],
   providers: [
     {

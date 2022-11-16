@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
-import { CustomerService } from '../../service/customer.service';
-import { CustomerListComponent } from '../customer-list.component';
+import { SupplierService } from '../../service/supplier.service';
+import { SupplierListComponent } from '../supplier-list.component';
 
 @Component({
   selector: 'app-action-button',
@@ -12,8 +11,8 @@ import { CustomerListComponent } from '../customer-list.component';
   styleUrls: ['./action-button.component.css']
 })
 export class ActionButtonComponent implements ICellRendererAngularComp {
-  constructor(private customerService: CustomerService, private sweetalertService: SweetalertService,
-    private customerListComponent  : CustomerListComponent
+  constructor(private supplierService: SupplierService, private sweetalertService: SweetalertService,
+    private supplierListComponent  : SupplierListComponent
     ){}
   private params: any;
   public clickDelete = false;
@@ -44,7 +43,7 @@ export class ActionButtonComponent implements ICellRendererAngularComp {
   }
 
   deleteCustomerGroup(id:string){
-    this.customerService.deleteCustomerData(id).subscribe(
+    this.supplierService.deleteData(id).subscribe(
       response => {
         Swal.fire({
           title: 'Success!',
@@ -52,7 +51,7 @@ export class ActionButtonComponent implements ICellRendererAngularComp {
           icon: "success",
           confirmButtonText: 'Done'
         }).then((result) => {
-          this.customerListComponent.getAllCustomer();
+          this.supplierListComponent.getAllSupplier();
         })
       },
       error => {

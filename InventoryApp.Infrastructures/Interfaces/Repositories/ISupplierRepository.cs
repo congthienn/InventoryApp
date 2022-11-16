@@ -10,6 +10,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface ISupplierRepository : IGenericRepository<Supplier>
     {
+        IEnumerable<Supplier> GetAllSupplier();
         Task<string> GetLastCode();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.GenericRepository;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public SupplierRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+        }
+
+        public IEnumerable<Supplier> GetAllSupplier()
+        {
+            return _dbSet.Include(x => x.SupplierGroup).Include(x => x.District).Include(x => x.Province).Include(x => x.Ward).OrderByDescending(x => x.UpdatedDate);
         }
 
         public async Task<string> GetLastCode()

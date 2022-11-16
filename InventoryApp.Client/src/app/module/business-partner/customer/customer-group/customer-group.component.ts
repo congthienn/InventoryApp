@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { BtnCellRenderer } from 'src/app/module/share/ag-grid-button/ag-grid-button.component';
-import { CustomerGroupService } from '../customer-group.service';
 import { CustomerGroup } from '../model/customerGroup';
+import { CustomerGroupService } from '../service/customer-group.service';
 import { AddCustomerGroupComponent } from './add-customer-group/add-customer-group.component';
 import { ButtonComponent } from './button/button.component';
 
