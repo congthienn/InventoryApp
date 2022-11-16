@@ -1,6 +1,7 @@
 ﻿using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.GenericRepository;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryApp.Infrastructures.Repositories
 {
@@ -8,6 +9,11 @@ namespace InventoryApp.Infrastructures.Repositories
     {
         public CustomerRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
+        }
+
+        public IEnumerable<Customer> GetAllCustomer()
+        {
+            return _dbSet.Include(x => x.Branch).Include(x => x.CustomerGroup).Include(x=>x.Province).Include(x => x.District).Include(x => x.Ward).OrderByDescending(x=>x.UpdatedDate);
         }
 
         public async Task<string> GetLastCode()

@@ -8,16 +8,18 @@ import { ErrorComponent } from './share/layout/page-not-found/page-not-found.com
 
 const routes: Routes = [
   { path: '', redirectTo: '/tong-quan', pathMatch: 'full' },
-  { path:'chi-nhanh', redirectTo: '/chi-nhanh/danh-sach', pathMatch: 'full'},
+  { path:'khach-hang/', redirectTo: 'khach-hang', pathMatch: 'full'},
+  { path:'chi-nhanh/', redirectTo: 'chi-nhanh', pathMatch: 'full'},
   { path: '', component: AdminLayoutComponent, canActivate: [AuthGuard],
     children:[
       {path:'tong-quan', loadChildren: () => import('./module/dashboard/dashboard.module').then(m => m.DashboardModule) },
-      {path:'chi-nhanh', loadChildren: () => import('./module/branch/branch.module').then(m => m.BranchModule) }
+      {path:'chi-nhanh', loadChildren: () => import('./module/branch/branch.module').then(m => m.BranchModule) },
+      {path:'khach-hang', loadChildren: () => import('./module/business-partner/customer/customer.module').then(m => m.CustomerModule) }
     ]
   },
   { path:"login", component: LoginComponent, canActivate:[LoginGuard] },
   { path: '**', component: ErrorComponent }, 
-];
+];  
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

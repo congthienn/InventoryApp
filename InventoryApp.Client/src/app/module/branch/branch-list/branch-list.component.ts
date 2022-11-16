@@ -39,7 +39,7 @@ export class BranchListComponent implements OnInit {
     sortable: true,
     floatingFilter: true,
   };
-  gridOptions:GridOptions = {
+  gridOptions: GridOptions = {
     pagination: true,
     cacheBlockSize: 10,
     paginationPageSize: 10
@@ -73,9 +73,6 @@ export class BranchListComponent implements OnInit {
       this.dataRow = dataRowTemp;
     })
 
-  }
-  toggleColumns(): void {
-    this.updateColumnDefs();
   }
 
   private updateColumnDefs() {

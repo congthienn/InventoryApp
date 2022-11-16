@@ -13,6 +13,9 @@ import { BranchModule } from './module/branch/branch.module';
 import { DashboardModule } from './module/dashboard/dashboard.module';
 import { CommonModule } from '@angular/common';
 import { AgGridModule } from 'ag-grid-angular';
+import { CustomerGroupModule } from './module/business-partner/customer/customer-group/customer-group.module';
+import { AddCustomerGroupModule } from './module/business-partner/customer/customer-group/add-customer-group/add-customer-group.module';
+import { CustomerListModule } from './module/business-partner/customer/customer-list/customer-list.module';
 
 
 @NgModule({
@@ -33,6 +36,9 @@ import { AgGridModule } from 'ag-grid-angular';
     AuthModule,
     BranchModule,
     DashboardModule,
+    CustomerGroupModule,
+    AddCustomerGroupModule,
+    CustomerListModule
   ],
   providers: [
     {

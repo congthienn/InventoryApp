@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221115151035_Alter_Table_Customer")]
+    partial class Alter_Table_Customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,7 +300,7 @@ namespace InventoryApp.DbMigrations.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TaxCode")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UpdatedByUserId")
                         .HasColumnType("uniqueidentifier");
@@ -329,18 +331,10 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.HasIndex("Fax")
-                        .IsUnique()
-                        .HasFilter("[Fax] IS NOT NULL");
-
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
                     b.HasIndex("ProvinceId");
-
-                    b.HasIndex("TaxCode")
-                        .IsUnique()
-                        .HasFilter("[TaxCode] IS NOT NULL");
 
                     b.HasIndex("UpdatedByUserId");
 

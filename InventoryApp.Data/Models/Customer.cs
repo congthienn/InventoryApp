@@ -14,6 +14,8 @@ namespace InventoryApp.Data.Models
     [Index(nameof(Email), IsUnique = true)]
     [Index(nameof(PhoneNumber), IsUnique = true)]
     [Index(nameof(Code), IsUnique = true)]
+    [Index(nameof(Fax), IsUnique = true)]
+    [Index(nameof(TaxCode), IsUnique = true)]
 
     public class Customer : EntityBase
     {
@@ -41,5 +43,9 @@ namespace InventoryApp.Data.Models
         public Districts? District { get; set; }
         public int WardId { get; set; }
         public Wards? Ward { get; set; }
+        public Guid CustomerGroupId { get; set; }
+        public CustomerGroup? CustomerGroup { get; set; }
+        public Guid BranchId { get; set; }
+        public Branches? Branch { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<CustomerGroupModel> GetAllCustomerGroups()
         {
-            return _mapper.Map<IEnumerable<CustomerGroupModel>>(_customerGroupRepository.Get());
+            return _mapper.Map<IEnumerable<CustomerGroupModel>>(_customerGroupRepository.Get().OrderByDescending(x=>x.CreatedDate));
         }
 
         public async Task<CustomerGroupModel> GetCustomerGroupById(Guid id)

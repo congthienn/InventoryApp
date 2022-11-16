@@ -5,6 +5,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface ICustomerRepository : IGenericRepository<Customer>
     {
+        IEnumerable<Customer> GetAllCustomer();
         Task<string> GetLastCode();
     }
 }

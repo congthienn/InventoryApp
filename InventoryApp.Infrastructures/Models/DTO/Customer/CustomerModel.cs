@@ -21,10 +21,17 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public string? WebsiteURL { get; set; }
         public string? FacebookName { get; set; }
         public bool Status { get; set; } = true;
+        public Guid CustomerGroupId { get; set; }
+        public CustomerGroupModel CustomerGroup { get; set; }
+        public Guid BranchId { get; set; }
+        public BranchModelRq Branch { get; set; }
         public string Address { get; set; }
         public int ProvinceId { get; set; }
+        public ProvinceDTO Province { get; set; }
         public int DistrictId { get; set; }
+        public DistrictDTO District { get; set; }
         public int WardId { get; set; }
+        public WardDTO Ward { get; set; }
     }
     public class CustomerModelValidator : AbstractValidator<CustomerModel>
     {
@@ -36,6 +43,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
             RuleFor(p => p.ProvinceId).NotEmpty();
             RuleFor(p => p.DistrictId).NotEmpty();
             RuleFor(p => p.WardId).NotEmpty();
+            RuleFor(p => p.CustomerGroupId).NotEmpty();
+            RuleFor(p => p.BranchId).NotEmpty();
         }
     }
 }

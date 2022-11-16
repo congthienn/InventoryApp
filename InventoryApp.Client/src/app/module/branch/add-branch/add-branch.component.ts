@@ -101,10 +101,10 @@ export class AddBranchComponent implements OnInit {
     )
   }
   showSuccess() {  
-    this.sweetalertService.alertAction("/chi-nhanh","Cập nhật dữ liệu thành công");
+    this.sweetalertService.alertAction("/chi-nhanh","Thêm thông tin chi nhánh thành công");
   }
   showError(){
-    this.sweetalertService.alertMini("Không thể cập nhật dữ liệu","Vui lòng kiểm tra lại", "error");
+    this.sweetalertService.alertMini("Không thể lưu dữ liệu","Vui lòng kiểm tra lại", "error");
   }
   get companyName() { return this.addBranchForm.get('companyName'); }
   get email() { return this.addBranchForm.get('email'); }

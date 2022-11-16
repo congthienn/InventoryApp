@@ -4,9 +4,9 @@ import { AddBranchComponent } from './add-branch/add-branch.component';
 import { BranchListComponent } from './branch-list/branch-list.component';
 import { Title } from '@angular/platform-browser';
 export const routes: Routes = [
-  {path: '', redirectTo:'chi-nhanh/danh-sach', pathMatch:'full'},
-  { path: '', children: [ {path: 'danh-sach', component: BranchListComponent}]}, 
-  { path: '', children: [ {path: 'them-moi', component: AddBranchComponent, data:{Title: 'Chi nhánh'}}]}
+  {path: '', redirectTo:'chi-nhanh', pathMatch:'full'},
+  { path: '', children: [ {path: '', component: BranchListComponent}]}, 
+  { path: '', children: [ {path: 'them-moi', component: AddBranchComponent}]}
 ];
 
 @NgModule({

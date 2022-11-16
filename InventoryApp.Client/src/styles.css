@@ -67,3 +67,12 @@ body::-webkit-scrollbar-thumb:hover {
 .specialFormGroup{
     margin-bottom: 0 !important;
 }
+.modal-backdrop{
+    z-index: 1040 !important;
+}
+.btn-sm-custom {
+    padding: 0.2rem 0.3rem !important;
+    font-size: .8rem !important;
+    line-height: 1rem !important;   
+    border-radius: 0.2rem !important;
+}

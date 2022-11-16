@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'managerBranch',
     roleAccess: true,
     children: [
-      { path: 'danh-sach',title: 'Danh sách'},
+      { path: '',title: 'Danh sách'},
       { path: 'them-moi', title: 'Thêm mới'},
     ],
   },
@@ -65,15 +65,13 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: '/doi-tac',
+    path: '',
     title: 'Đối tác',
     icontype: faPeopleGroup,
     collapse: 'managerPartner',
     roleAccess: true,
     children: [
-      { path: 'nhom-khach-hang',title: 'Nhóm khách hàng'},
       { path: 'khach-hang', title: 'Khách hàng'},
-      { path: 'nhom-nha-cung-cap',title: 'Nhóm nhà cung cấp'},
       { path: 'nha-cung-cap',title: 'Nhà cung cấp'},
     ],
   },

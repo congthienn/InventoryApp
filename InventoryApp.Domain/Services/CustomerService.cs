@@ -72,7 +72,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
-            return _mapper.Map<IEnumerable<CustomerModel>>(_customerRepository.Get());
+            return _mapper.Map<IEnumerable<CustomerModel>>(_customerRepository.GetAllCustomer());
         }
 
         public async Task<CustomerModel> GetCustomerById(Guid id)
