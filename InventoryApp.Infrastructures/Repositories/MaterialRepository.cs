@@ -65,6 +65,11 @@ namespace InventoryApp.Infrastructures.Repositories
             _dbMaterialPosition.Remove(materialPosition);
         }
 
+        public IEnumerable<Materials> GetAllMaterials()
+        {
+            return _dbSet.Include(x => x.Trademark).Include(x => x.CategoryMaterial).OrderByDescending(x=>x.UpdatedDate).ToList();
+        }
+
         public async Task<string> GetLastCode()
         {
             return _dbSet.OrderByDescending(x=>x.CreatedDate).Select(x=>x.Code).FirstOrDefault();

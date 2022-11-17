@@ -8,6 +8,7 @@ import { NgSelect2Module } from 'ng-select2';
 import { QuillModule } from 'ngx-quill'
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TrademarkModule } from '../../trademark/trademark.module';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
   declarations: [
     AddMaterialComponent

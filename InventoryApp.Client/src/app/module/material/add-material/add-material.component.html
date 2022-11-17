@@ -1,5 +1,5 @@
 <app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
-<form>
+<form [formGroup]="addMaterialForm"(ngSubmit)="addMaterial()">
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
@@ -7,19 +7,21 @@
                     <h4 class="header-title mb-4">From thông tin cơ bản cho sản phẩm</h4>
                     <div class="form-group">
                         <label for="name">Tên sản phẩm<span class="text-danger">*</span></label>
-                        <input type="text" name="nick" parsley-trigger="change" class="form-control" id="name">
+                        <input type="text" name="nick" parsley-trigger="change" class="form-control" formControlName="name" id="name">
+                        <div class="feedback" *ngIf="name?.errors?.['required'] && (name?.dirty)">Tên sản phẩm không được để trống</div>
                     </div>
                     <div class="form-group specialFormGroup">
                         <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="openModalCategoryMaterial()" class="btnAdd">
                             <i class="fa fa-plus-circle"></i>
                         </span> 
-                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" class="btnAdd">
+                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click) ="refreshCategoryMaterial()" class="btnAdd">
                             <i class="icon-refresh" style="font-weight: 500;"></i>
                         </span> 
-                        <label for="categoryMaterial"> Loại sản phẩm <span class="text-danger">*</span></label>         
+                        <label for="categoryMaterial">Loại sản phẩm <span class="text-danger">*</span></label>         
                         <div>
-                            <ng-select2 aria-required="true"></ng-select2>
-                            <input type="text" class="specialInput">       
+                            <ng-select2 aria-required="true" [data]="categoryMaterialList" (valueChanged)="changCategoryMaterialValue($event)"></ng-select2>
+                            <div class="feedback" *ngIf="categoryMaterialId?.errors?.['required'] && (categoryMaterialId?.touched)">Nhóm khách hàng không được để trống</div>
+                            <input type="text" class="specialInput" formControlName="categoryMaterialId" id="categoryMaterialId"> 
                         </div>      
                     </div>
                     <div class="form-group">
@@ -36,56 +38,66 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Chi tiết sản phẩm<span class="text-danger">*</span></label>
-                        <quill-editor [modules]="modules" [(ngModel)]="detailedDescription" name="detailedDescription"></quill-editor>
+                        <quill-editor [modules]="modules" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" (keyup)="changeDetailedDescription()" name="detailedDescription"></quill-editor>
+                        <div class="feedback" *ngIf="detailedDescription?.errors?.['required'] && (detailedDescription?.touched)">Nhóm khách hàng không được để trống</div>
+                        <input type="text" class="specialInput" formControlName="detailedDescription" id="detailedDescription"> 
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6">  
             <div class="card">
                 <div class="card-body">
                     <div class="form-group specialFormGroup">
                         <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="openModalTrademark()" class="btnAdd">
                             <i class="fa fa-plus-circle"></i>
                         </span> 
-                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3"  class="btnAdd">
+                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click) ="refreshTrademark()"  class="btnAdd">
                             <i class="icon-refresh" style="font-weight: 500;"></i>
                         </span> 
-                        <label for="trademark"> Thương hiệu sản phẩm <span class="text-danger">*</span></label>         
+                        <label for="trademark">Thương hiệu sản phẩm <span class="text-danger">*</span></label>         
                         <div>
-                            <ng-select2 aria-required="true"></ng-select2>
-                            <input type="text" class="specialInput">   
+                            <ng-select2 aria-required="true" [data]="trademarkList" (valueChanged)="changTrademarkValue($event)"></ng-select2>
+                            <div class="feedback" *ngIf="trademarkId?.errors?.['required'] && (trademarkId?.touched)">Thương hiệu sản phẩm không được để trống</div>
+                            <input type="text" class="specialInput" formControlName="trademarkId" id="trademarkId"> 
                         </div>      
                     </div>
                    
                     <div class="form-group">
                         <label for="salePrice">Giá nhập vào<span class="text-danger">*</span></label>
-                        <input type="number" min="0" name="salePrice" parsley-trigger="change" class="form-control" id="salePrice" >
+                        <input type="number" min="0" name="salePrice" parsley-trigger="change" formControlName="salePrice" class="form-control" id="salePrice" >
+                        <div class="feedback" *ngIf="(salePrice?.errors?.['required'] || salePrice?.errors?.['min'] ) && (salePrice?.dirty)">Giá nhập vào không được để trống</div>
                     </div>
                     <div class="form-group">
                         <label for="costPrice">Giá bán ra<span class="text-danger">*</span></label>
-                        <input type="number" min="0" class="form-control" id="costPrice" >
+                        <input type="number" min="0" class="form-control" formControlName="costPrice" id="costPrice" >
+                        <div class="feedback" *ngIf="(costPrice?.errors?.['required'] || costPrice?.errors?.['min'] ) && (costPrice?.dirty)">Giá bán ra không được để trống</div>
                     </div>
                     <div class="form-group">
                         <label for="baseMaterialUnit">Đơn vị cơ bản<span class="text-danger">*</span></label>
-                        <input id="baseMaterialUnit" type="text" class="form-control" >
+                        <input id="baseMaterialUnit" type="text" class="form-control" formControlName="baseMaterialUnit">
+                        <div class="feedback" *ngIf="(baseMaterialUnit?.errors?.['required'] || baseMaterialUnit?.errors?.['min'] ) && (baseMaterialUnit?.dirty)">Đơn vị cơ bảnkhông được để trống</div>
+
                     </div>
                     <div class="form-group">
                         <label for="minimumInventory">Định mức tối thiểu<span class="text-danger">*</span></label>
-                        <input id="minimumInventory" min="0" type="number" class="form-control" >
+                        <input id="minimumInventory" min="0" type="number" class="form-control" formControlName="minimumInventory">
+                        <div class="feedback" *ngIf="(minimumInventory?.errors?.['required'] || minimumInventory?.errors?.['min'] ) && (minimumInventory?.dirty)">Định mức tối thiểu không được để trống</div>
                     </div>
                     <div class="form-group">
                         <label for="maximumInventory">Định mức tối đa<span class="text-danger">*</span></label>
-                        <input id="maximumInventory" min="0" type="text" class="form-control" >
+                        <input id="maximumInventory" min="0" type="number" class="form-control" formControlName="maximumInventory" >
+                        <div class="feedback" *ngIf="(maximumInventory?.errors?.['required'] || maximumInventory?.errors?.['min'] ) && (maximumInventory?.dirty)">Định mức tối đa không được để trống</div>
                     </div>
                     <div class="form-group">
                         <label for="weight">Khối lượng sản phẩm (gam)<span class="text-danger">*</span></label>
-                        <input type="number" min="0" name="weight" parsley-trigger="change" class="form-control" id="weight">
+                        <input type="number" min="0" name="weight" parsley-trigger="change" class="form-control" formControlName="weight" id="weight">
+                        <div class="feedback" *ngIf="(weight?.errors?.['required'] || weight?.errors?.['min'] ) && (weight?.dirty)">Khối lượng sản phẩm không được để trống</div>
                     </div> 
                     <div class="form-group row mb-0">
                         <div class="col-md-8 offset-md-4">
-                            <button type="submit"  class="btn btn-primary waves-effect waves-light mr-1">
-                                Lưu dữ liệu <span class=""></span>
+                            <button type="submit"  [disabled]="!addMaterialForm.valid" class="btn btn-primary waves-effect waves-light mr-1">
+                                Lưu dữ liệu <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
                             </button>
                             <button type="reset" class="btn btn-secondary waves-effect waves-light">
                                 Cancel
@@ -97,3 +109,7 @@
         </div>
     </div>
 </form>
+
+<div *ngIf="submitData" class="containerLoader">
+    <div class="loader"></div>
+</div>

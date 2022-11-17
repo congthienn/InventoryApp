@@ -13,6 +13,7 @@ import { ActionButtonComponent } from './action-button/action-button.component';
 })
 export class CustomerListComponent implements OnInit {
   public Title = '';
+  public loadData = true;
   public sizePagination = 10;
   public pageTite : PageTitle[] = [
     {
@@ -45,9 +46,6 @@ export class CustomerListComponent implements OnInit {
     ngOnInit(): void {
       this.title.setTitle("Khách hàng");
       this.Title = "Quản lý khách hàng";
-      this.customerService.getAllCustomerData().subscribe(response => {
-        console.log(response);
-      })
       this.updateColumnDefs();
       this.getAllCustomer();
     }
@@ -74,7 +72,9 @@ export class CustomerListComponent implements OnInit {
       ];
     }
     public getAllCustomer(){
-      this.customerService.getAllCustomerData().subscribe(response =>{
+      document.body.style.overflow = 'hidden';
+      this.customerService.getAllCustomerData().subscribe(
+        response =>{
         this.customer = response;
         var dataRowTemp: any[]= [];
         this.customer.forEach(element => {
@@ -93,6 +93,11 @@ export class CustomerListComponent implements OnInit {
             dataRowTemp.push(data);
         });
         this.dataRow = dataRowTemp;
+        this.loadData = false;
+        document.body.style.overflow = '';
+      },
+      error => {
+        this.loadData = true;
       })
     }
     onPageSizeChanged() {

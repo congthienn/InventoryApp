@@ -17,7 +17,9 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public int CostPrice { get; set; }
         public string BaseMaterialUnit { get; set; }
         public Guid CategoryMaterialId { get; set; }
+        public MaterialCategoryModelRq CategoryMaterial { get; set; }
         public Guid TrademarkId { get; set; }
+        public TrademarkModelRq Trademark { get; set; }
         public int MinimumInventory { get; set; }
         public int MaximumInventory { get; set; }
         public double Weight { get; set; }

@@ -28,7 +28,7 @@ namespace InventoryApp.Domain.Services
             _logger = logger;
             _azureStorage = azureStorage;
         }
-        public async Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity)
+        public async Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, UserIdentity userIdentity)
         {
             try
             {
@@ -41,13 +41,13 @@ namespace InventoryApp.Domain.Services
                 material.CreateBy(userIdentity); material.UpdateBy(userIdentity);
 
                 await _materialRepository.Insert(material);
-                await AddMaterialPicture(prictures, material.Id);
-                await AddMaterialAttributeValue(attributeValue, material.Id, userIdentity);
+                await AddMaterialPicture(model.Prictures, material.Id);
+                //await AddMaterialAttributeValue(attributeValue, material.Id, userIdentity);
 
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
 
-                await UploadMultipleFilesToAzureStorage(prictures, material.Id);
+                await UploadMultipleFilesToAzureStorage(model.Prictures, material.Id);
                 return _mapper.Map<ShowMaterialModel>(material);
             }
             catch(Exception e)
@@ -114,7 +114,7 @@ namespace InventoryApp.Domain.Services
         }
         public IEnumerable<ShowMaterialModel> GetAllMaterials()
         {
-            return _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialRepository.Get());
+            return _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialRepository.GetAllMaterials());
         }
         public async Task<ShowMaterialModel> GetMaterialById(Guid materialId)
         {

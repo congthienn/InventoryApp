@@ -17,6 +17,7 @@ import { Branch } from '../model/branch';
 
 export class BranchListComponent implements OnInit {
   public Title = '';
+  public loadData = true;
   dataRow: any[] = [];
   columnDefs : any[]= [];
   branchData: Branch[] = [];
@@ -54,25 +55,31 @@ export class BranchListComponent implements OnInit {
     this.getAllBranch();
   }
   public getAllBranch(){
-    this.branchService.getAllBranch().subscribe(response =>{
-      this.branchData = response;
-      var dataRowTemp: any[]= [];
-      this.branchData.forEach(element => {
-        var data = {
-            "id":element.id,
-            "code": element.code, 
-            "companyName": element.companyName, 
-            "phoneNumber": element.phoneNumber,
-            "email": element.email,
-            "fax": element.fax,
-            "taxCode": element.taxCode,
-            "address":`${element.address}, ${element.ward.name}, ${element.district.name}, ${element.province.name}`
-          }
-          dataRowTemp.push(data);
-      });
-      this.dataRow = dataRowTemp;
-    })
-
+    document.body.style.overflow = 'hidden';
+    this.branchService.getAllBranch().subscribe(
+      response =>{
+        this.branchData = response;
+        var dataRowTemp: any[]= [];
+        this.branchData.forEach(element => {
+          var data = {
+              "id":element.id,
+              "code": element.code, 
+              "companyName": element.companyName, 
+              "phoneNumber": element.phoneNumber,
+              "email": element.email,
+              "fax": element.fax,
+              "taxCode": element.taxCode,
+              "address":`${element.address}, ${element.ward.name}, ${element.district.name}, ${element.province.name}`
+            }
+            dataRowTemp.push(data);
+        });
+        this.dataRow = dataRowTemp;
+        this.loadData = false;
+        document.body.style.overflow = '';
+      },
+      error => {
+        this.loadData = true;
+      })
   }
 
   private updateColumnDefs() {

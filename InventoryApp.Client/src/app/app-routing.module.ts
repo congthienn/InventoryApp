@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/tong-quan', pathMatch: 'full' },
   { path:'chi-nhanh/', redirectTo: 'chi-nhanh', pathMatch: 'full'},
   { path:'lo-hang/', redirectTo: 'lo-hang', pathMatch: 'full'},
+  { path:'san-pham/', redirectTo: 'san-pham', pathMatch: 'full'},
   { path: '', component: AdminLayoutComponent, canActivate: [AuthGuard],
     children:[
       {path:'tong-quan', loadChildren: () => import('./module/dashboard/dashboard.module').then(m => m.DashboardModule) },

@@ -18,7 +18,7 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMaterial([FromForm]MaterialModelRq model, [FromForm]List<MaterialAttributeValueModel> AttributeValue, List<IFormFile> Prictures)
+        public async Task<IActionResult> AddMaterial([FromForm]MaterialModelRq model, [FromForm]List<MaterialAttributeValueModel> AttributeValue)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace InventoryApp.Application.Controllers
                     Value = "128 GB"
                 });
                 UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _materialService.AddMaterial(model, AttributeValue, Prictures, userIdentity));
+                return Ok(await _materialService.AddMaterial(model, AttributeValue, userIdentity));
             }
             catch(Exception e)
             {

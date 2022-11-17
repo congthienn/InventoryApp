@@ -14,7 +14,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     {
         IEnumerable<ShowMaterialModel> GetAllMaterials();
         Task<ShowMaterialModel> GetMaterialById(Guid materialId);
-        Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity);
+        Task<ShowMaterialModel> AddMaterial(MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, UserIdentity userIdentity);
         Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity);
         Task<bool> DeleteMaterial(Guid materialId);
         Task<bool> DeleteMaterialPictureById(int pictureId);

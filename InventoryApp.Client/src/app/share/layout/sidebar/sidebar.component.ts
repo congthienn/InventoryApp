@@ -24,7 +24,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'managerMaterial',
     roleAccess: true,
     children: [
-      { path: 'danh-sach', title:'Danh sách'},
+      { path: '', title:'Danh sách'},
       { path: 'them-moi', title:'Thêm mới'},
     ],
   },

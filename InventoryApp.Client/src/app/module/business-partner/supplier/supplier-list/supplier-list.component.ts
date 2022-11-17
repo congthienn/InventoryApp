@@ -13,6 +13,7 @@ import { ActionButtonComponent } from './action-button/action-button.component';
 })
 export class SupplierListComponent implements OnInit {
   public Title = '';
+  public loadData = true;
   public sizePagination = 10;
   public pageTite : PageTitle[] = [
     {
@@ -71,26 +72,32 @@ export class SupplierListComponent implements OnInit {
       ];
     }
     public getAllSupplier(){
-      this.supplierService.getSupplierData().subscribe(response =>{
-        this.supplier = response;
-        console.log(response);
-        var dataRowTemp: any[]= [];
-        this.supplier.forEach(element => {
-          var data = {
-              "id": element.id,
-              "code": element.code, 
-              "supplierName": element.supplierName, 
-              "phoneNumber": element.phoneNumber,
-              "supplierGroup": element.supplierGroup.name,
-              "email": element.email,
-              "fax": element.fax,
-              "taxCode": element.taxCode,
-              "address":`${element.address}, ${element.ward.name}, ${element.district.name}, ${element.province.name}`,
-              "status": element.status ? "Đang hợp tác": "Ngừng hợp tác"
-            }
-            dataRowTemp.push(data);
-        });
-        this.dataRow = dataRowTemp;
+      document.body.style.overflow = 'hidden';
+      this.supplierService.getSupplierData().subscribe(
+        response =>{
+          this.supplier = response;
+          console.log(response);
+          var dataRowTemp: any[]= [];
+          this.supplier.forEach(element => {
+              var data = {
+                "id": element.id,
+                "code": element.code, 
+                "supplierName": element.supplierName, 
+                "phoneNumber": element.phoneNumber,
+                "supplierGroup": element.supplierGroup.name,
+                "email": element.email,
+                "fax": element.fax,
+                "taxCode": element.taxCode,
+                "address":`${element.address}, ${element.ward.name}, ${element.district.name}, ${element.province.name}`,
+                "status": element.status ? "Đang hợp tác": "Ngừng hợp tác"
+              }
+              dataRowTemp.push(data);
+          });
+          this.dataRow = dataRowTemp;
+          this.loadData = false;
+          document.body.style.overflow = '';
+      },error => {
+        this.loadData = true;
       })
     }
     onPageSizeChanged() {
