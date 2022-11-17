@@ -38,6 +38,7 @@ namespace InventoryApp.Domain.Services
                 warehouse.Code = code == null ? "KHO00001" : StringHelper.CreateCode(code);
                 warehouse.CreateBy(userIdentity);
                 warehouse.UpdateBy(userIdentity);
+                warehouse.Blank = warehouse.MaximumCapacity;
                 await _warehouseRepository.Insert(warehouse);
                 _unitOfWork.Save();
                 return _mapper.Map<WarehouseModel>(warehouse);
@@ -75,7 +76,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<WarehouseModel> GetAllWarehouses()
         {
-            return _mapper.Map<IEnumerable<WarehouseModel>>(_warehouseRepository.Get());
+            return _mapper.Map<IEnumerable<WarehouseModel>>(_warehouseRepository.GetAllWarehouse());
         }
 
         public async Task<WarehouseModel> GetWarehouseById(Guid id)

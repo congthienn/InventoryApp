@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">Thêm mới kho hàng</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">&times;</button>
+</div>
+<form [formGroup]="addWarehouseForm" (ngSubmit)="addWarehouse()">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">Tên kho hàng<span class="text-danger">*</span></label>
+            <input type="text" name="nick" parsley-trigger="change" class="form-control" formControlName="name" id="name">
+            <div class="feedback" *ngIf="name?.errors?.['required'] && (name?.dirty)">Tên kho hàng không được để trống</div>
+        </div>
+        <div class="form-group">
+            <label for="maximumCapacity">Sức chứa kho hàng (Sản phẩm)<span class="text-danger">*</span></label>
+            <input type="number" name="nick" min="0" parsley-trigger="change" class="form-control" formControlName="maximumCapacity" id="maximumCapacity">
+            <div class="feedback" *ngIf="(maximumCapacity?.errors?.['required'] || maximumCapacity?.errors?.['min']) && (maximumCapacity?.dirty)">Sức chứa kho hàng không được để trống</div>
+        </div>
+        <div class="form-group specialFormGroup">
+            <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshBranchData()" class="btnAdd">
+                <i class="icon-refresh" style="font-weight: 500;"></i>
+            </span> 
+            <label for="province"> Chi nhánh <span class="text-danger">*</span></label>
+            
+            <div>
+                <ng-select2 aria-required="true" [data]="branchList" (valueChanged)="changeBranchValue($event)"></ng-select2>
+                <div class="feedback" *ngIf="branchId?.errors?.['required'] && (branchId?.touched)">Chi nhánh được để trống</div>
+                <input type="text" class="specialInput" formControlName="branchId" id="branchId"> 
+            </div>      
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" [disabled]="!addWarehouseForm.valid || submitData" class="btn btn-primary btn-sm waves-effect waves-light mr-1">
+            Lưu dữ liệu <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
+        </button>
+        <button type="reset" class="btn btn-secondary btn-sm waves-effect waves-light"
+            (click)="activeModal.close('Close click')">
+            Đóng
+        </button>
+    </div>
+</form>

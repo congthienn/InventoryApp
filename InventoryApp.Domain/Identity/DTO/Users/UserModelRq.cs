@@ -18,7 +18,7 @@ namespace InventoryApp.Domain.Identity.DTO.Users
         public UserModelValidator()
         {
             RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Email).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty();
+            RuleFor(x => x.Email).Restrict(RestrictMode.StopOnFirstFailure).NotEmpty();
             RuleFor(x => x.Email).EmailAddress();
             RuleFor(x => x.PhoneNumber).Must(IdentityHelper.IsValidPhoneNumber).WithMessage("Invalid phone number");
         }

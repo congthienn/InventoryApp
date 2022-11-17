@@ -63,7 +63,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "UserDeliveryId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

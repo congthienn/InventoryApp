@@ -17,7 +17,7 @@ namespace InventoryApp.Domain.Identity.DTO
         {
             RuleFor(p => p.NewPassword).NotEmpty().WithMessage("Please enter a new password")
                                                     .Must(IdentityHelper.IsValidPassword).WithMessage("Invalid password");
-            RuleFor(p => p.ReNewPassword).Cascade(CascadeMode.StopOnFirstFailure).Equal(p => p.NewPassword).WithMessage("Password and Re-password are not match");
+            RuleFor(p => p.ReNewPassword).Restrict(RestrictMode.StopOnFirstFailure).Equal(p => p.NewPassword).WithMessage("Password and Re-password are not match");
         }
     }
 }

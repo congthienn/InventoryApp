@@ -17,7 +17,7 @@ namespace InventoryApp.Domain.Identity.DTO
     {
         public SignInModelValidator()
         {
-            RuleFor(p => p.Email).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("Please enter your login email");
+            RuleFor(p => p.Email).Restrict(RestrictMode.StopOnFirstFailure).NotEmpty().WithMessage("Please enter your login email");
             RuleFor(p => p.Email).EmailAddress().WithMessage("Email address is not valid");
             RuleFor(p => p.Password).NotEmpty().WithMessage("Please enter the login password");
         }

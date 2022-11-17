@@ -161,7 +161,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "CompaniesId",
                 principalTable: "Company",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Manufacturer_Company_CompaniesId",
@@ -169,7 +169,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "CompaniesId",
                 principalTable: "Company",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -335,7 +335,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "CompaniesId",
                 principalTable: "Companies",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Manufacturer_Companies_CompaniesId",
@@ -343,7 +343,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "CompaniesId",
                 principalTable: "Companies",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

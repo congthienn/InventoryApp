@@ -16,7 +16,7 @@ export class ButtonComponent implements ICellRendererAngularComp {
   clickDelete = false;
   constructor(private sweetalertService: SweetalertService, 
     private customerGroupService: CustomerGroupService,
-    private modalService: NgbModal
+    private modalService: NgbModal, private customerGroupComponent : CustomerGroupComponent
   ) { }
   refresh() {
     return false;
@@ -52,8 +52,7 @@ export class ButtonComponent implements ICellRendererAngularComp {
           icon: "success",
           confirmButtonText: 'Done'
         }).then((result) => {
-          this.modalService.dismissAll();
-          this.modalService.open(CustomerGroupComponent);
+          this.customerGroupComponent.getAllCustomerGroup();
         })
       },
       error => {

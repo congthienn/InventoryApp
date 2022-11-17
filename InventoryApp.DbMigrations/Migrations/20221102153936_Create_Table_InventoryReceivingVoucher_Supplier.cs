@@ -26,13 +26,13 @@ namespace InventoryApp.DbMigrations.Migrations
                         column: x => x.InventoryReceivingVoucherId,
                         principalTable: "InventoryReceivingVoucher",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InventoryReceivingVoucher_Supplier_Supplier_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Supplier",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

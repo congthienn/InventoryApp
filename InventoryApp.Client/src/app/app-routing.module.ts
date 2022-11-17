@@ -11,6 +11,7 @@ const routes: Routes = [
   { path:'chi-nhanh/', redirectTo: 'chi-nhanh', pathMatch: 'full'},
   { path:'lo-hang/', redirectTo: 'lo-hang', pathMatch: 'full'},
   { path:'san-pham/', redirectTo: 'san-pham', pathMatch: 'full'},
+  { path:'kho-hang/', redirectTo: 'kho-hang', pathMatch: 'full'},
   { path: '', component: AdminLayoutComponent, canActivate: [AuthGuard],
     children:[
       {path:'tong-quan', loadChildren: () => import('./module/dashboard/dashboard.module').then(m => m.DashboardModule) },
@@ -18,7 +19,8 @@ const routes: Routes = [
       {path:'khach-hang', loadChildren: () => import('./module/business-partner/customer/customer.module').then(m => m.CustomerModule) },
       {path:'nha-cung-cap', loadChildren: () => import('./module/business-partner/supplier/supplier.module').then(m => m.SupplierModule) },
       {path:'lo-hang', loadChildren: () => import('./module/shipment/shipment.module').then(m => m.ShipmentModule) },
-      {path:'san-pham', loadChildren: () => import('./module/material/material.module').then(m => m.MaterialModule) }
+      {path:'san-pham', loadChildren: () => import('./module/material/material.module').then(m => m.MaterialModule) },
+      {path:'kho-hang', loadChildren: () => import('./module/warehouse/warehouse.module').then(m => m.WarehouseModule) }
     ]
   },
   { path:"login", component: LoginComponent, canActivate:[LoginGuard] },

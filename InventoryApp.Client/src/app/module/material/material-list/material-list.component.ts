@@ -110,6 +110,9 @@ export class MaterialListComponent implements OnInit {
     var text = (<HTMLInputElement>document.getElementById('page-size')).value;
     this.sizePagination = Number(text);
   }
+  refreshData(){
+    this.getAllMaterial();
+  }
 }
 function fragRenderer(params: ICellRendererParams) {
   const statusClass = params.value ? "btn-success" : "btn-secondary";

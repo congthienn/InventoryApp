@@ -11,7 +11,7 @@ namespace InventoryApp.Domain.Identity.DTO
     {
         public UserForgotPasswordValidator()
         {
-            RuleFor(p => p.Email).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("Please enter your login email");
+            RuleFor(p => p.Email).Restrict(RestrictMode.StopOnFirstFailure).NotEmpty().WithMessage("Please enter your login email");
             RuleFor(p => p.Email).EmailAddress().WithMessage("Email address is not valid");
         }
     }

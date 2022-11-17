@@ -32,13 +32,13 @@ namespace InventoryApp.DbMigrations.Migrations
                         column: x => x.BranchRequestId,
                         principalTable: "Branches",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SupplierOrder_Supplier_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Supplier",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SupplierOrder_Users_CreatedByUserId",
                         column: x => x.CreatedByUserId,

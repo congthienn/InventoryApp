@@ -38,6 +38,11 @@ export class AddCustomerComponent implements OnInit {
       path: '/khach-hang/',
       title: 'Khách hàng',
       active: true
+    },
+    {
+      path: '/khach-hang/them-moi',
+      title: 'Thêm mới',
+      active: true
     }
   ]
   constructor(private title: Title,  private provinceService: ProvinceService, 

@@ -49,7 +49,13 @@ export class SupplierGroupComponent implements OnInit {
     ) 
   }
   openAddSupplierGroup(){
-    this.modalService.open(AddSupplierGroupComponent);
+    this.modalService.open(AddSupplierGroupComponent).result.then(
+      response => {
+        this.getAllSupplierGroup();
+      },reason => {
+        this.getAllSupplierGroup();
+      }
+    )
   }
   closeModal(){ 
     this.activeModal.dismiss();

@@ -60,7 +60,7 @@ namespace InventoryApp.DbMigrations.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DeliveryVoucher_InventoryDeliveryVoucher_InventoryDeliveryVoucherId",
                         column: x => x.InventoryDeliveryVoucherId,
@@ -144,13 +144,13 @@ namespace InventoryApp.DbMigrations.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customer",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InventoryDeliveryVoucher_Customer_InventoryDeliveryVoucher_InventoryDeliveryVoucherId",
                         column: x => x.InventoryDeliveryVoucherId,
                         principalTable: "InventoryDeliveryVoucher",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

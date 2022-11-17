@@ -13,7 +13,10 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public string Name { get; set; }
         public string Code { get; private set; }
         public Guid BranchId { get; set; }
+        public BranchModelRq Branch { get; set; }
         public bool Status { get; set; } = true;
+        public int MaximumCapacity { get; set; }
+        public int Blank { get; private set; }
         public string? Remarks { get; set; }
     }
     public class WarehouseModelValidator : AbstractValidator<WarehouseModel>
@@ -22,6 +25,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
         {
             RuleFor(p => p.Name).NotEmpty();
             RuleFor(p => p.BranchId).NotEmpty();
+            RuleFor(p => p.MaximumCapacity).NotEmpty();
         }
     }
 }

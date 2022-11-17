@@ -49,8 +49,7 @@ export class AddSupplierGroupComponent implements OnInit {
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {
-      this.modalService.dismissAll();
-      this.modalService.open(SupplierGroupComponent);
+      this.activeModal.dismiss();
     })
   }
   showError(){

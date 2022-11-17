@@ -42,7 +42,7 @@ export class AddSupplierComponent implements OnInit {
       active: false
     },
     {
-      path: '/them-moi/',
+      path: '/nha-cung-cap/them-moi/',
       title: 'Thêm mới',
       active: true
     }

@@ -122,7 +122,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "EmployeeReceiveId",
                 principalTable: "Employees",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryReceivingVoucher_Employees_EmployeeRequestId",
@@ -130,7 +130,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "EmployeeRequestId",
                 principalTable: "Employees",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

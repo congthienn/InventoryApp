@@ -51,7 +51,12 @@ export class CustomerGroupComponent implements OnInit{
     ) 
   }
   openAddCustomerGroup(){
-    const modalRef = this.modalService.open(AddCustomerGroupComponent);
+    const modalRef = this.modalService.open(AddCustomerGroupComponent).result.then(
+    (response) => {
+      this.getAllCustomerGroup();
+    },(reason) => {
+      this.getAllCustomerGroup();
+    });
   }
   closeModal(){ 
     this.activeModal.dismiss();

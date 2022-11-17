@@ -51,8 +51,7 @@ export class AddCustomerGroupComponent implements OnInit {
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {
-      this.modalService.dismissAll();
-      this.modalService.open(CustomerGroupComponent);
+      this.activeModal.dismiss();
     })
   }
   showError(){

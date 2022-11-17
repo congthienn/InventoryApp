@@ -68,7 +68,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "MaterialsCategoryId",
                 principalTable: "CategoryMaterial",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

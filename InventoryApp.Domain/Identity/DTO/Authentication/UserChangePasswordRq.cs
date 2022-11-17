@@ -15,10 +15,10 @@ namespace InventoryApp.Domain.Identity.DTO
     {
         public ChangePasswordModelValidator()
         {
-            RuleFor(p => p.OldPassword).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage("Old password cannot be blank");
-            RuleFor(p => p.NewPassword).Cascade(CascadeMode.StopOnFirstFailure).NotEmpty()
+            RuleFor(p => p.OldPassword).Restrict(RestrictMode.StopOnFirstFailure).NotEmpty().WithMessage("Old password cannot be blank");
+            RuleFor(p => p.NewPassword).Restrict(RestrictMode.StopOnFirstFailure).NotEmpty()
                                         .WithMessage("Please enter a new password").Must(IdentityHelper.IsValidPassword).WithMessage("Invalid password");
-            RuleFor(p => p.ReNewPassword).Cascade(CascadeMode.StopOnFirstFailure).Equal(p => p.NewPassword).WithMessage("Password and Re-password are not match");
+            RuleFor(p => p.ReNewPassword).Restrict(RestrictMode.StopOnFirstFailure).Equal(p => p.NewPassword).WithMessage("Password and Re-password are not match");
             RuleFor(p => p.ReNewPassword).NotEmpty().WithMessage("Please confirm new password");
             
         }

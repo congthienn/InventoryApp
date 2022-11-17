@@ -22,6 +22,9 @@ namespace InventoryApp.Data.Models
         public Guid BranchId { get; set; }
         public Branches? Branch { get; set; }
         public bool Status { get; set; }
+        public int MaximumCapacity { get; set; }
+        public int Blank { get; set; }
+
         public string? Remarks { get; set; }
         public List<WarehouseArea> WarehouseAreas { get; set; }
     }

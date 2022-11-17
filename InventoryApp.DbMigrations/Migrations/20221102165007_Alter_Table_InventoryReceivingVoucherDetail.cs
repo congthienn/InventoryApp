@@ -83,7 +83,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "MaterialShipmentId",
                 principalTable: "MaterialShipment",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -168,7 +168,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "MaterialId",
                 principalTable: "Materials",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryReceivingVoucherDetail_MaterialUnit_MaterialUnitId",
@@ -176,7 +176,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "MaterialUnitId",
                 principalTable: "MaterialUnit",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryReceivingVoucherDetail_Users_CreatedByUserId",
@@ -184,7 +184,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "CreatedByUserId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryReceivingVoucherDetail_Users_UpdatedByUserId",
@@ -192,7 +192,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "UpdatedByUserId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

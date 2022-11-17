@@ -20,6 +20,7 @@ import { MaterialModule } from './module/material/material.module';
 import { QuillModule } from 'ngx-quill';
 import { TrademarkModule } from './module/trademark/trademark.module';
 import { CategoryMaterialModule } from './module/category-material/category-material.module';
+import { WarehouseModule } from './module/warehouse/warehouse.module';
 
 
 @NgModule({ 
@@ -46,7 +47,8 @@ import { CategoryMaterialModule } from './module/category-material/category-mate
     ShipmentModule,
     MaterialModule,
     TrademarkModule,
-    CategoryMaterialModule
+    CategoryMaterialModule,
+    WarehouseModule
   ],
   providers: [
     {

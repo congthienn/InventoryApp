@@ -35,7 +35,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'managerWarehouse',
     roleAccess: true,
     children: [
-      { path: 'danh-sach', title: 'Danh sách'},
+      { path: '', title: 'Danh sách'},
       { path: 'xuat-kho', title: 'Xuất kho'},
       { path: 'nhap-kho', title: 'Nhập kho'},
       { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},

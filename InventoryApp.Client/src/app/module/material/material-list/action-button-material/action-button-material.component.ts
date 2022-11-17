@@ -37,12 +37,12 @@ export class ActionButtonMaterialComponent implements ICellRendererAngularComp {
     }).then((result) => {
       this.clickDelete = false;
       if (result.isConfirmed) {    
-        this.deleteMaterialGroup(this.params.value)
+        this.deleteMaterial(this.params.value)
       }
     })
   }
 
-  deleteMaterialGroup(id:string){
+  deleteMaterial(id:string){
     this.materialService.deleteMaterial(id).subscribe(
       response => {
         Swal.fire({

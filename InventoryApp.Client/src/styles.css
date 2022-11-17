@@ -116,3 +116,6 @@ body::-webkit-scrollbar-thumb:hover {
     z-index: 200;
     background-color: rgba(236, 236, 236, 0.1);
   }
+.icon-refresh{
+    cursor: pointer;
+}

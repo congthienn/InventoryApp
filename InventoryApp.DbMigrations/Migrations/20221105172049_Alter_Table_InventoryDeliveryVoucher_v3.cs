@@ -41,7 +41,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "BranchId",
                 principalTable: "Branches",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryDeliveryVoucher_Users_UserApproveId",
@@ -87,7 +87,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "BranchRequestId",
                 principalTable: "Branches",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_InventoryDeliveryVoucher_Users_UserApproveId",
@@ -95,7 +95,7 @@ namespace InventoryApp.DbMigrations.Migrations
                 column: "UserApproveId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

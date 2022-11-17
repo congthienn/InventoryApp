@@ -104,4 +104,7 @@ export class CustomerListComponent implements OnInit {
       var text = (<HTMLInputElement>document.getElementById('page-size')).value;
       this.sizePagination = Number(text);
     }
+    refreshData(){
+      this.getAllCustomer();
+    }
 }
