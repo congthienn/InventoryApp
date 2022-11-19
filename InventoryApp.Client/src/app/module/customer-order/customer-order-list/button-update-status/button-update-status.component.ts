@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
-import { Order } from '../../model/order';
-import { OrderDetailComponent } from '../../order-detail/order-detail.component';
-import { OrderService } from '../../service/order.service';
-import { OrderListComponent } from '../order-list.component';
+import { CustomerOrder } from '../../model/customer-order';
+import { CustomerOrderService } from '../../service/customer-order.service';
+import { CustomerOrderListComponent } from '../customer-order-list.component';
 
 @Component({
   selector: 'app-button-update-status',
@@ -18,10 +15,10 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
   public params: any;
   public status!: string;
   public statusClass!:string;
-  public order!:Order;
+  public order!:CustomerOrder;
   public disableButton = false;
-  constructor(private orderService: OrderService, private  sweetalertService: SweetalertService,
-    private orderListComponent: OrderListComponent
+  constructor(private customerOrderService: CustomerOrderService, private  sweetalertService: SweetalertService,
+    private customerOrderListComponent: CustomerOrderListComponent
   ) { }
   refresh() {
     return true;
@@ -31,12 +28,11 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
     this.getOrder();
   }
   getOrder(){
-    return this.orderService.getOrderByCode(this.params.value).subscribe(
+    return this.customerOrderService.getCustomerOrderByCode(this.params.value).subscribe(
       response => {
         this.order = response;  
         this.statusClass = this.getColorStatus(Number(this.order.status));
         this.status = this.getStatus(Number(this.order.status));
-        this.disableButton = Number(this.order.status) == 2 || Number(this.order.status) == 3;
       }
     )
   }
@@ -57,9 +53,9 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
     })
   }
   private updateOrderStatus(){
-    this.orderService.updateStatus(this.params.value).subscribe(
+    this.customerOrderService.updateStatus(this.params.value).subscribe(
       response => {
-        this.orderListComponent.refreshData();
+        this.customerOrderListComponent.refreshData();
         this.sweetalertService.alertMini("Cập nhật trạng thái thành công","", 'success');  
     },
     error =>{
@@ -83,17 +79,21 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
       case 1:      
           return "Đã phê duyệt";  
       case 2:
-        return "Đã đặt hàng";
+        return "Đã xuất kho";
       case 3: 
-        return "Đã nhập kho"
+        return "Đang giao hàng"
+      case 4: 
+        return "Giao hàng thành công"
       default:
-          return "Đang chờ phê duyệt";
+          return "Đang xử lý";
     }
   }
   private getNextStatus(status: number): string {
     switch(status) {      
       case 1:      
-          return "Tiến hành đặt hàng";  
+          return "Tiến hành xuất kho";  
+      case 2:      
+          return "Vận chuyển - Giao hàng";  
       default:
           return "Phê duyệt đơn đặt hàng";
     }

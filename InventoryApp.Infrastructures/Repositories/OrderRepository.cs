@@ -28,6 +28,11 @@ namespace InventoryApp.Infrastructures.Repositories
             _dbSetOrderDetail.Remove(orderDetail);
         }
 
+        public IEnumerable<Order> GetAllOrders()
+        {
+            return _dbSet.Include(x => x.Customer).Include(x => x.Branch).OrderByDescending(x => x.CreatedDate).ToList();
+        }
+
         public async Task<string> GetLastCode()
         {
             return _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefault();
@@ -35,7 +40,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public async Task<Order> GetOrderByCode(string code)
         {
-            return await _dbSet.Include(x=>x.OrderDetail).FirstAsync(x => x.Code == code);
+            return await _dbSet.Include(x=>x.OrderDetail).ThenInclude(x=>x.Material).Include(x=>x.Customer).Include(x=>x.Branch).FirstAsync(x => x.Code == code);
         }
 
         public IEnumerable<Order> GetOrderByStatus(int status)

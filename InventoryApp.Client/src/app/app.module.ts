@@ -22,6 +22,7 @@ import { TrademarkModule } from './module/trademark/trademark.module';
 import { CategoryMaterialModule } from './module/category-material/category-material.module';
 import { WarehouseModule } from './module/warehouse/warehouse.module';
 import { OrderModule } from './module/order/order.module';
+import { CustomerOrderModule } from './module/customer-order/customer-order.module';
 
 
 @NgModule({ 
@@ -51,6 +52,7 @@ import { OrderModule } from './module/order/order.module';
     CategoryMaterialModule,
     WarehouseModule,
     OrderModule,
+    CustomerOrderModule,
   ],
   providers: [
     {

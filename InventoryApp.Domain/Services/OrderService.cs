@@ -21,12 +21,14 @@ namespace InventoryApp.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderRepository _orderRepository;
+        private readonly IMaterialRepository _materialRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public OrderService(IMapper mapper, ILogger<OrderService> logger)
         {
             _unitOfWork = new UnitOfWork();
             _orderRepository = new OrderRepository(_unitOfWork);
+            _materialRepository = new MaterialRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -39,6 +41,14 @@ namespace InventoryApp.Domain.Services
                 Order order = _mapper.Map<Order>(model);
                 string code = await _orderRepository.GetLastCode();
                 order.Code = code == null ? "DH000001" : StringHelper.CreateCode(code);
+                int PriceTotal = 0;
+                foreach (var orderDetail in order.OrderDetail)
+                {
+                    var material = await _materialRepository.GetByID(orderDetail.MaterialId);
+                    orderDetail.MaterialPrice = material.SalePrice;
+                    PriceTotal += material.SalePrice * orderDetail.QuantityRequest;
+                }
+                order.PriceTotal = PriceTotal;
                 order.CreateBy(userIdentity);
                 order.UpdateBy(userIdentity);
 
@@ -58,7 +68,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<OrderModel> GetAllOrder()
         {
-            return _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.Get());
+            return _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetAllOrders());
         }
 
         public IEnumerable<OrderModel> GetAllOrderByStatus(int status)
@@ -101,7 +111,7 @@ namespace InventoryApp.Domain.Services
             }
         }
    
-        public async Task<OrderModel> UpdateStatusOrder(string code, OrderStatusModel status, UserIdentity userIdentity)
+        public async Task<OrderModel> UpdateStatusOrder(string code, UserIdentity userIdentity)
         {
             Order order = await _orderRepository.GetOrderByCode(code);
             if (order == null)
@@ -110,7 +120,10 @@ namespace InventoryApp.Domain.Services
             if (order.Status == (int)ORDER_STATUS.Delivering || order.Status == (int)ORDER_STATUS.Done)
                 throw new NotImplementedException("Can't update order");
 
-            order.Status = status.Status;
+            if (order.Status > 4)
+                throw new NotFiniteNumberException("Can't update order");
+
+            order.Status++;
             order.UpdateBy(userIdentity);
             await _orderRepository.Update(order);
             _unitOfWork.Save();

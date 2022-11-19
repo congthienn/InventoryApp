@@ -2,7 +2,7 @@
 <div class="card">
   <div class="card-body table-responsive">
       <h4 class="m-t-0 header-title mb-4">
-        <b>Danh sách sản phẩm</b>
+        <b>Danh sách đơn đặt hàng</b>
         <span style="padding-left: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshData()" class="btnAdd">
           <i class="icon-refresh" style="font-weight: 500;"></i>
         </span>
@@ -20,10 +20,11 @@
           </div>
           <label class="col-form-label">phần tử</label>
         </div>
-        <button routerLink="/san-pham/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
-          <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm sản phẩm
+        <button routerLink="/don-hang/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
+          <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm đơn hàng
         </button>
       </div>  
+      
     <ag-grid-angular
       style="width: 100%; height: 600px;"
       class="ag-theme-alpine mt-1"  
@@ -34,10 +35,11 @@
       [alwaysShowVerticalScroll]="true"
       [gridOptions]="gridOptions"
       [paginationPageSize]="sizePagination"
+      (gridReady)="onGridReady($event)"
     > 
     </ag-grid-angular>
   </div>
 </div>
-<div *ngIf="loadData || deleteData" class="containerLoader">
-    <div class="loader"></div>
+<div *ngIf="loadData" class="containerLoader">
+  <div class="loader"></div>
 </div>

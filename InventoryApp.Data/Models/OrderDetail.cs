@@ -21,5 +21,6 @@ namespace InventoryApp.Data.Models
         public Guid MaterialId { get; set; }
         public Materials Material { get; set; }
         public int QuantityRequest { get; set; }
+        public int MaterialPrice { get; set; }
     }
 }

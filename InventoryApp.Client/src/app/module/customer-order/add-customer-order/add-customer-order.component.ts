@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { ColDef, GridApi, GridOptions, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
-import { SupplierService } from '../../business-partner/supplier/service/supplier.service';
+import { CustomerService } from '../../business-partner/customer/service/customer.service';
 import { CategoryMaterialService } from '../../category-material/service/category-material.service';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Material } from '../../material/model/material';
 import { MaterialService } from '../../material/service/material.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
-import { Order } from '../model/order';
-import { OrderDetail } from '../model/order-detail';
-import { OrderService } from '../service/order.service';
+import { CustomerOrder } from '../model/customer-order';
+import { CustomerOrderDetail } from '../model/customer-order-detail';
+import { CustomerOrderService } from '../service/customer-order.service';
 
 @Component({
-  selector: 'app-add-order',
-  templateUrl: './add-order.component.html',
-  styleUrls: ['./add-order.component.css']
+  selector: 'app-add-customer-order',
+  templateUrl: './add-customer-order.component.html',
+  styleUrls: ['./add-customer-order.component.css']
 })
-export class AddOrderComponent implements OnInit {
+export class AddCustomerOrderComponent implements OnInit {
   public Title = '';
   public pageTite : PageTitle[] = [
     {
@@ -53,8 +53,8 @@ export class AddOrderComponent implements OnInit {
   materialList!:Array<Select2OptionData>;
   addOrderDetailForm!:FormGroup;
   addOrderForm!:FormGroup;
-  orderDetailValue: OrderDetail;
-  order:Order;
+  orderDetailValue: CustomerOrderDetail;
+  order:CustomerOrder;
   public sizePagination = 10;
   public defaultColDef: ColDef = {
     width:160,
@@ -72,20 +72,20 @@ export class AddOrderComponent implements OnInit {
   };
   private gridApi!: GridApi;
   constructor(public title: Title, private branchService: BranchService, 
-    private supplierService: SupplierService, private materialCategoryService: CategoryMaterialService,
+    private customerService: CustomerService, private materialCategoryService: CategoryMaterialService,
     private materialService: MaterialService,
     private sweetalertService : SweetalertService,
-    private orderService: OrderService
+    private CustomerOrderService: CustomerOrderService
     ) { 
-    this.orderDetailValue = {} as OrderDetail;
-    this.order = {} as Order;
+    this.orderDetailValue = {} as CustomerOrderDetail;
+    this.order = {} as CustomerOrder;
   }
   ngOnInit(): void {
-    this.title.setTitle("Đặt hàng");
-    this.Title = "Quản lý đặt hàng";
+    this.title.setTitle("Đơn hàng");
+    this.Title = "Quản lý đơn hàng";
     this.updateColumnDefs();
     this.getBranchData();
-    this.getSupplierData();
+    this.getCustomerData();
     this.getMaterialCategory();
     this.addOrderDetailForm = new FormGroup({
       materialId: new FormControl(this.orderDetailValue.materialId,[Validators.required]),
@@ -93,24 +93,24 @@ export class AddOrderComponent implements OnInit {
     });
      
     this.addOrderForm = new FormGroup({
-      branchRequestId: new FormControl(this.order.branchRequestId,[Validators.required]),
-      supplierId: new FormControl(this.order.supplierId,[Validators.required]),
+      branchId: new FormControl(this.order.branchId,[Validators.required]),
+      customerId: new FormControl(this.order.customer,[Validators.required]),
       orderDate: new FormControl(this.order.orderDate),
-      supplierOrderDetail: new FormControl(this.order.supplierOrderDetail, [Validators.required]),
+      orderDetail: new FormControl(this.order.orderDetail, [Validators.required]),
     });
   }
   get materialId() { return this.addOrderDetailForm.get('materialId'); }
   get quantityRequest() { return this.addOrderDetailForm.get('quantityRequest'); }
 
 
-  get branchRequestId() { return this.addOrderForm.get('branchRequestId'); }
-  get supplierId() { return this.addOrderForm.get('supplierId'); }
-  get supplierOrderDetail() { return this.addOrderForm.get('supplierOrderDetail'); }
+  get branchId() { return this.addOrderForm.get('branchId'); }
+  get customerId() { return this.addOrderForm.get('customerId'); }
+  get orderDetail() { return this.addOrderForm.get('orderDetail'); }
   private updateColumnDefs() {
     this.columnDefs  =  [
       { field: "code", headerName:"MÃ SẢN PHẨM",cellStyle: {fontWeight: '500'}}, 
       { field: 'name', headerName: "TÊN SẢN PHẨM", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left',resizable:true },
-      { field: 'costPrice', headerName: "GIÁ NHẬP", width:180, cellRendererFramework: CurrencyComponent,},
+      { field: 'salePrice', headerName: "GIÁ BÁN", width:180, cellRendererFramework: CurrencyComponent,},
       { field: 'quantityRequest', headerName: "SỐ LƯỢNG YÊU CẦU", width:180, cellStyle: {textAlign: 'center'} },
       { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN", width:180, cellStyle: {textAlign: 'center'} },
       { field: 'materialCategory', headerName: "NHÓM SẢN PHẨM", width:240 },
@@ -118,19 +118,19 @@ export class AddOrderComponent implements OnInit {
   }
   changeBranchValue(data: any){
     if(data != undefined){
-      this.addOrderForm.patchValue({branchRequestId: data != 'null' ? data : null});
-      document.getElementById("branchRequestId")?.focus();
+      this.addOrderForm.patchValue({branchId: data != 'null' ? data : null});
+      document.getElementById("branchId")?.focus();
     }
   }
   changeSupplierValue(data: any){
     if(data != undefined){
-      this.addOrderForm.patchValue({supplierId: data != 'null' ? data : null});
-      document.getElementById("supplierId")?.focus();
+      this.addOrderForm.patchValue({customerId: data != 'null' ? data : null});
+      document.getElementById("customerId")?.focus();
     }
   }
   changeOrderDetailValue(){
-    this.addOrderForm.patchValue({supplierOrderDetail: this.dataRow });
-    document.getElementById("supplierOrderDetail")?.focus();
+    this.addOrderForm.patchValue({orderDetail: this.dataRow });
+    document.getElementById("orderDetail")?.focus();
   }
   getBranchData(){
     document.body.style.overflow = 'hidden';
@@ -151,13 +151,13 @@ export class AddOrderComponent implements OnInit {
       this.loadData = true;
     })
   }
-  getSupplierData(){
+  getCustomerData(){
     var tempData: { id: string; text: string; }[] = [];
-    this.supplierService.getSupplierData().subscribe(response => {
+    this.customerService.getAllCustomerData().subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
-          text: element.supplierName
+          text: element.customerName
         }
         tempData.push(data);
       });
@@ -180,8 +180,8 @@ export class AddOrderComponent implements OnInit {
   refreshBranchData(){
     this.getBranchData();
   }
-  refreshSupplierData(){
-    this.getSupplierData();
+  refreshCustomerData(){
+    this.getCustomerData();
   }
   refreshCategoryData(){
     this.getMaterialCategory();
@@ -219,7 +219,7 @@ export class AddOrderComponent implements OnInit {
           "materialId":response.id,
           "code": response.code, 
           "name": response.name, 
-          "costPrice": response.costPrice,
+          "salePrice": response.salePrice,
           "baseMaterialUnit": response.baseMaterialUnit,
           "materialCategory": response.categoryMaterial.name,
           "quantityRequest": quantityRequest
@@ -288,7 +288,7 @@ export class AddOrderComponent implements OnInit {
     this.changeOrderDetailValue();
   }
   showSuccess() {  
-    this.sweetalertService.alertAction("/dat-hang","Thêm đơn đặt hàng thành công");
+    this.sweetalertService.alertAction("/don-hang","Thêm đơn đặt hàng thành công");
   }
   showError(){
     this.sweetalertService.alertMini("Không thể lưu dữ liệu", "Vui lòng kiểm tra lại", "error");
@@ -297,7 +297,7 @@ export class AddOrderComponent implements OnInit {
     this.submitData = true;
     var dateNow = new Date(Date.now());
     this.addOrderForm.patchValue({orderDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
-    this.orderService.addOrder(this.addOrderForm.value).subscribe(
+    this.CustomerOrderService.addCustomerOrder(this.addOrderForm.value).subscribe(
       response => {
         this.showSuccess();
       },

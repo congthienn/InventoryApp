@@ -11,6 +11,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface IOrderRepository : IGenericRepository<Order>
     {
         Task<string> GetLastCode();
+        IEnumerable<Order> GetAllOrders();
         Task<Order> GetOrderByCode(string code);
         IEnumerable<Order> GetOrderByStatus(int status);
         Task AddOrderDetail(OrderDetail orderDetail);

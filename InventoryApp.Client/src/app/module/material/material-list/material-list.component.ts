@@ -17,6 +17,7 @@ export class MaterialListComponent implements OnInit {
   public Title = '';
   public material: Material[] = [];
   public loadData = true;
+  public deleteData = false;
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',

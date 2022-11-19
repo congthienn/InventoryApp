@@ -76,16 +76,13 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: 'don-dat-hang',
+    path: 'don-hang',
     title: 'Đơn hàng',
     icontype: faReorder,
     collapse: 'order',
     roleAccess: true,
     children: [
-      { path: 'danh-sach',title: 'Danh sách'},
-      { path: 'them-moi', title: 'Thêm mới'},
-      { path: 'nhom-nha-cung-cap',title: 'Nhóm nhà cung cấp'},
-      { path: 'so-lieu-thong-ke',title: 'Số liệu thống kê'},
+      { path: '',title: 'Danh sách'},
     ],
   },
   {

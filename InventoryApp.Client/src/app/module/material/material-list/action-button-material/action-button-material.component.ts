@@ -36,6 +36,7 @@ export class ActionButtonMaterialComponent implements ICellRendererAngularComp {
       cancelButtonText: 'Hủy bỏ'
     }).then((result) => {
       this.clickDelete = false;
+      this.materialListComponent.deleteData = true;
       if (result.isConfirmed) {    
         this.deleteMaterial(this.params.value)
       }
@@ -51,6 +52,7 @@ export class ActionButtonMaterialComponent implements ICellRendererAngularComp {
           icon: "success",
           confirmButtonText: 'Done'
         }).then((result) => {
+          this.materialListComponent.deleteData = false;
           this.materialListComponent.getAllMaterial();
         })
       },

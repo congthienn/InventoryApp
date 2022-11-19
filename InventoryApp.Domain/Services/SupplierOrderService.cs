@@ -40,7 +40,7 @@ namespace InventoryApp.Domain.Services
                 {
                     var material = await _materialRepository.GetByID(orderDetail.MaterialId);
                     orderDetail.MaterialPrice = material.CostPrice;
-                    PriceTotal += material.CostPrice;
+                    PriceTotal += material.CostPrice * orderDetail.QuantityRequest;
                 }
                 supplierOrder.PriceTotal = PriceTotal;
                 supplierOrder.CreateBy(userIdentity);
