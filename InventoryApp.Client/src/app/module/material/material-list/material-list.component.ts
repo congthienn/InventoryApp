@@ -66,8 +66,8 @@ export class MaterialListComponent implements OnInit {
       }, 
       { field: "code", headerName:"MÃ SP", cellStyle: {fontWeight: '500'}}, 
       { field: 'name', headerName: "TÊN SẢN PHẨM", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
-      { field: 'salePrice', headerName: "GIÁ NHẬP KHO",  cellRendererFramework: CurrencyComponent,},
-      { field: 'costPrice', headerName: "GIÁ BÁN RA", cellRendererFramework: CurrencyComponent,},
+      { field: 'costPrice', headerName: "GIÁ NHẬP KHO",  cellRendererFramework: CurrencyComponent,},
+      { field: 'salePrice', headerName: "GIÁ BÁN RA", cellRendererFramework: CurrencyComponent,},
       { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN"},
       { field: 'categoryMaterial', headerName: "NHÓM SẢN PHẨM", width:200},
       { field: 'trademark', headerName: "THƯƠNG HIỆU"},
@@ -79,7 +79,7 @@ export class MaterialListComponent implements OnInit {
   public getAllMaterial(){
     document.body.style.overflow = 'hidden';
     this.materialService.getAllMaterial().subscribe(
-      response =>{
+      response => {
         this.material = response;
         var dataRowTemp: any[]= [];
         this.material.forEach(element => {
@@ -118,6 +118,4 @@ function fragRenderer(params: ICellRendererParams) {
   const statusClass = params.value ? "btn-success" : "btn-secondary";
   return `<button type="button" class="btn ${statusClass} btn-sm-custom">${params.value}</button>`;
 }
-function currency(params: ICellRendererParams){
-  return `<span>${params.value} | currency:"USD":"symbol"</span>`;
-}
+

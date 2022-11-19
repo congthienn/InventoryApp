@@ -11,6 +11,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface ISupplierOrderRepository : IGenericRepository<SupplierOrder>
     {
         Task<string> GetLastCode();
+        IEnumerable<SupplierOrder> GetAllSupplierOrder();
         Task<SupplierOrder> GetSupplierOrderByCode(string code);
         IEnumerable<SupplierOrder> GetSupplierOrderByStatus(int status);
         Task DeleteSupplierOrderDetail(SupplierOrderDetail supplierOrderDetail);

@@ -26,5 +26,6 @@ namespace InventoryApp.Data.Models
         public Guid BranchRequestId { get; set; }
         public Branches? BranchRequest { get; set; }
         public List<SupplierOrderDetail>? SupplierOrderDetail { get; set; }
+        public int PriceTotal { get; set; }
     }
 }

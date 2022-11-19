@@ -62,12 +62,12 @@ namespace InventoryApp.Application.Controllers
         }
         [Route("updateStatus/{code}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateStatusSupplierOrder(string code, [FromBody] OrderStatusModel status)
+        public async Task<IActionResult> UpdateStatusSupplierOrder(string code)
         {
             try
             {
                 UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _supplierOrderService.UpdateStatusSupplierOrder(code, status, userIdentity));
+                return Ok(await _supplierOrderService.UpdateStatusSupplierOrder(code, userIdentity));
             }
             catch (Exception e)
             {

@@ -4,6 +4,7 @@ using InventoryApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryApp.DbMigrations.Migrations
 {
     [DbContext(typeof(InventoryDBContext))]
-    partial class InventoryDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221118193339_Allter_Table_SupplierOrder")]
+    partial class Allter_Table_SupplierOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2056,9 +2058,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PriceTotal")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -2097,9 +2096,6 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Property<Guid>("MaterialId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("MaterialPrice")
-                        .HasColumnType("int");
 
                     b.Property<int>("QuantityRequest")
                         .HasColumnType("int");

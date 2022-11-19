@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faBook, faBoxesStacked, faBuilding ,faDashboard,faGear,faParachuteBox, faPeopleGroup, faReorder, faUsers, faUserSecret, faWarehouse } 
+import { faBook, faBoxesStacked, faBuilding ,faChessBishop,faDashboard,faGear,faParachuteBox, faPeopleGroup, faReorder, faUsers, faUserSecret, faWarehouse } 
 from '@fortawesome/free-solid-svg-icons';
 
 export interface RouteInfo {
@@ -77,7 +77,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: 'don-dat-hang',
-    title: 'Đơn đặt hàng',
+    title: 'Đơn hàng',
     icontype: faReorder,
     collapse: 'order',
     roleAccess: true,
@@ -86,6 +86,16 @@ export const ROUTES: RouteInfo[] = [
       { path: 'them-moi', title: 'Thêm mới'},
       { path: 'nhom-nha-cung-cap',title: 'Nhóm nhà cung cấp'},
       { path: 'so-lieu-thong-ke',title: 'Số liệu thống kê'},
+    ],
+  },
+  {
+    path: 'dat-hang',
+    title: 'Đặt hàng',
+    icontype: faChessBishop,
+    collapse: 'managerOrder',
+    roleAccess: true,
+    children: [
+      { path: '',title: 'Danh sách'},
     ],
   },
   {

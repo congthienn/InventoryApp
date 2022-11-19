@@ -31,6 +31,15 @@ export class MaterialService {
       })
     )
   }
+  getMaterialById(id:string){
+    let url = `${this.materialURL}/${id}`;
+    return this.http.get(url).pipe(
+      tap((response:any) =>{
+        return response;
+      })
+    )
+  }
+  
   deleteMaterial(id:string): Observable<any>{
     let url = `${this.materialURL}/${id}`;
     return this.http.delete(url).pipe(

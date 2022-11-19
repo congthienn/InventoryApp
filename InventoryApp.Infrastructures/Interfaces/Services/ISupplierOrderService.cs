@@ -15,7 +15,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status);
         Task<SupplierOrderModel> AddSupplierOrder(SupplierOrderModel model, UserIdentity userIdentity);
         Task<SupplierOrderModel> UpdateSupplierOrder(string code, SupplierOrderModel model, UserIdentity userIdentity);
-        Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code, OrderStatusModel status, UserIdentity userIdentity);
+        Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code,  UserIdentity userIdentity);
         Task<bool> DeleteSupplierOrderDetail(int id);
     }
 }

@@ -119,3 +119,33 @@ body::-webkit-scrollbar-thumb:hover {
 .icon-refresh{
     cursor: pointer;
 }
+.modal-xl .modal-lg .modal-content{
+    width: 750px;
+}
+.modal-lg .modal-content{
+    width: 1000px;
+}
+@media (min-width: 576px){
+    .modal-xl .modal-lg{
+        max-width: 750px !important;
+        margin: 1.75rem auto !important;
+    }
+    .modal-lg .modal-content{
+        max-width: 1000px !important;
+        margin: 1.75rem auto !important;
+    }
+}
+@media (min-width: 1200px){
+    .modal-xl {
+        max-width: 1000px !important;
+    }
+}
+@media (min-width: 992px){
+    .modal-lg, .modal-xl {
+        max-width: 900px !important;
+    }
+}
+
+.ag-theme-alpine {
+    --ag-header-background-color: rgb(244, 244, 244);
+}

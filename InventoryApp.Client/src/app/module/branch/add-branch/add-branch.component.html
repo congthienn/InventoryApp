@@ -29,8 +29,9 @@
                     </div>
                     <div class="form-group">
                         <label for="fax">Số Fax<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="fax" formControlName="fax">
+                        <input type="text" class="form-control" id="fax" formControlName="fax">     
                         <div class="feedback" *ngIf="fax?.errors?.['required'] && (fax?.dirty)">Số fax không được để trống</div>
+                        <div class="feedback" *ngIf="(fax?.errors?.['maxlength'] || fax?.errors?.['minlength']) && (fax?.dirty)">Số fax không hợp lệ</div>
                     </div>
                     <div *ngIf="!_mainBranchAlreadyExists" class="form-group">
                         <div class="checkbox checkbox-purple">

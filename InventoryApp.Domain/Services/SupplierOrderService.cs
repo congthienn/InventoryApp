@@ -16,12 +16,14 @@ namespace InventoryApp.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISupplierOrderRepository _supplierOrderRepository;
+        private readonly IMaterialRepository _materialRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public SupplierOrderService(IMapper mapper, ILogger<SupplierOrderService> logger)
         {
             _unitOfWork = new UnitOfWork();
             _supplierOrderRepository = new SupplierOrderRepository(_unitOfWork);
+            _materialRepository = new MaterialRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -33,6 +35,14 @@ namespace InventoryApp.Domain.Services
                 SupplierOrder supplierOrder = _mapper.Map<SupplierOrder>(model);
                 string code = await _supplierOrderRepository.GetLastCode();
                 supplierOrder.Code = code == null ? "DDH00001" : StringHelper.CreateCode(code);
+                int PriceTotal = 0;
+                foreach(var orderDetail in supplierOrder.SupplierOrderDetail)
+                {
+                    var material = await _materialRepository.GetByID(orderDetail.MaterialId);
+                    orderDetail.MaterialPrice = material.CostPrice;
+                    PriceTotal += material.CostPrice;
+                }
+                supplierOrder.PriceTotal = PriceTotal;
                 supplierOrder.CreateBy(userIdentity);
                 supplierOrder.UpdateBy(userIdentity);
                 await _supplierOrderRepository.Insert(supplierOrder);
@@ -71,7 +81,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrder()
         {
-            return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.Get());
+            return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetAllSupplierOrder());
         }
 
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status)
@@ -84,7 +94,7 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<SupplierOrderModel>(await _supplierOrderRepository.GetSupplierOrderByCode(code));
         }
 
-        public async Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code, OrderStatusModel status, UserIdentity userIdentity)
+        public async Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code, UserIdentity userIdentity)
         {
             try
             {
@@ -92,7 +102,10 @@ namespace InventoryApp.Domain.Services
                 if (supplierOrder == null)
                     throw new NotImplementedException("Supplier Order not found");
 
-                supplierOrder.Status = status.Status;
+                supplierOrder.Status ++;
+                if(supplierOrder.Status > 3)
+                    throw new NotImplementedException("Can't update suplier order");
+
                 supplierOrder.UpdateBy(userIdentity);
 
                 await _supplierOrderRepository.Update(supplierOrder);

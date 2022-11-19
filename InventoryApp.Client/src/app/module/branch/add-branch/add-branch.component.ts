@@ -73,7 +73,7 @@ export class AddBranchComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern("^[0-9]*$")
       ]),
-      fax: new FormControl(this.branch.fax, Validators.required),
+      fax: new FormControl(this.branch.fax, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       taxCode: new FormControl(this.branch.taxCode, Validators.required),
       provinceId: new FormControl(this.branch.provinceId, Validators.required),
       districtId: new FormControl(this.branch.districtId, Validators.required),

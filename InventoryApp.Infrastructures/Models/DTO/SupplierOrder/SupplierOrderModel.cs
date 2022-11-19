@@ -13,8 +13,11 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public int Status { get; set; }
         public DateTime OrderDate { get; set; }
         public Guid SupplierId { get; set; }
+        public SupplierModelRq Supplier { get; private set; } 
         public Guid BranchRequestId { get; set; }
+        public BranchModelRq BranchRequest { get;  private set; }
         public List<SupplierOrderDetailModel> SupplierOrderDetail { get; set; }
+        public int PriceTotal { get; set; }
     }
     public class SupplierOrderModelValidator : AbstractValidator<SupplierOrderModel>
     {

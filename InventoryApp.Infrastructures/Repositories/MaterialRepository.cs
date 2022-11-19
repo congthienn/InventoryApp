@@ -92,7 +92,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public async Task<Materials> GetMaterialById(Guid materialId)
         {
-            return await _dbSet.Include(x => x.Pictures).Where(x => x.Id == materialId).FirstOrDefaultAsync();
+            return await _dbSet.Include(x=>x.CategoryMaterial).Include(x=>x.Trademark).Include(x => x.Pictures).Where(x => x.Id == materialId).FirstOrDefaultAsync();
         }
 
         public async Task<MaterialPicture> GetMaterialPictureById(int pictureId)

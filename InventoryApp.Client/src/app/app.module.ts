@@ -21,6 +21,7 @@ import { QuillModule } from 'ngx-quill';
 import { TrademarkModule } from './module/trademark/trademark.module';
 import { CategoryMaterialModule } from './module/category-material/category-material.module';
 import { WarehouseModule } from './module/warehouse/warehouse.module';
+import { OrderModule } from './module/order/order.module';
 
 
 @NgModule({ 
@@ -48,7 +49,8 @@ import { WarehouseModule } from './module/warehouse/warehouse.module';
     MaterialModule,
     TrademarkModule,
     CategoryMaterialModule,
-    WarehouseModule
+    WarehouseModule,
+    OrderModule,
   ],
   providers: [
     {

@@ -42,4 +42,12 @@ export class CategoryMaterialService {
       })
     )
   }
+  getAllMaterialByCategoryId(id:string){
+    let url = `${this.categoryMaterialURL}/${id}/getAllMaterials`;
+    return this.http.get(url, this.httpOptions).pipe(
+      tap((response:any) => {
+        return response;
+      })
+    )
+  }
 }
