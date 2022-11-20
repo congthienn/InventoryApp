@@ -65,35 +65,35 @@
                 <div class="card-body">
                    
                     <h4 class="header-title mb-4">Địa chỉ khách hàng</h4>
-                    <div class="form-group row specialFormGroup">
-                        <label for="province" class="col-md-4 col-form-label">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
-                        <div class="col-md-7">
+                    <div class="form-group specialFormGroup">
+                        <label for="province">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
+                        <div>
                             <ng-select2  (valueChanged)="changeProvinceValue($event)" [data]="provinceList" aria-required="true"></ng-select2>
                             <div class="feedback" *ngIf="provinceId?.errors?.['required'] && (provinceId?.touched)">Địa chỉ tỉnh thành không được để trống</div>
                             <input type="text" class="specialInput" formControlName="provinceId" id="province"> 
                         </div>      
                     </div>
-                    <div class="form-group row specialFormGroup">
-                        <label for="district" class="col-md-4 col-form-label">Quận (Huyện)
+                    <div class="form-group specialFormGroup">
+                        <label for="district">Quận (Huyện)
                             <span class="text-danger">*</span></label>
-                        <div class="col-md-7">
+                        <div>
                             <ng-select2  (valueChanged)="changeDistrictValue($event)" [data]="districtList" aria-required="true"></ng-select2>
                             <div class="feedback" *ngIf="districtId?.errors?.['required'] && (districtId?.touched)">Địa chỉ quận huyện không được để trống</div>
                             <input type="text" class="specialInput" formControlName="districtId" id="district">    
                         </div>
                     </div>
-                    <div class="form-group row specialFormGroup">
-                        <label for="ward" class="col-md-4 col-form-label">Phường (Xã)<span class="text-danger">*</span></label>
-                        <div class="col-md-7">
+                    <div class="form-group specialFormGroup">
+                        <label for="ward">Phường (Xã)<span class="text-danger">*</span></label>
+                        <div>
                             <ng-select2  (valueChanged)="changeWardValue($event)" [data]="wardList" aria-required="true"></ng-select2>
                             <div class="feedback" *ngIf="wardId?.errors?.['required'] && (wardId?.touched)">Địa chỉ xã phường không được để trống</div>
                             <input type="text" class="specialInput" formControlName="wardId" id="ward">       
                         </div>
                         
                     </div>
-                    <div class="form-group row">
-                        <label for="address" class="col-md-4 col-form-label">Tên đường - Số nhà</label>
-                        <div class="col-md-7">
+                    <div class="form-group">
+                        <label for="address">Tên đường - Số nhà</label>
+                        <div>
                             <input type="string" class="form-control" formControlName="address" id="address">
                         </div>
                     </div>

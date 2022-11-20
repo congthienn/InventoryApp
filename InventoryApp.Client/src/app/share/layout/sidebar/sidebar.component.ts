@@ -133,7 +133,7 @@ export const ROUTES: RouteInfo[] = [
     path: 'cai-dat-chung',
     title: 'Cài đặt chung',
     icontype: faGear,
-    collapse: 'role',
+    collapse: 'setting',
     roleAccess: true,
     children: [
       { path: 'thong-tin-cong-ty',title: 'Thông tin công ty'},
