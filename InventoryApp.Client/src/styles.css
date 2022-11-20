@@ -134,6 +134,10 @@ body::-webkit-scrollbar-thumb:hover {
         max-width: 1000px !important;
         margin: 1.75rem auto !important;
     }
+    .modal-dialog {
+        max-width: 560px !important;
+        margin: 1.75rem auto;
+    }
 }
 @media (min-width: 1200px){
     .modal-xl {

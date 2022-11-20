@@ -42,9 +42,6 @@ namespace InventoryApp.Application.Controllers.Identity
             if (result.RequiresTwoFactor)
                 return BadRequest("Two Factor Login is required");
 
-            if (!result.EmailConfirmed)
-                return BadRequest("Your account has not been activated");
-
             return BadRequest("Email or Password does not match");
         }
 

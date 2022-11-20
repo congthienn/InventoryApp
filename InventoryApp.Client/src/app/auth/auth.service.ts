@@ -26,6 +26,7 @@ export class AuthService {
     return this.http.post(url, user, this.httpOptions).pipe(
           tap((response: any) =>{
             localStorage.setItem(environment.keyToken, response.access_token);
+            localStorage.setItem("expires_date", response.expires_date);
             if(user.remember){
               var time = new Date();
               time.setDate(time.getDate() + 3);
@@ -40,6 +41,7 @@ export class AuthService {
   logOut() {
     let removeToken = localStorage.removeItem(environment.keyToken);
     localStorage.removeItem('remember');
+    localStorage.removeItem('expires_date');
     if (removeToken == null) {
       this.router.navigate(['/login']);
     }
@@ -61,6 +63,17 @@ export class AuthService {
   get isLoggedIn(): boolean {
     let authToken = localStorage.getItem(environment.keyToken);
     return authToken !== null ? true : false;
+  }
+
+  get validToken(): boolean{
+    let expires_date = localStorage.getItem('expires_date');
+    if(expires_date != null && new Date() > new Date(expires_date)){
+      localStorage.removeItem(environment.keyToken);
+      localStorage.removeItem('remember');
+      localStorage.removeItem('expires_date');
+      return false;
+    }
+    return true;
   }
   
   getUserName(): any{

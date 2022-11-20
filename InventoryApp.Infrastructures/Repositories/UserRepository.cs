@@ -15,9 +15,14 @@ namespace InventoryApp.Infrastructures.Repositories
            
         }
 
-        public IQueryable GetRoleByUser(Guid userId)
+        public IEnumerable<Branches> GetBranchByUser(Guid userId)
         {
-            return _context.Set<UserRoles>().Include(x=>x.Role).Where(x=>x.UserId == userId).Select(x=>x.Role.Name);
+            return _context.Set<UserBranches>().Include(x => x.Branch).Where(x => x.UserId == userId).Select(x => x.Branch);
+        }
+
+        public IEnumerable<Roles> GetRoleByUser(Guid userId)
+        {
+            return _context.Set<UserRoles>().Include(x=>x.Role).Where(x=>x.UserId == userId).Select(x=>x.Role);
         }
     }
 }

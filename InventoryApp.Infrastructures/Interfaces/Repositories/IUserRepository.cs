@@ -10,6 +10,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<Users>
     {
-        IQueryable GetRoleByUser(Guid userId);
+        IEnumerable<Roles> GetRoleByUser(Guid userId);
+        IEnumerable<Branches> GetBranchByUser(Guid userId);
     }
 }

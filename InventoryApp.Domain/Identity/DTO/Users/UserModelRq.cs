@@ -1,6 +1,10 @@
 ﻿using FluentValidation;
 using InventoryApp.Common.Helper;
+using InventoryApp.Data.Models;
+
 using InventoryApp.Domain.Helper;
+using InventoryApp.Domain.Identity.DTO.Roles;
+using InventoryApp.Infrastructures.Models.DTO;
 
 namespace InventoryApp.Domain.Identity.DTO.Users
 {
@@ -11,7 +15,11 @@ namespace InventoryApp.Domain.Identity.DTO.Users
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string? AvatarURL { get; set; }
-        public bool Status { get; private set; } = false;
+        public bool Status { get; private set; } = true;
+        public List<Guid> BranchId { get; set; }
+        public IEnumerable<BranchModelRq> Branch { get; set; }
+        public Guid RoleId { get; set; }
+        public RoleModelRq Role { get; set; }
     }
     public class UserModelValidator : AbstractValidator<UserModelRq>
     {

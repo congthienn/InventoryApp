@@ -109,14 +109,13 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: 'quan-ly-tai-khoan',
+    path: 'tai-khoan',
     title: 'Quản lý tài khoản',
     icontype: faUsers,
     collapse: 'managerUser',
     roleAccess: true,
     children: [
-      { path: 'danh-sach',title: 'Danh sách'},
-      { path: 'them-moi', title: 'Thêm mới'},
+      { path: '',title: 'Danh sách'},
     ],
   },
   {

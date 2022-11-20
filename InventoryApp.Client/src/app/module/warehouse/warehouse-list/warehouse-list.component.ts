@@ -48,7 +48,7 @@ export class WarehouseListComponent implements OnInit {
   constructor(private warehouseService: WarehouseService, 
     private title: Title, 
     public sweetalertService: SweetalertService,
-    private modalService: NgbModal,) {}
+    private modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.title.setTitle("Kho hàng");

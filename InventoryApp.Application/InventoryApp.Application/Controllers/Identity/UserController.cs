@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using InventoryApp.Domain.Identity.DTO.Roles;
 using InventoryApp.Domain.Identity.DTO.Users;
 using InventoryApp.Domain.Identity.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -86,7 +87,7 @@ namespace InventoryApp.Application.Controllers.Identity
 
         [Route("getRole/{userId}")]
         [HttpGet]
-        public IQueryable GetRoleByUser(Guid userId)
+        public IEnumerable<RoleModelRq> GetRoleByUser(Guid userId)
         {
             return _userService.GetRoleByUser(userId);
         }

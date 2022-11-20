@@ -16,7 +16,7 @@ namespace InventoryApp.Domain.Helper.SeedData
         {
             var dbContext = serviceProvider.GetService<InventoryDBContext>();
             await SeedDataUser(serviceProvider, dbContext);
-                await SeedDataRole(serviceProvider, dbContext);
+                //await SeedDataRole(serviceProvider, dbContext);
         }
         private static async Task SeedDataUser(IServiceProvider serviceProvider, DbContext dbContext)
         {

@@ -88,7 +88,7 @@ namespace InventoryApp.Domain.Services
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#email", email);
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#username", userName);
             emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#password", password);
-            emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#url", urConfirmEmail);
+            //emailTemplate.EmailContent = emailTemplate.EmailContent.Replace("#url", urConfirmEmail);
             await _emailSender.SendEmailAsync(email, emailTemplate.EmailSubject, emailTemplate.EmailContent, true);
         }
 

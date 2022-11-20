@@ -2,11 +2,13 @@
 using InventoryApp.Common;
 using InventoryApp.Data.Helper;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.Identity.DTO.Roles;
 using InventoryApp.Domain.Identity.DTO.Users;
 using InventoryApp.Domain.Identity.IServices;
 using InventoryApp.Infrastructures;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
 using InventoryApp.Infrastructures.Interfaces.Services;
+using InventoryApp.Infrastructures.Models.DTO;
 using InventoryApp.Infrastructures.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -18,6 +20,7 @@ namespace InventoryApp.Domain.Services.Identity
     {
         private readonly UserManager<Users> _userManager;
         private readonly RoleManager<Roles> _roleManager;
+        private readonly IUserBranchRepository _userBranchRepository;
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
@@ -28,6 +31,7 @@ namespace InventoryApp.Domain.Services.Identity
         {
             _unitOfWork = new UnitOfWork();
             _userRepository = new UserRepository(_unitOfWork);
+            _userBranchRepository = new UserBranchRepository(_unitOfWork);
             _userManager = userManager;
             _roleManager = roleManager;
             _emailService = emailSender;
@@ -61,6 +65,8 @@ namespace InventoryApp.Domain.Services.Identity
         {
             try
             {
+                _unitOfWork.CreateTransaction();
+
                 Users user = _mapper.Map<Users>(model);
                 user.CreateBy(issuer);
                 user.UpdateBy(issuer);
@@ -70,6 +76,24 @@ namespace InventoryApp.Domain.Services.Identity
                 var result = await _userManager.CreateAsync(user, password);
                 if (!result.Succeeded)
                     throw new NotImplementedException(result.Errors.ToString());
+
+                foreach (var branchId in model.BranchId)
+                {
+                    UserBranches userBranch = new UserBranches
+                    {
+                        BranchId = branchId,
+                        UserId = user.Id
+                    };
+                    await _userBranchRepository.Insert(userBranch);
+                }
+
+                var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
+
+                var identityResult = await _userManager.AddToRoleAsync(user, role.Name);
+
+                _unitOfWork.Save();
+                _unitOfWork.Commit();
+
                 var tokenConfirmEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 await _emailService.SendEmailCreateNewUserAsync(user.Email, user.UserName, password, tokenConfirmEmail);
                 return model;
@@ -77,6 +101,7 @@ namespace InventoryApp.Domain.Services.Identity
             catch(Exception e)
             {
                 _logger.LogError(e.Message);
+                _unitOfWork.Rollback();
                 throw new NotImplementedException(e.Message);
             }
         }
@@ -105,9 +130,9 @@ namespace InventoryApp.Domain.Services.Identity
             }
         }
 
-        public IQueryable GetRoleByUser(Guid userId)
+        public IEnumerable<RoleModelRq> GetRoleByUser(Guid userId)
         {
-            return _userRepository.GetRoleByUser(userId);
+            return _mapper.Map<IEnumerable<RoleModelRq>>(_userRepository.GetRoleByUser(userId));
         }
 
         public async Task<UserModelRq> GetUserById(Guid id)
@@ -118,7 +143,13 @@ namespace InventoryApp.Domain.Services.Identity
 
         public IEnumerable<UserModelRq> GetUserList()
         {
-            return _mapper.Map<IEnumerable<UserModelRq>>(_userRepository.Get());
+            IEnumerable<UserModelRq> userList = _mapper.Map<IEnumerable<UserModelRq>>(_userRepository.Get());
+            foreach(var userItem in userList)
+            {
+                userItem.Role = GetRoleByUser(userItem.Id).FirstOrDefault();
+                userItem.Branch = _mapper.Map<IEnumerable<BranchModelRq>>(_userRepository.GetBranchByUser(userItem.Id));
+            }
+            return userList;
         }
 
         public async Task<bool> RemoveRoleToUserAsync(UserRoleModelRq model)
