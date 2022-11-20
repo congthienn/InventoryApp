@@ -11,6 +11,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     public interface IWarehouseService
     {
         IEnumerable<WarehouseModel> GetAllWarehouses();
+        IEnumerable<WarehouseModel> GetAllWarehouseByBranchId(Guid branchId);
         IEnumerable<WarehouseAreaModel> GetAllWarehouseAreas(Guid warehouseId);
         Task<WarehouseModel> GetWarehouseById(Guid id);
         Task<WarehouseModel> AddWarehouse(WarehouseModel model, UserIdentity userIdentity);

@@ -11,6 +11,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     public interface ISupplierOrderService
     {
         IEnumerable<SupplierOrderModel> GetAllSupplierOrder();
+        IEnumerable<SupplierOrderModel> GetAllSupplierOrderByBranchId(Guid branchId);
         Task<SupplierOrderModel> GetSupplierOrderByCode(string code);
         IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status);
         Task<SupplierOrderModel> AddSupplierOrder(SupplierOrderModel model, UserIdentity userIdentity);

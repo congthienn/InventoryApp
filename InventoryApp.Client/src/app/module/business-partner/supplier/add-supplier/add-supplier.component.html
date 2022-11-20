@@ -57,7 +57,6 @@
                         <label for="province">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
                         <div>
                             <ng-select2  (valueChanged)="changeProvinceValue($event)" [data]="provinceList" aria-required="true"></ng-select2>
-                            <div class="feedback" *ngIf="provinceId?.errors?.['required'] && (provinceId?.touched)">Địa chỉ tỉnh thành không được để trống</div>
                             <input type="text" class="specialInput" formControlName="provinceId" id="province"> 
                         </div>      
                     </div>
@@ -66,7 +65,6 @@
                             <span class="text-danger">*</span></label>
                         <div>
                             <ng-select2  (valueChanged)="changeDistrictValue($event)" [data]="districtList" aria-required="true"></ng-select2>
-                            <div class="feedback" *ngIf="districtId?.errors?.['required'] && (districtId?.touched)">Địa chỉ quận huyện không được để trống</div>
                             <input type="text" class="specialInput" formControlName="districtId" id="district">    
                         </div>
                     </div>
@@ -74,7 +72,6 @@
                         <label for="ward">Phường (Xã)<span class="text-danger">*</span></label>
                         <div>
                             <ng-select2  (valueChanged)="changeWardValue($event)" [data]="wardList" aria-required="true"></ng-select2>
-                            <div class="feedback" *ngIf="wardId?.errors?.['required'] && (wardId?.touched)">Địa chỉ xã phường không được để trống</div>
                             <input type="text" class="specialInput" formControlName="wardId" id="ward">       
                         </div>
                         

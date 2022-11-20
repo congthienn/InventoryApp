@@ -12,6 +12,8 @@ namespace InventoryApp.Domain.Identity.IServices
     public interface IUserService
     {
         IEnumerable<UserModelRq> GetUserList();
+        IEnumerable<UserModelRq> GetUserLisByBranchId(Guid branchId);
+
         Task<UserModelRq> AddUserAsync(UserModelRq model, UserIdentity issuer);
         Task<UserModelRq> UpdateUserAsync(Guid id, UserUpdateRq model, UserIdentity issuer);
         Task<bool> DeleteUserAsync(Guid id);

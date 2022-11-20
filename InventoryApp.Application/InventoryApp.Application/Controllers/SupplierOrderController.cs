@@ -21,6 +21,13 @@ namespace InventoryApp.Application.Controllers
             return _supplierOrderService.GetAllSupplierOrder();
         }
 
+        [Route("GetAllSupplierOrder/branchId")]
+        [HttpGet]
+        public IEnumerable<SupplierOrderModel> GetAllSupplierOrder(Guid branchId)
+        {
+            return _supplierOrderService.GetAllSupplierOrderByBranchId(branchId);
+        }
+
         [Route("Code/{code}")]
         [HttpGet()]
         public async Task<IActionResult> GetSupplierOrderByCode(string code)

@@ -141,6 +141,11 @@ namespace InventoryApp.Domain.Services.Identity
             return _mapper.Map<UserModelRq>(user);
         }
 
+        public IEnumerable<UserModelRq> GetUserLisByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<UserModelRq>>(_userRepository.GetUserListByBranchId(branchId));
+        }
+
         public IEnumerable<UserModelRq> GetUserList()
         {
             IEnumerable<UserModelRq> userList = _mapper.Map<IEnumerable<UserModelRq>>(_userRepository.Get());

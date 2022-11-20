@@ -25,6 +25,7 @@ import { OrderModule } from './module/order/order.module';
 import { CustomerOrderModule } from './module/customer-order/customer-order.module';
 import { UserModule } from './module/user/user.module';
 import { RoleModule } from './module/role/role.module';
+import { InventoryReceivingVoucherModule } from './module/inventory-receiving-voucher/inventory-receiving-voucher.module';
 
 
 @NgModule({ 
@@ -56,7 +57,7 @@ import { RoleModule } from './module/role/role.module';
     OrderModule,
     CustomerOrderModule,
     UserModule,
-    RoleModule
+    RoleModule,
   ],
   providers: [
     {

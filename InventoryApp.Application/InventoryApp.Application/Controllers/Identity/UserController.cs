@@ -21,6 +21,12 @@ namespace InventoryApp.Application.Controllers.Identity
         {
             return _userService.GetUserList();
         }
+        [Route("GetUserLisByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<UserModelRq> GetUserList(Guid branchId)
+        {
+            return _userService.GetUserLisByBranchId(branchId);
+        }
 
         [Route("{userId}")]
         [HttpGet]

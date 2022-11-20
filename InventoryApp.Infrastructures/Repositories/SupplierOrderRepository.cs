@@ -28,6 +28,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return _dbSet.Include(x => x.BranchRequest).Include(x => x.Supplier).OrderByDescending(x => x.CreatedDate);
         }
 
+        public IEnumerable<SupplierOrder> GetAllSupplierOrderByBranchId(Guid branchId)
+        {
+            return _dbSet.Where(x=>x.BranchRequestId == branchId && x.Status == 2).OrderByDescending(x => x.CreatedDate);
+        }
+
         public async Task<string> GetLastCode()
         {
             return await _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefaultAsync();

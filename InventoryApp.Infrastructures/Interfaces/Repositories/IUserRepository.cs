@@ -12,5 +12,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         IEnumerable<Roles> GetRoleByUser(Guid userId);
         IEnumerable<Branches> GetBranchByUser(Guid userId);
+        IEnumerable<Users> GetUserListByBranchId(Guid branchId);
     }
 }

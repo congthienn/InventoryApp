@@ -24,5 +24,10 @@ namespace InventoryApp.Infrastructures.Repositories
         {
             return _context.Set<UserRoles>().Include(x=>x.Role).Where(x=>x.UserId == userId).Select(x=>x.Role);
         }
+
+        public IEnumerable<Users> GetUserListByBranchId(Guid branchId)
+        {
+            return _context.Set<UserBranches>().Include(x => x.User).Where(x => x.BranchId == branchId).Select(x => x.User);
+        }
     }
 }

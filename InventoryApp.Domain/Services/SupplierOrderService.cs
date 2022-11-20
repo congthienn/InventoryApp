@@ -84,6 +84,11 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetAllSupplierOrder());
         }
 
+        public IEnumerable<SupplierOrderModel> GetAllSupplierOrderByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetAllSupplierOrderByBranchId(branchId));
+        }
+
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status)
         {
             return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetSupplierOrderByStatus(status));

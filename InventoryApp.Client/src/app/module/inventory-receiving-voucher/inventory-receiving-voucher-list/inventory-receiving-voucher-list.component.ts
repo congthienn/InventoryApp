@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { GridApi, ColDef, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
+import { Order } from '../../order/model/order';
+import { ActionButtonViewDetailComponent } from '../../order/order-list/action-button-view-detail/action-button-view-detail.component';
+import { ButtonUpdateStatusComponent } from '../../order/order-list/button-update-status/button-update-status.component';
+import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
-import { CustomerOrderDetailComponent } from '../customer-order-detail/customer-order-detail.component';
-import { CustomerOrder } from '../model/customer-order';
-import { CustomerOrderService } from '../service/customer-order.service';
-import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
-import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
 
 @Component({
-  selector: 'app-customer-order-list',
-  templateUrl: './customer-order-list.component.html',
-  styleUrls: ['./customer-order-list.component.css']
+  selector: 'app-inventory-receiving-voucher-list',
+  templateUrl: './inventory-receiving-voucher-list.component.html',
+  styleUrls: ['./inventory-receiving-voucher-list.component.css']
 })
-export class CustomerOrderListComponent implements OnInit {
+export class InventoryReceivingVoucherListComponent implements OnInit {
+
   public Title = '';
   private gridApi!: GridApi;
   public loadData = true;
   dataRow: any[] = [];
   columnDefs : any[]= [];
-  orderData: CustomerOrder[] = [];
+  orderData: Order[] = [];
   
   public pageTite : PageTitle[] = [
     {
@@ -31,8 +31,13 @@ export class CustomerOrderListComponent implements OnInit {
       active: false
     },
     {
-      path: '/don-hang/',
-      title: 'Đơn hàng',
+      path: '/kho-hang/',
+      title: 'Kho hàng',
+      active: false
+    },
+    {
+      path: '/danh-sach-phieu-nhap-kho/',
+      title: 'Danh sách phiếu nhập kho',
       active: false
     }
   ]
@@ -49,31 +54,29 @@ export class CustomerOrderListComponent implements OnInit {
     paginationPageSize: 10
   };
 
-  constructor(private customerOrderService: CustomerOrderService, 
+  constructor(private orderService: OrderService, 
         private title: Title, 
         private sweetalertService: SweetalertService,
         private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.title.setTitle("Đơn hàng");
-    this.Title = "Quản lý đơn hàng";
+    this.title.setTitle("Phiếu nhập kho");
+    this.Title = "Quản lý phiếu nhập kho";
     this.updateColumnDefs();
-    this.getAllOrder();
   }
   public getAllOrder(){
     document.body.style.overflow = 'hidden';
-    this.customerOrderService.getAllCustomerOrder().subscribe(
+    this.orderService.getAllOrder().subscribe(
       response =>{
-        console.log(response);
         this.orderData = response;
         var dataRowTemp: any[]= [];
         this.orderData.forEach(element => {
           var date = new Date(element.orderDate);
           var data = {
               "code":element.code,
-              "customer": element.customer.customerName, 
-              "branch": element.branch.companyName, 
+              "supplier": element.supplier.supplierName, 
+              "branchRequest": element.branchRequest.companyName, 
               "priceTotal": element.priceTotal,
               "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
               "status": element.code,
@@ -92,18 +95,18 @@ export class CustomerOrderListComponent implements OnInit {
     this.columnDefs  =  [ 
       { field: "code", width: 68,
         headerName: "",
-        suppressFilter: false,
+        suppressFilter: false,  
         filter: false,
         cellStyle: {textAlign  : 'left'},
         initialPinned: 'left',
-        cellRenderer: ActionButtonViewDetailComponent
-      }, 
-      { field: 'status', headerName: "TRẠNG THÁI", width: 150, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent},
-      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 240, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
-      { field: 'customer', headerName: "KHÁCH HÀNG", width: 230, cellStyle: {fontWeight: '500'},resizable:true },
-      { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width: 230 },
+        cellRenderer: ActionButtonViewDetailComponent,}, 
+      { field: "code", headerName:"MÃ NHẬP KHO", width:180, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
+      { field: "code", headerName:"MÃ HÓA ĐƠN", width:180, cellStyle: {fontWeight: '500'}}, 
+      { field: 'supplier', headerName: "NHÀ CUNG CẤP",width:300, cellStyle: {fontWeight: '500'},resizable:true },
+      { field: 'branchRequest', headerName: "CHI NHÁNH", resizable:true, width:230 },
+      { field: 'branchRequest', headerName: "KHO HÀNG", resizable:true, width:230 },
       { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},
-      { field: 'orderDate', headerName: "NGÀY LẬP ĐƠN HÀNG", resizable:true},
+      { field: 'orderDate', headerName: "NGÀY NHẬP KHO", resizable:true, width:200},
     ];
   }
 
@@ -117,4 +120,5 @@ export class CustomerOrderListComponent implements OnInit {
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
   }
+
 }

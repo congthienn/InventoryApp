@@ -18,12 +18,17 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IEnumerable<Warehouses> GetAllWarehouse()
         {
-            return _dbSet.Include(x => x.Branch).OrderByDescending(x => x.UpdatedDate);
+            return _dbSet.Include(x => x.Branch).OrderByDescending(x => x.CreatedDate);
         }
 
         public IEnumerable<WarehouseArea> GetAllWarehouseAreas(Guid warehouseId)
         {
             return _dbSet.Where(x=>x.Id == warehouseId).Select(x=>x.WarehouseAreas).FirstOrDefault();
+        }
+
+        public IEnumerable<Warehouses> GetAllWarehouseByBranchId(Guid branchId)
+        {
+            return _dbSet.Include(x => x.Branch).OrderByDescending(x => x.CreatedDate).Where(x=>x.BranchId == branchId);
         }
 
         public async Task<string> GetLastCode()

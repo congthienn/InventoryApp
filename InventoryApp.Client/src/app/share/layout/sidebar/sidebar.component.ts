@@ -37,7 +37,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: '', title: 'Danh sách'},
       { path: 'xuat-kho', title: 'Xuất kho'},
-      { path: 'nhap-kho', title: 'Nhập kho'},
+      { path: 'danh-sach-phieu-nhap-kho', title: 'Nhập kho'},
       { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
       { path: 'vi-tri-san-pham', title: 'Vị trí sản phẩm'},
     ],

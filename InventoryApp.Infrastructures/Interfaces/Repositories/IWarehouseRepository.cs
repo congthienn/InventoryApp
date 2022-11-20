@@ -11,6 +11,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface IWarehouseRepository : IGenericRepository<Warehouses>
     {
         IEnumerable<Warehouses> GetAllWarehouse();
+        IEnumerable<Warehouses> GetAllWarehouseByBranchId(Guid branchId);
         Task<string> GetLastCode();
         IEnumerable<WarehouseArea> GetAllWarehouseAreas(Guid warehouseId);
     }
