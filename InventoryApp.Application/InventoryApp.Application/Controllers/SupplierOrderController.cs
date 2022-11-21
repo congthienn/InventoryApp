@@ -21,7 +21,7 @@ namespace InventoryApp.Application.Controllers
             return _supplierOrderService.GetAllSupplierOrder();
         }
 
-        [Route("GetAllSupplierOrder/branchId")]
+        [Route("GetAllSupplierOrder/{branchId}")]
         [HttpGet]
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrder(Guid branchId)
         {
@@ -94,6 +94,19 @@ namespace InventoryApp.Application.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+        [Route("GetAllMaterialOrderByOrderId/{id}")]
+        [HttpGet]
+        public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int id)
+        {
+            return _supplierOrderService.GetAllMaterialOrderByOrderId(id);
+        }
+
+        [Route("GetQuantityRequest/{orderId}/{materialId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityRequest(int orderId, Guid materialId)
+        {
+            return Ok(await _supplierOrderService.GetQuantityRequest(orderId, materialId));
         }
     }
 }

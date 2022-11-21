@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
-import { SupplierService } from '../../business-partner/supplier/service/supplier.service';
-import { CategoryMaterialService } from '../../category-material/service/category-material.service';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Material } from '../../material/model/material';
 import { MaterialService } from '../../material/service/material.service';
@@ -15,6 +14,10 @@ import { Order } from '../../order/model/order';
 import { OrderDetail } from '../../order/model/order-detail';
 import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
+import { AddShipmentComponent } from '../../shipment/add-shipment/add-shipment.component';
+import { ShipmentService } from '../../shipment/service/shipment.service';
+import { UserService } from '../../user/service/user.service';
+import { WarehouseService } from '../../warehouse/service/warehouse.service';
 
 @Component({
   selector: 'app-add-inventory-receiving-voucher',
@@ -30,13 +33,13 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       active: false
     },
     {
-      path: '/dat-hang/',
-      title: 'Đặt hàng',
+      path: '/kho-hang/',
+      title: 'Kho hàng',
       active: false
     },
     {
-      path: '/dat-hang/them-moi',
-      title: 'Thêm mới',
+      path: '/kho-hang/nhap-kho',
+      title: 'Nhập kho',
       active: true
     },
   ]
@@ -48,13 +51,19 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   loadData = false;
   material: Material[] = [];
   branchList!: Array<Select2OptionData>;
-  supplierList!: Array<Select2OptionData>;
-  categoryList!:Array<Select2OptionData>;
+  branchId!:string;
+  orderId!:string;
+  quantity!:string;
+  warehouseList!: Array<Select2OptionData>;
+  orderList!: Array<Select2OptionData>;
+  userList!:Array<Select2OptionData>;
   materialList!:Array<Select2OptionData>;
+  shipmentList!:Array<Select2OptionData>;
   addOrderDetailForm!:FormGroup;
   addOrderForm!:FormGroup;
   orderDetailValue: OrderDetail;
   order:Order;
+  showInputQuantity = false;
   public sizePagination = 10;
   public defaultColDef: ColDef = {
     width:160,
@@ -71,22 +80,25 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     paginationPageSize: 10
   };
   private gridApi!: GridApi;
-  constructor(public title: Title, private branchService: BranchService, 
-    private supplierService: SupplierService, private materialCategoryService: CategoryMaterialService,
+  constructor(public title: Title, 
+    private branchService: BranchService, 
+    private warehouseService: WarehouseService,
     private materialService: MaterialService,
     private sweetalertService : SweetalertService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private userService: UserService,
+    private shipmentService: ShipmentService,
+    private modalService: NgbModal
     ) { 
     this.orderDetailValue = {} as OrderDetail;
     this.order = {} as Order;
   }
   ngOnInit(): void {
-    this.title.setTitle("Đặt hàng");
-    this.Title = "Quản lý đặt hàng";
+    this.title.setTitle("Nhập kho");
+    this.Title = "Quản lý nhập kho";
     this.updateColumnDefs();
     this.getBranchData();
-    this.getSupplierData();
-    this.getMaterialCategory();
+    this.materialList = [];
     this.addOrderDetailForm = new FormGroup({
       materialId: new FormControl(this.orderDetailValue.materialId,[Validators.required]),
       quantityRequest: new FormControl(this.orderDetailValue.quantityRequest,[Validators.required, Validators.min(0)]),
@@ -117,16 +129,22 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       { field: 'materialCategory', headerName: "NHÓM SẢN PHẨM", width:240 },
     ];
   }
-  changeBranchValue(data: any){
-    if(data != undefined){
-      this.addOrderForm.patchValue({branchRequestId: data != 'null' ? data : null});
+  changeBranchValue(branchId: any){
+    this.branchId = branchId;
+    if(branchId != undefined){
+      this.getOrderData(branchId);
+      this.getWarehouseData(branchId);  
+      this.getUserData(branchId);
+      this.getShipmentData(branchId);
+      this.addOrderForm.patchValue({branchRequestId: branchId != 'null' ? branchId : null});
       document.getElementById("branchRequestId")?.focus();
     }
   }
-  changeSupplierValue(data: any){
-    if(data != undefined){
-      this.addOrderForm.patchValue({supplierId: data != 'null' ? data : null});
-      document.getElementById("supplierId")?.focus();
+  changeOrderValue(orderId:any){
+    this.materialList = [];
+    this.orderId = orderId;
+    if(orderId != undefined){
+      this.getMaterialData(orderId);
     }
   }
   changeOrderDetailValue(){
@@ -152,22 +170,22 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       this.loadData = true;
     })
   }
-  getSupplierData(){
+  getOrderData(branchId:string){
     var tempData: { id: string; text: string; }[] = [];
-    this.supplierService.getSupplierData().subscribe(response => {
+    this.orderService.getAllSupplierOrder(branchId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
-          text: element.supplierName
+          text: element.code
         }
         tempData.push(data);
       });
-      this.supplierList = tempData;
+      this.orderList = tempData;
     })
   }
-  getMaterialCategory(){
+  getWarehouseData(branchId:string){
     var tempData: { id: string; text: string; }[] = [];
-    this.materialCategoryService.getAllCategoryMaterial().subscribe(response => {
+    this.warehouseService.getAllWarehouseByBranchId(branchId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
@@ -175,24 +193,26 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.categoryList = tempData;
+      this.warehouseList = tempData;
     })
   }
-  refreshBranchData(){
-    this.getBranchData();
-  }
-  refreshSupplierData(){
-    this.getSupplierData();
-  }
-  refreshCategoryData(){
-    this.getMaterialCategory();
-  }
-  changCategoryValue(data:any){
-    if(data == undefined){
-      return;
-    }
+  getUserData(branchId:string){
+    this.userList = [];
     var tempData: { id: string; text: string; }[] = [];
-    this.materialCategoryService.getAllMaterialByCategoryId(data).subscribe(response => {
+    this.userService.getUserLisByBranchId(branchId).subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.userName
+        }
+        tempData.push(data);
+      });
+      this.userList = tempData;
+    })
+  }
+  getMaterialData(orderId:string){
+    var tempData: { id: string; text: string; }[] = [];
+    this.orderService.getAllMaterialOrderByOrderId(orderId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
@@ -203,8 +223,33 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       this.materialList = tempData;
     })
   }
-  changMaterialValue(data:any){
-    this.addOrderDetailForm.patchValue({materialId: data != 'null' ? data : null});
+  getShipmentData(branchId:string){
+    var tempData: { id: string; text: string; }[] = [];
+    this.shipmentService.getAllShipmentsByBranchId(branchId).subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.code
+        }
+        tempData.push(data);
+      });
+      this.shipmentList = tempData;
+    })
+  }
+  refreshBranchData(){
+    this.getBranchData();
+  }
+ 
+  changMaterialValue(materialId:any){
+    this.quantity = '';
+    if(materialId == undefined)
+      return;
+    this.orderService.getQuantityRequest(this.orderId, materialId).subscribe(
+      response => {
+        this.quantity = response;
+      }
+    )
+    this.addOrderDetailForm.patchValue({materialId: materialId != 'null' ? materialId : null});
       document.getElementById("materialId")?.focus();
   }
   addOrderDetail(){
@@ -247,9 +292,7 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
               dataRowTemp.push(...this.dataRow);
               this.dataRow = dataRowTemp;
               this.addOrderDetailForm.reset();
-              this.materialList = [];
-              this.categoryList = [];
-              this.getMaterialCategory();
+              this.materialList = [];   
               this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
               this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
               this.changeOrderDetailValue();
@@ -262,8 +305,6 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
           this.dataRow = dataRowTemp;
           this.addOrderDetailForm.reset();
           this.materialList = [];
-          this.categoryList = [];
-          this.getMaterialCategory();
           this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
           this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
           this.changeOrderDetailValue();
@@ -307,5 +348,17 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
         this.submitData = false;
       }
     );
+  }
+  openModalAddShipment() {	
+    if(this.branchId == undefined)
+      return;
+    const modalRef = this.modalService.open(AddShipmentComponent);
+    modalRef.componentInstance.branchIdInput = this.branchId;
+    modalRef.result.then(
+      (result) => {
+        this.getShipmentData(this.branchId);
+      },(reason) => {
+        this.getShipmentData(this.branchId);
+      });
   }
 }

@@ -77,7 +77,11 @@ namespace InventoryApp.Domain.Services
                 throw new NotImplementedException(e.Message);
             }
         }
-        
+
+        public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
+        {
+            return _mapper.Map<IEnumerable<MaterialModelRq>>(_supplierOrderRepository.GetAllMaterialOrderByOrderId(orderId)); 
+        }
 
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrder()
         {
@@ -92,6 +96,11 @@ namespace InventoryApp.Domain.Services
         public IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status)
         {
             return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetSupplierOrderByStatus(status));
+        }
+
+        public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
+        {
+           return await _supplierOrderRepository.GetQuantityRequest(orderId, materialId);
         }
 
         public async Task<SupplierOrderModel> GetSupplierOrderByCode(string code)

@@ -9,6 +9,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
 {
     public class SupplierOrderModel
     {
+        public int Id { get; private set; }
         public string Code { get; private set; }
         public int Status { get; set; }
         public DateTime OrderDate { get; set; }

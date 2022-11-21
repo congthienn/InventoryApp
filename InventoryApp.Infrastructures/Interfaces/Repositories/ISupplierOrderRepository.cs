@@ -12,10 +12,12 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         Task<string> GetLastCode();
         IEnumerable<SupplierOrder> GetAllSupplierOrder();
+        IEnumerable<Materials> GetAllMaterialOrderByOrderId(int orderId);
         IEnumerable<SupplierOrder> GetAllSupplierOrderByBranchId(Guid branchId);
         Task<SupplierOrder> GetSupplierOrderByCode(string code);
         IEnumerable<SupplierOrder> GetSupplierOrderByStatus(int status);
         Task DeleteSupplierOrderDetail(SupplierOrderDetail supplierOrderDetail);
         Task<SupplierOrderDetail> GetSupplierOrderDetailById(int id);
+        Task<int> GetQuantityRequest(int orderId, Guid materialId);
     }
 }

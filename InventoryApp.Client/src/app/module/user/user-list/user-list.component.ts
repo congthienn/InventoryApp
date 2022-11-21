@@ -121,6 +121,10 @@ export class UserListComponent implements OnInit {
     this.getAllUser();
   }
   openModalAddUser(){
-    this.modalService.open(AddUserComponent);
+    const modalRef = this.modalService.open(AddUserComponent).result.then((result) => {
+      this.getAllUser();
+    },(reason) => {
+      this.getAllUser();
+    });
   }
 }

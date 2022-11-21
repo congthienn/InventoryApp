@@ -250,7 +250,7 @@ export class AddOrderComponent implements OnInit {
               this.categoryList = [];
               this.getMaterialCategory();
               this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-              this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
+              this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
               this.changeOrderDetailValue();
             }
           })
@@ -264,7 +264,7 @@ export class AddOrderComponent implements OnInit {
           this.categoryList = [];
           this.getMaterialCategory();
           this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-          this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
+          this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
           this.changeOrderDetailValue();
         }  
       }
@@ -284,7 +284,7 @@ export class AddOrderComponent implements OnInit {
       this.dataRow.splice(index, 1);
     }
     this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-    this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
+    this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
     this.changeOrderDetailValue();
   }
   showSuccess() {  

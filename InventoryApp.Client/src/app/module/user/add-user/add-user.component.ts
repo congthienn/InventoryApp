@@ -35,8 +35,7 @@ export class AddUserComponent implements OnInit {
     private roleService: RoleService,
     private userService : UserService,
     private router : Router,
-    private modalService: NgbModal,
-    private userListComponent : UserListComponent
+    private modalService: NgbModal
     ) {
     this.user = {} as User;   
   }
@@ -84,7 +83,6 @@ export class AddUserComponent implements OnInit {
       confirmButtonText: 'Done'
     }).then((result) => {
       this.activeModal.close();
-      this.userListComponent.getAllUser();
     })
   }
   showError(){

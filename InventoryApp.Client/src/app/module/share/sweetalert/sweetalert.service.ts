@@ -23,7 +23,7 @@ export class SweetalertService {
   public alertAction(router:string, title:string){
     Swal.fire({
       title: 'Success!',
-      text: 'Cập nhật dữ liệu thành công',
+      text: title,
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {

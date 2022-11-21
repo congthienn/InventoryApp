@@ -58,4 +58,37 @@ export class OrderService {
       })
     )
   }
+  getAllSupplierOrder(branchId:string): Observable<any> {
+    let url = `${this.orderURL}/GetAllSupplierOrder/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  getAllMaterialOrderByOrderId(orderId: string): Observable<any>{
+    let url = `${this.orderURL}/getAllMaterialOrderByOrderId/${orderId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  getQuantityRequest(id:string, materialId:string):Observable<any> {
+    let url =`${this.orderURL}/GetQuantityRequest/${id}/${materialId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
 }

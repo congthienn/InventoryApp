@@ -7,3 +7,6 @@
 .inputOrderDetail{
     width: 320px;
 }
+.show-input-container{
+    display: none !important;
+}

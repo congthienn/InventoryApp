@@ -6,16 +6,18 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private userURL = `${environment.serverURL}/user`;
+export class ShipmentService {
+
+  private shipmentURL = `${environment.serverURL}/Shipment`;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true,
   };
   constructor(private http: HttpClient) { }
-  getAllUser():Observable<any>{
-    return this.http.get(this.userURL).pipe(
-      tap((response: any) => {
+
+  getAllShipments(): Observable<any> {
+    return this.http.get(this.shipmentURL).pipe(
+      tap((response: any) =>{
         return response;
       }),
       catchError((error: any) => {
@@ -23,10 +25,10 @@ export class UserService {
       })
     )
   }
-  getUserById(id:string):Observable<any>{
-    let url = `${this.userURL}/${id}`;
+  getAllShipmentsByBranchId(branchId:string): Observable<any> {
+    let url = `${this.shipmentURL}/GetAllShipmentsByBranchId/${branchId}`;
     return this.http.get(url).pipe(
-      tap((response: any) => {
+      tap((response: any) =>{
         return response;
       }),
       catchError((error: any) => {
@@ -34,20 +36,9 @@ export class UserService {
       })
     )
   }
-  addUser(data: any):Observable<any>{
-    return this.http.post(this.userURL, data, this.httpOptions).pipe(
-      tap((response: any) => {
-        return response;
-      }),
-      catchError((error: any) => {
-        return throwError(error);
-      })
-    )
-  }
-  getUserLisByBranchId(branchId:string):Observable<any> {
-    let url = `${this.userURL}/GetUserLisByBranchId/${branchId}`;
-    return this.http.get(url).pipe(
-      tap((response: any) => {
+  addShipment(data: any) : Observable<any> {
+    return this.http.post(this.shipmentURL, data, this.httpOptions).pipe(
+      tap((response: any) =>{
         return response;
       }),
       catchError((error: any) => {

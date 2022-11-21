@@ -24,10 +24,15 @@ namespace InventoryApp.Application.Controllers
             return _branchService.GetAllBranches();
         }
 
-        [HttpGet("{branchId}")]
-        public async Task<IActionResult> GetBranchById(string code)
+        [HttpGet("GetBranchByCode/{code}")]
+        public async Task<IActionResult> GetBranchByCode(string code)
         {
-            return Ok(await _branchService.GetBranchById(code));
+            return Ok(await _branchService.GetBranchByCode(code));
+        }
+        [HttpGet("GetBranchById/{branchId}")]
+        public async Task<IActionResult> GetBranchById(Guid branchId)
+        {
+            return Ok(await _branchService.GetBranchById(branchId));
         }
 
         [HttpPost]

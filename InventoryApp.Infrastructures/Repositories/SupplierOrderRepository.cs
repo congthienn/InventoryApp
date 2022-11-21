@@ -23,6 +23,11 @@ namespace InventoryApp.Infrastructures.Repositories
             _dbSetSupplierOrder.Remove(supplierOrderDetail);
         }
 
+        public IEnumerable<Materials> GetAllMaterialOrderByOrderId(int orderId)
+        {
+            return _dbSetSupplierOrder.Include(x=>x.Material).Where(x=>x.SupplierOrderId == orderId).Select(x=>x.Material);
+        }
+
         public IEnumerable<SupplierOrder> GetAllSupplierOrder()
         {
             return _dbSet.Include(x => x.BranchRequest).Include(x => x.Supplier).OrderByDescending(x => x.CreatedDate);
@@ -36,6 +41,11 @@ namespace InventoryApp.Infrastructures.Repositories
         public async Task<string> GetLastCode()
         {
             return await _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefaultAsync();
+        }
+
+        public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
+        {
+            return await _dbSetSupplierOrder.Where(x=>x.SupplierOrderId == orderId && x.MaterialId == materialId).Select(x=>x.QuantityRequest).FirstOrDefaultAsync();
         }
 
         public async Task<SupplierOrder> GetSupplierOrderByCode(string code)

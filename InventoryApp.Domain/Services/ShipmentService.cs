@@ -30,7 +30,7 @@ namespace InventoryApp.Domain.Services
                 Shipment shipment = _mapper.Map<Shipment>(model);
                 shipment.Id = Guid.NewGuid();
                 shipment.CreateBy(userIdentity);
-                shipment.UpdateBy(userIdentity);
+                shipment.UpdateBy(userIdentity);    
                 await _shipmentRepository.Insert(shipment);
                 _unitOfWork.Save();
                 return model;
@@ -61,6 +61,11 @@ namespace InventoryApp.Domain.Services
         public IEnumerable<ShipmentModelRq> GetAllShipments()
         {
             return _mapper.Map<IEnumerable<ShipmentModelRq>>(_shipmentRepository.Get());
+        }
+
+        public IEnumerable<ShipmentModelRq> GetAllShipmentsByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<ShipmentModelRq>>(_shipmentRepository.GetAllShipmentsByBranchId(branchId));
         }
 
         public async Task<ShipmentModelRq> UpdateShipment(string shipmentId, ShipmentModelRq model, UserIdentity userIdentity)

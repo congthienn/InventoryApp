@@ -13,6 +13,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<ShipmentModelRq> AddShipment(ShipmentModelRq model, UserIdentity userIdentity);
         Task<ShipmentModelRq> UpdateShipment(string shipmentId, ShipmentModelRq model, UserIdentity userIdentity);
         IEnumerable<ShipmentModelRq> GetAllShipments();
+        IEnumerable<ShipmentModelRq> GetAllShipmentsByBranchId(Guid branchId);
         Task<bool> DeleteShipment(string shipmentId);
     }
 }

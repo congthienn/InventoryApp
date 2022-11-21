@@ -9,6 +9,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
 {
     public class ShipmentModelRq
     {
+        public Guid Id { get; private set; }
         public string Code { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Guid BranchId { get; set; }

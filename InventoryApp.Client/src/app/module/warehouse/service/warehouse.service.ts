@@ -46,4 +46,15 @@ export class WarehouseService {
       })
     )
   }
+  getAllWarehouseByBranchId(branchId: string): Observable<any>{
+    let url = `${this.warehouseURL}/GetAllWarehouseByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) =>{
+        return throwError(error);
+      })
+    )
+  }
 }

@@ -113,7 +113,7 @@ export class WarehouseListComponent implements OnInit {
     },(reason) => {
       this.getAllWarehouse();
     });
-}
+  }
   onGridReady(params:any) {
     this.getAllWarehouse();
   }

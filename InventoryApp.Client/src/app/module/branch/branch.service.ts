@@ -65,4 +65,15 @@ export class BranchService {
       }) 
     )
   }
+  getBranchById(id: string): Observable<any>{
+    let url = `${this.branchURL}/GetBranchById/${id}`;
+    return this.http.get(url).pipe(
+      tap((response: any) => {
+        return response
+      }),
+      catchError((error: HttpErrorResponse): Observable<any> =>{
+          return throwError(error);
+      }) 
+    )
+  }
 }

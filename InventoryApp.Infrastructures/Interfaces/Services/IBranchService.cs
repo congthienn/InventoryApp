@@ -10,7 +10,8 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
 {
     public interface IBranchService
     {
-        Task<BranchModelRq> GetBranchById(string code);
+        Task<BranchModelRq> GetBranchByCode(string code);
+        Task<BranchModelRq> GetBranchById(Guid id);
         IEnumerable<BranchModelRq> GetAllBranches();
         Task<BranchModelRq> AddBranch(BranchModelRq model, UserIdentity userIdentity);
         Task<BranchModelRq> UpdateBranch(BranchUpdateModel model, UserIdentity userIdentity);

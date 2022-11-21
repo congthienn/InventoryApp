@@ -8,7 +8,6 @@ import { BranchService } from '../../branch/branch.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { Warehouse } from '../model/warehouse';
 import { WarehouseService } from '../service/warehouse.service';
-import { WarehouseListComponent } from '../warehouse-list/warehouse-list.component';
 
 @Component({
   selector: 'app-add-warehouse',
@@ -55,7 +54,7 @@ export class AddWarehouseComponent implements OnInit {
   showSuccess() {  
     Swal.fire({
       title: 'Success!',
-      text: 'Thêm mới nhóm khách hàng thành công',
+      text: 'Thêm mới kho hàng thành công',
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {
