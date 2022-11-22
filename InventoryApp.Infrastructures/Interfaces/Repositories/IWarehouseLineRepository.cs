@@ -12,5 +12,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         Task<string> GetLastCode(Guid warehouseAreaId);
         IEnumerable<WarehouseShelves> GetAllWarehouseShelve(Guid warehouseLineId);
+        IEnumerable<WarehouseLine> GetAllWarehouseLine(Guid warehouseAreaId);
     }
 }

@@ -26,6 +26,7 @@ import { CustomerOrderModule } from './module/customer-order/customer-order.modu
 import { UserModule } from './module/user/user.module';
 import { RoleModule } from './module/role/role.module';
 import { InventoryReceivingVoucherModule } from './module/inventory-receiving-voucher/inventory-receiving-voucher.module';
+import { WarehouseLayoutModule } from './module/warehouse-layout/warehouse-layout.module';
 
 
 @NgModule({ 
@@ -58,6 +59,7 @@ import { InventoryReceivingVoucherModule } from './module/inventory-receiving-vo
     CustomerOrderModule,
     UserModule,
     RoleModule,
+    WarehouseLayoutModule
   ],
   providers: [
     {

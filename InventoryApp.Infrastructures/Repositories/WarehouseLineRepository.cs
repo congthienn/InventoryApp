@@ -15,6 +15,11 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public IEnumerable<WarehouseLine> GetAllWarehouseLine(Guid warehouseAreaId)
+        {
+            return _dbSet.Where(x => x.WarehouseAreaId == warehouseAreaId).OrderByDescending(x=>x.CreatedDate);
+        }
+
         public IEnumerable<WarehouseShelves> GetAllWarehouseShelve(Guid warehouseLineId)
         {
             return _dbSet.Where(x => x.Id == warehouseLineId).Select(x => x.WarehouseShelves).FirstOrDefault();

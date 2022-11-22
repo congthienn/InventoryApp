@@ -39,7 +39,7 @@ export const ROUTES: RouteInfo[] = [
       { path: 'xuat-kho', title: 'Xuất kho'},
       { path: 'danh-sach-phieu-nhap-kho', title: 'Nhập kho'},
       { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
-      { path: 'vi-tri-san-pham', title: 'Vị trí sản phẩm'},
+      { path: 'bo-cuc-kho', title: 'Bố cục kho'},
     ],
   },
   {

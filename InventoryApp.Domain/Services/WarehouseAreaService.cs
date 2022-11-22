@@ -64,6 +64,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IEnumerable<WarehouseAreaModel> GetAllWarehouseAreaByWarehouseId(Guid warehouseId)
+        {
+            return _mapper.Map<IEnumerable<WarehouseAreaModel>>(_warehouseAreaRepository.GetAllWarehouseAreaByWarehouseId(warehouseId));
+        }
+
         public async Task<WarehouseAreaModel> GetWarehouseAreaById(Guid id)
         {
             return _mapper.Map<WarehouseAreaModel>( await _warehouseAreaRepository.GetByID(id));
