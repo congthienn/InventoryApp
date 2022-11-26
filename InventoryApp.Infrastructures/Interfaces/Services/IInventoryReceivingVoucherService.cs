@@ -13,5 +13,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<InventoryReceivingVoucherModel> AddInventoryReceivingVoucher(InventoryReceivingVoucherModel model, UserIdentity userIdentity);
         IEnumerable<InventoryReceivingVoucherModel> GetInventoryReceivingVoucherByBranchId(Guid branchId);
         IEnumerable<InventoryReceivingVoucherModel> GetInventoryReceivingVoucher();
+        Task<InventoryReceivingVoucherModel> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId);
     }
 }

@@ -1,0 +1,94 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="invoice">
+            <div class="invoice-company text-inverse f-w-600">
+                <div style="display: flex;align-items: center;column-gap: 10px;">
+                    <div class="logo-lg">
+                        <img src="assets\images\logo-dark.png" alt="" height="18">
+                    </div>
+                    <div style="position: relative;top: 4px;">{{company.companyName}} - Phiếu xuất kho</div>
+                </div>
+            </div>
+            <div class="invoice-header">
+                <div class="invoice-from">
+                    <small>Chi nhánh</small>
+                    <address class="m-t-5 m-b-5">
+                        <strong
+                            class="text-inverse">{{inventoryReceivingVoucher.branchRequest.companyName}}</strong><br>
+                        Phone: {{inventoryReceivingVoucher.branchRequest.phoneNumber}}<br>
+                        Fax: {{inventoryReceivingVoucher.branchRequest.fax}}<br>
+                        Kho nhập: <strong class="text-inverse">{{inventoryReceivingVoucher.warehouse.name}}</strong><br>
+                        Nhân viên nhập kho: {{inventoryReceivingVoucher.userReceiveName}}
+                    </address>
+                </div>
+                <div class="invoice-to">
+                    <small>Nhà cung cấp</small>
+                    <address class="m-t-5 m-b-5">
+                        <strong class="text-inverse">{{inventoryReceivingVoucher.supplier.supplierName}}</strong><br>
+                        Phone: {{inventoryReceivingVoucher.supplier.phoneNumber}}<br>
+                        Fax: {{inventoryReceivingVoucher.supplier.fax}}
+                    </address>
+                </div>
+                <div class="invoice-date">
+                    <small>Ngày nhập kho</small>
+                    <div class="date text-inverse m-t-5">{{dateOrder}}</div>
+                    <div class="invoice-detail">
+                        Mã: {{inventoryReceivingVoucher.code}}<br>
+                        Phiếu nhập kho
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-content">
+            <div class="table-responsive">
+               <table class="table table-invoice">
+                  <thead>
+                     <tr>
+                        <th>LÔ HÀNG</th>
+                        <th class="text-center" width="200px">GIÁ BÁN</th>
+                        <th class="text-center" width="100px">SL NHẬP</th>
+                        <th class="text-center" width="100px">SL HƯ HẠI</th>
+                        <th class="text-right" width="20%">TẠM TÍNH</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr *ngFor="let item of inventoryReceivingVoucher.detail">
+                        <td>
+                           <strong class="text-inverse">{{item.shipment.code}}</strong><br>
+                           <span>Sản phẩm: {{item.material.name}} </span>
+                        </td>
+                        <td class="text-center">{{ item.price | currency:'VND':'symbol' }}</td>
+                        <td class="text-center">{{item.quantityReceiving}}</td>
+                        <td class="text-center">{{item.damagedQuantity}}</td>
+                        
+                        <td class="text-right">{{ item.priceTotalItem | currency:'VND':'symbol' }}</td>
+                     </tr>               
+                  </tbody>
+               </table>
+            </div>
+            <div class="invoice-price">
+               <div class="invoice-price-left">
+                  <div class="invoice-price-row">
+                     
+                  </div>
+               </div>
+               <div class="invoice-price-right">
+                  <small>TOTAL</small> <span class="f-w-600">{{ priceTotal | currency:'VND':'symbol' }}</span>
+               </div>
+            </div>
+         </div>
+         <div class="invoice-footer">
+            <p class="text-center m-b-5">
+            </p>
+            <p class="text-center">
+               <span><i class="fa fa-fw fa-lg fa-globe"></i>{{company.companyName}}</span>
+               <span style="margin: 0 15px;"><i class="fa fa-fw fa-lg fa-phone-volume"></i>{{company.phoneNumber}}</span>
+               <span><i class="fa fa-fw fa-lg fa-envelope"></i>{{company.email}} </span>
+            </p>
+         </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loadData" class="containerLoader">
+    <div class="loader"></div>
+</div>

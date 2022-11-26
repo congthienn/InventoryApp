@@ -68,5 +68,12 @@ namespace InventoryApp.Application.Controllers
         {
             return _warehouseShelveService.GetWarehouseShelveByWarehouseLineId(warehouseLineId);
         }
+
+        [Route("GetWarehouseShelveNoHasProductByWarehouseLineId/{warehouseLineId}")]
+        [HttpGet]
+        public IEnumerable<WarehouseShelveModel> GetWarehouseShelveNoHasProductByWarehouseLineId(Guid warehouseLineId)
+        {
+            return _warehouseShelveService.GetWarehouseShelveNoHasProductByWarehouseLineId(warehouseLineId);
+        }
     }
 }

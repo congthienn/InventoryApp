@@ -78,6 +78,11 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<WarehouseShelveModel>>(_warehouseShelveRepository.GetWarehouseShelveByWarehouseLineId(warehouseLineId));
         }
 
+        public IEnumerable<WarehouseShelveModel> GetWarehouseShelveNoHasProductByWarehouseLineId(Guid warehouseLineId)
+        {
+            return _mapper.Map<IEnumerable<WarehouseShelveModel>>(_warehouseShelveRepository.GetWarehouseShelveNoHasProductByWarehouseLineId(warehouseLineId));
+        }
+
         public async Task<WarehouseShelveModel> UpdateWarehouseShelve(Guid id, WarehouseShelveModel model, UserIdentity userIdentity)
         {
             try

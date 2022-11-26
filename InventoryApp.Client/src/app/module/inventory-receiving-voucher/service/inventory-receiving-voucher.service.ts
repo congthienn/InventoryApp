@@ -37,4 +37,15 @@ export class InventoryReceivingVoucherService {
     )
   }
 
+  getInventoryReceivingVoucherById(id:string): Observable<any>{
+    let url = `${this.URL}/GetInventoryReceivingVoucherById/${id}`;
+    return this.http.get(url).pipe(
+      tap((response:any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
 }

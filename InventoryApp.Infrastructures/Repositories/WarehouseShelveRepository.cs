@@ -22,6 +22,11 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IEnumerable<WarehouseShelves> GetWarehouseShelveByWarehouseLineId(Guid warehouseLineId)
         {
+            return _dbSet.Where(x => x.WarehouseLineId == warehouseLineId).OrderByDescending(x => x.CreatedDate).ToList();
+        }
+
+        public IEnumerable<WarehouseShelves> GetWarehouseShelveNoHasProductByWarehouseLineId(Guid warehouseLineId)
+        {
             return _dbSet.Where(x => x.WarehouseLineId == warehouseLineId).OrderByDescending(x => x.CreatedDate).ToList().Where(x=> !WarehouseShelvevHasProducts(x.Id));
         }
         private bool WarehouseShelvevHasProducts(Guid warehouseShelveId)

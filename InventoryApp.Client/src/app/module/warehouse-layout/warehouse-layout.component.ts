@@ -220,7 +220,7 @@ export class WarehouseLayoutComponent implements OnInit {
   }
 
   getWarehouseShelve(){
-    this.warehouseShelveServicie.getAllWarehouseShelveByWarehouseLineId(this.warehouseLineId).subscribe(
+    this.warehouseShelveServicie.getWarehouseShelveByWarehouseLineId(this.warehouseLineId).subscribe(
       response => {
         this.warehouseLine = response;
         var dataRowTemp: any[]= [];

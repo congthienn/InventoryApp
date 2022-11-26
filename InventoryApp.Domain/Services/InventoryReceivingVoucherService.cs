@@ -100,5 +100,19 @@ namespace InventoryApp.Domain.Services
         {
             return _mapper.Map<IEnumerable<InventoryReceivingVoucherModel>>(_inventoryReceivingVoucherRepository.GetInventoryReceivingVoucherByBranchId(branchId));
         }
+
+        public async Task<InventoryReceivingVoucherModel> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId)
+        {
+            InventoryReceivingVoucher inventoryReceivingVoucher = await _inventoryReceivingVoucherRepository.GetInventoryReceivingVoucherById(inventoryReceivingVoucherId);
+            InventoryReceivingVoucherModel inventoryReceivingVoucherModel = _mapper.Map<InventoryReceivingVoucherModel>(inventoryReceivingVoucher);
+            inventoryReceivingVoucherModel.Supplier = _mapper.Map<SupplierModelRq>(await _supplierOrderRepository.GetSupplierBySupplierOrderId((int)inventoryReceivingVoucher.SupplierOrderId));
+            inventoryReceivingVoucherModel.UserReceiveName = inventoryReceivingVoucher.UserReceive.UserName;
+
+            foreach(var item in inventoryReceivingVoucherModel.Detail)
+            {
+                item.Material = _mapper.Map<MaterialModelRq>(await _materialShipmentRepository.GetMaterialByShipmentId(item.ShipmentId));
+            }
+            return inventoryReceivingVoucherModel;
+        }
     }
 }

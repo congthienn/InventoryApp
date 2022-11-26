@@ -16,9 +16,11 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public Guid BranchRequestId { get; set; }
         public BranchModelRq BranchRequest { get;  private set; }
         public Guid UserReceiveId { get; set; }
+        public string UserReceiveName { get; set; }
         public DateTime GoodsImportDate { get; set; }
         public int? SupplierOrderId { get; set; }
         public SupplierOrderModel SupplierOrder { get; private set; }
+        public SupplierModelRq Supplier { get; set; }
         public List<InventoryReceivingVoucherDetailModel> Detail { get; set; }
     }
     public class InventoryReceivingVoucherModelValidator : AbstractValidator<InventoryReceivingVoucherModel>

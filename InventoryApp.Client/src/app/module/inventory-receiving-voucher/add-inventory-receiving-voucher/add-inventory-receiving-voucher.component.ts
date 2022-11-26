@@ -321,7 +321,7 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   }
   getWarehouseShelve(warehouseLineId:string){ 
     var tempData: { id: string; text: string; }[] = [];
-    this.warehouseShelveService.getAllWarehouseShelveByWarehouseLineId(warehouseLineId).subscribe(response => {
+    this.warehouseShelveService.getWarehouseShelveNoHasProductByWarehouseLineId(warehouseLineId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,

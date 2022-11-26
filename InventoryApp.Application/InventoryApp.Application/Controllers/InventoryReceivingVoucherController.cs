@@ -35,5 +35,13 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("GetInventoryReceivingVoucherById/{inventoryReceivingVoucherId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId)
+        {
+            return Ok(await _inventoryReceivingVoucherService.GetInventoryReceivingVoucherById(inventoryReceivingVoucherId));
+        }
+
     }
 }

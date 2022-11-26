@@ -146,7 +146,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 @media (min-width: 992px){
     .modal-lg, .modal-xl {
-        max-width: 900px !important;
+        max-width: 950px !important;
     }
 }
 

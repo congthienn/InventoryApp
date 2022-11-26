@@ -13,5 +13,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         Task<string> GetLastCode();
         IEnumerable<InventoryReceivingVoucher> GetInventoryReceivingVoucherByBranchId(Guid branchId);
         IEnumerable<InventoryReceivingVoucher> GetInventoryReceivingVoucher();
+        Task<InventoryReceivingVoucher> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId);
     }
 }

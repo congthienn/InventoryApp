@@ -10,10 +10,12 @@ namespace InventoryApp.Infrastructures.Models.DTO
     public class InventoryReceivingVoucherDetailModel
     {
         public Guid ShipmentId { get; set; }
+        public ShipmentModelRq Shipment { get; private set; }
         public int QuantityReceiving { get; set; }
         public int DamagedQuantity { get; set; }
         public double Price { get; set; }
         public Guid MaterialId { get; set; }
+        public MaterialModelRq Material { get; set; }
         public Guid WarehouseShelveId { get; set; }
     }
     public class InventoryReceivingVoucherDetailModelValidator : AbstractValidator<InventoryReceivingVoucherDetailModel>

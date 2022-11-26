@@ -13,8 +13,19 @@ export class WarehouseShelveService {
     withCredentials: true,
   };
   constructor(private http: HttpClient) { }
-  getAllWarehouseShelveByWarehouseLineId(warehouseLineId: string): Observable<any>{
-    let url = `${this.WarehouseShelveURL}/GetWarehouseShelveByWarehouseLineId/${warehouseLineId}`;
+  getWarehouseShelveNoHasProductByWarehouseLineId(warehouseLineId: string): Observable<any>{
+    let url = `${this.WarehouseShelveURL}/GetWarehouseShelveNoHasProductByWarehouseLineId/${warehouseLineId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  getWarehouseShelveByWarehouseLineId(warehouseLineId: string): Observable<any>{
+    let url = `${this.WarehouseShelveURL}/getWarehouseShelveByWarehouseLineId/${warehouseLineId}`;
     return this.http.get(url).pipe(
       tap((response: any) => {
         return response;

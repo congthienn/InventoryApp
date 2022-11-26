@@ -27,6 +27,13 @@ namespace InventoryApp.Infrastructures.Repositories
             return _dbSet.Include(x=>x.Detail).Where(x=>x.BranchRequestId == branchId).OrderByDescending(x=>x.CreatedDate);
         }
 
+        public async Task<InventoryReceivingVoucher> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId)
+        {
+            return await _dbSet.Include(x => x.Detail).ThenInclude(x => x.Shipment)
+                    .Include(x=>x.BranchRequest).Include(x=>x.SupplierOrder).Include(x=>x.UserReceive)
+                    .Include(x=>x.Warehouse).Where(x => x.Id == inventoryReceivingVoucherId).FirstOrDefaultAsync();
+        }
+
         public async Task<string> GetLastCode()
         {
             return await _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefaultAsync();

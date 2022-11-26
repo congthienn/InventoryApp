@@ -5,12 +5,12 @@ import { GridApi, ColDef, GridOptions, GridReadyEvent } from 'ag-grid-community'
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Order } from '../../order/model/order';
-import { ActionButtonViewDetailComponent } from '../../order/order-list/action-button-view-detail/action-button-view-detail.component';
 import { ButtonUpdateStatusComponent } from '../../order/order-list/button-update-status/button-update-status.component';
 import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { InventoryReceivingVoucher } from '../model/inventory-receiving-voucher';
 import { InventoryReceivingVoucherService } from '../service/inventory-receiving-voucher.service';
+import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
 
 @Component({
   selector: 'app-inventory-receiving-voucher-list',
@@ -79,6 +79,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
         this.inventoryReceivingVoucher.forEach(element => {
           var date = new Date(element.goodsImportDate);
           var data = {
+            "id":element.id,
             "code":element.code,
             "supplier": element.supplierOrder.supplier.supplierName, 
             "branchRequest": element.branchRequest.companyName,
@@ -101,7 +102,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
   
   private updateColumnDefs() {
     this.columnDefs  =  [ 
-      { field: "code", width: 68,
+      { field: "id", width: 68,
         headerName: "",
         suppressFilter: false,  
         filter: false,

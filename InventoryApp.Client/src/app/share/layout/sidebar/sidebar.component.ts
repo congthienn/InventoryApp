@@ -26,6 +26,7 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: '', title:'Danh sách'},
       { path: 'them-moi', title:'Thêm mới'},
+      { path: 'vi-tri', title:'Vị trí sản phẩm'},
     ],
   },
   {

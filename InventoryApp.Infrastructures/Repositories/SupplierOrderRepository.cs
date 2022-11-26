@@ -48,6 +48,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return await _dbSetSupplierOrder.Where(x=>x.SupplierOrderId == orderId && x.MaterialId == materialId).Select(x=>x.QuantityRequest).FirstOrDefaultAsync();
         }
 
+        public async Task<Supplier> GetSupplierBySupplierOrderId(int supplierOrderId)
+        {
+            return await _dbSet.Include(x => x.Supplier).Where(x => x.Id == supplierOrderId).Select(x => x.Supplier).FirstOrDefaultAsync();
+        }
+
         public async Task<SupplierOrder> GetSupplierOrderByCode(string code)
         {
             return await _dbSet.Include(x => x.BranchRequest).Include(x => x.Supplier).Include(x=>x.SupplierOrderDetail).ThenInclude(x=>x.Material).Where(x=>x.Code == code).FirstOrDefaultAsync();

@@ -11,4 +11,5 @@ export interface InventoryReceivingVoucherDetail{
     price:string;
     amount: string;
     warehouseShelveId:string;
+    priceTotalItem:number;
 }

@@ -4,10 +4,12 @@ import { InventoryReceivingVoucherListComponent } from './inventory-receiving-vo
 import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.module';
 import { RouterModule } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular';
+import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
 
 @NgModule({ 
   declarations: [
-    InventoryReceivingVoucherListComponent
+    InventoryReceivingVoucherListComponent,
+    ActionButtonViewDetailComponent
   ],
   imports: [
     CommonModule, PageTitleModule, AgGridModule, RouterModule
