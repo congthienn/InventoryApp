@@ -147,7 +147,11 @@ export class AddSupplierComponent implements OnInit {
     })
   }
   open() {	
-   this.modalService.open(SupplierGroupComponent)
+   this.modalService.open(SupplierGroupComponent).result.then((result) => {
+    this.getSupplierGroupList();
+    },(reason) => {
+      this.getSupplierGroupList();
+    });
 	}
   refreshData(){
     this.getSupplierGroupList();

@@ -10,6 +10,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IShipmentRepository : IGenericRepository<Shipment>
     {
+        IEnumerable<MaterialShipment> GetAllShipments();
         IEnumerable<Shipment> GetAllShipmentsByBranchId(Guid branchId);
     }
 }

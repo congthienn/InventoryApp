@@ -19,7 +19,6 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public WarehouseShelveModelValidator()
         {
             RuleFor(p => p.Name).NotEmpty();
-            RuleFor(p => p.Code).NotEmpty();
         }
     }
 }

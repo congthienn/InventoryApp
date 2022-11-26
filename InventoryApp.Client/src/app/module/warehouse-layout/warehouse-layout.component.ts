@@ -10,10 +10,13 @@ import { ActionButonComponent } from './add-warehouse-area/action-buton/action-b
 import { AddWarehouseAreaComponent } from './add-warehouse-area/add-warehouse-area.component';
 import { ActionButtonWarehouseLineComponent } from './add-warehouse-line/action-button-warehouse-line/action-button-warehouse-line.component';
 import { AddWarehouseLineComponent } from './add-warehouse-line/add-warehouse-line.component';
+import { ActionButtonWarehouseShelveComponent } from './add-warehouse-shelve/action-button-warehouse-shelve/action-button-warehouse-shelve.component';
+import { AddWarehouseShelveComponent } from './add-warehouse-shelve/add-warehouse-shelve.component';
 import { WarehouseArea } from './model/warehouse-area';
 import { WarehouseLine } from './model/warehouse-line';
 import { WarehouseAreaService } from './service/warehouse-area.service';
 import { WarehouseLineService } from './service/warehouse-line.service';
+import { WarehouseShelveService } from './service/warehouse-shelve.service';
 
 @Component({
   selector: 'app-warehouse-layout',
@@ -25,8 +28,10 @@ export class WarehouseLayoutComponent implements OnInit {
   public loadData = false;
   dataWarehouse: any;
   warehouseAreaItem: any;
+  warehouseLineItem: any;
   dataWarehouseArea: any[] = [];
   dataWarehouseLine : any[]= [];
+  dataWarehouseShelve : any[]= [];
   warehouseArea: WarehouseArea[]= [];
   warehouseLine: WarehouseLine[] = [];
   columnDefsWarehouseArea : any[]= [];
@@ -34,6 +39,7 @@ export class WarehouseLayoutComponent implements OnInit {
   columnDefsWarehouseShelve : any[]= [];
   warehouseId!:string;
   warehouseAreaId!:string;
+  warehouseLineId!:string;
   public rowSelectionWarehouseArea: 'single' | 'single' = 'single';
   public rowSelectionWarehouseLine: 'single' | 'single' = 'single';
 
@@ -77,6 +83,7 @@ export class WarehouseLayoutComponent implements OnInit {
     private title: Title, 
     private warehouseAreaService: WarehouseAreaService,
     private warehouseLineServicie: WarehouseLineService,
+    private warehouseShelveServicie: WarehouseShelveService,
     public sweetalertService: SweetalertService,
     private modalService: NgbModal) {}
     
@@ -100,7 +107,6 @@ export class WarehouseLayoutComponent implements OnInit {
         initialPinned: 'left',
         cellRenderer: ActionButonComponent,
       }, 
-      { field: "code", headerName:"MÃ KHU VỰC" ,cellStyle: {fontWeight: '500'}}, 
       { field: "name", headerName:"KHU VỰC KHO",width:'290px'}, 
     ];
   }
@@ -115,7 +121,6 @@ export class WarehouseLayoutComponent implements OnInit {
         initialPinned: 'left',
         cellRenderer: ActionButtonWarehouseLineComponent
       }, 
-      { field: "code", headerName:"MÃ DÃY" ,cellStyle: {fontWeight: '500'}}, 
       { field: "name", headerName:"TÊN DÃY",width:'290px'}, 
     ];
   }
@@ -128,12 +133,9 @@ export class WarehouseLayoutComponent implements OnInit {
         filter: false,
         cellStyle: {textAlign  : 'left'},
         initialPinned: 'left',
-        cellRenderer: ActionButtonWarehouseLineComponent
+        cellRenderer: ActionButtonWarehouseShelveComponent
       }, 
-      { field: "code", headerName:"MÃ KỆ HÀNG" ,cellStyle: {fontWeight: '500'}}, 
       { field: "name", headerName:"TÊN KỆ HÀNG",width:'290px'}, 
-      { field: "name", headerName:"SẢN PHẨM",width:'290px'}, 
-      { field: "name", headerName:"SỐ LƯỢNG TRÊN KỆ HÀNG",width:'290px'}, 
     ];
   }
   getWarehouseList(){
@@ -156,6 +158,7 @@ export class WarehouseLayoutComponent implements OnInit {
       return;
     this.warehouseId = warehouseId;
     this.dataWarehouseLine = [];
+    this.dataWarehouseShelve =[];
     this.getWarehouseArea();
     this.showButtonAddWarehouseArea = true;
     this.showButtonAddWarehouseLine = false;
@@ -185,9 +188,16 @@ export class WarehouseLayoutComponent implements OnInit {
 
   warehouseAreaClicked(dataRow:any) {
     this.showButtonAddWarehouseLine = true;
+    this.dataWarehouseShelve = [];
     this.warehouseAreaId = dataRow.data.id;
     this.getWarehouseLine();
     this.warehouseAreaItem = this.dataWarehouseArea.filter(x=>x.id == this.warehouseAreaId)[0];
+  }
+  warehouseLineClicked(dataRow:any) {
+    this.showButtonAddWarehouseShelve = true;
+    this.warehouseLineId = dataRow.data.id;
+    this.getWarehouseShelve();
+    this.warehouseLineItem = this.dataWarehouseLine.filter(x=>x.id == this.warehouseLineId)[0];
   }
 
   getWarehouseLine(){
@@ -209,6 +219,24 @@ export class WarehouseLayoutComponent implements OnInit {
     )
   }
 
+  getWarehouseShelve(){
+    this.warehouseShelveServicie.getAllWarehouseShelveByWarehouseLineId(this.warehouseLineId).subscribe(
+      response => {
+        this.warehouseLine = response;
+        var dataRowTemp: any[]= [];
+        this.warehouseLine.forEach(element => {
+          var data = {
+              "id":element.id,
+              "name": element.name, 
+              "code":element.code
+            }
+            dataRowTemp.push(data);
+        });
+        this.dataWarehouseShelve = dataRowTemp;
+        this.loadData = false;
+      }
+    )
+  }
 
   openModalAddWarehouseArea(){
     const modalRef = this.modalService.open(AddWarehouseAreaComponent);
@@ -228,6 +256,18 @@ export class WarehouseLayoutComponent implements OnInit {
       this.getWarehouseLine();
     },(reason) => {
       this.getWarehouseLine();
+    });
+  }
+  openModalAddWarehouseShelve(){
+    const modalRef = this.modalService.open(AddWarehouseShelveComponent);
+    modalRef.componentInstance.warehouseData = this.dataWarehouse;
+    modalRef.componentInstance.warehouseAreaData = this.warehouseAreaItem;
+    modalRef.componentInstance.warehouseLineData = this.warehouseLineItem;
+
+    modalRef.result.then((result) => {
+      this.getWarehouseShelve();
+    },(reason) => {
+      this.getWarehouseShelve();
     });
   }
 }

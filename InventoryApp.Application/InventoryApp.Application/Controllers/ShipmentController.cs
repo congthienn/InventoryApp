@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using InventoryApp.Data.Models;
 using InventoryApp.Infrastructures.Interfaces.Services;
 using InventoryApp.Infrastructures.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -45,9 +46,9 @@ namespace InventoryApp.Application.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ShipmentModelRq> GetAllShipments()
+        public IEnumerable<MaterialShipment> GetAllShipments()
         {
-            return _shipmentService.GetAllShipments();
+            return _shipmentService.GetAllShipment();
         }
 
         [Route("GetAllShipmentsByBranchId/{branchId}")]

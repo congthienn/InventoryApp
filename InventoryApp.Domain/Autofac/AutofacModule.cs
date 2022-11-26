@@ -50,7 +50,10 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
             builder.RegisterType<SupplierOrderRepository>().As<ISupplierOrderRepository>();
             builder.RegisterType<InventoryDeliveryVoucherRepository>().As<IInventoryDeliveryVoucherRepository>();
+            builder.RegisterType<InventoryReceivingVoucherRepository>().As<IInventoryReceivingVoucherRepository>();
             builder.RegisterType<MaterialQuotationRepository>().As<IMaterialQuotationRepository>();
+            builder.RegisterType<MaterialPositionRepository>().As<IMaterialPositionRepository>();
+            builder.RegisterType<MaterialShipmentRepository>().As<IMaterialShipmentRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {
@@ -76,6 +79,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<OrderService>().As<IOrderService>();
             builder.RegisterType<SupplierOrderService>().As<ISupplierOrderService>();
             builder.RegisterType<InventoryDeliveryVoucherService>().As<IInventoryDeliveryVoucherService>();
+            builder.RegisterType<InventoryReceivingVoucherService>().As<IInventoryReceivingVoucherService>();
             builder.RegisterType<MaterialQuotationService>().As<IMaterialQuotationService>();
         }
         private void RegisterIdentityService(ContainerBuilder builder)

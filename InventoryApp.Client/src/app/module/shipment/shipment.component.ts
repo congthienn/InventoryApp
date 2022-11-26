@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { MaterialShipment } from './model/material-shipment';
+import { ShipmentService } from './service/shipment.service';
 
 @Component({
   selector: 'app-shipment',
@@ -11,6 +13,7 @@ import { PageTitle } from 'src/app/share/layout/page-title/page-title.component'
 export class ShipmentComponent implements OnInit {
   dataRow: any[] = [];
   columnDefs : any[]= [];
+  materialShipment: MaterialShipment[]= [];
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',
@@ -23,6 +26,7 @@ export class ShipmentComponent implements OnInit {
       active: false
     }
   ]
+  loadData = true;
   public Title = '';
   public sizePagination = 10;
   public defaultColDef: ColDef = {
@@ -37,29 +41,51 @@ export class ShipmentComponent implements OnInit {
     cacheBlockSize: 10,
     paginationPageSize: 10
   };
-  constructor(private title: Title) { }
+  constructor(private title: Title,
+    private shipmentService: ShipmentService
+    ) { }
 
   ngOnInit(): void {
     this.title.setTitle("Lô hàng");
     this.Title = "Quản lý lô hàng";
     this.updateColumnDefs();
+    this.getAllShipment();
+  }
+  public getAllShipment(){
+    document.body.style.overflow = 'hidden';
+    this.shipmentService.getAllShipments().subscribe(
+      response =>{
+        this.materialShipment = response;
+        var dataRowTemp: any[]= [];
+        this.materialShipment.forEach(element => {
+          var date = new Date(element.shipment.expirationDate);
+          var data = {
+              "code":element.shipment.code,
+              "material": element.material.name, 
+              "branch": element.shipment.branch.companyName, 
+              "materialQuantity": element.materialQuantity,
+              "quantityInStock": element.quantityInStock,
+              "baseMaterialUnit":element.material.baseMaterialUnit,
+              "expirationDate": `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+            }
+            dataRowTemp.push(data);
+        });
+        this.dataRow = dataRowTemp;
+        this.loadData = false;
+        document.body.style.overflow = '';
+      },
+      error => {
+        this.loadData = true;
+      })
   }
   private updateColumnDefs() {
     this.columnDefs  =  [
-      { field: 'id',  
-        width: 60, 
-        headerName: "",
-        suppressFilter: false,
-        filter: false,
-        cellStyle: {textAlign  : 'left'},
-        initialPinned: 'left',
-        // cellRenderer: BtnCellRenderer,
-      }, 
-      { field: "code", headerName:"MÃ LÔ HÀNG",cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
-      { field: 'material', headerName: "SẢN PHẨM" },
-      { field: 'branch', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'},resizable:true },
-      { field: 'materialQuantity', headerName: "SỐ LƯỢNG NHẬP KHO" },
-      { field: 'quantityInStock', headerName: "SỐ LƯỢNG TRONG KHO" },
+      { field: "code", headerName:"MÃ LÔ HÀNG", width:300, cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true}, 
+      { field: 'material', headerName: "SẢN PHẨM", resizable:true, width:300},
+      { field: 'branch', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'}, resizable:true },
+      { field: 'materialQuantity', headerName: "SỐ LƯỢNG NHẬP KHO", cellStyle: {textAlign  : 'center'}},
+      { field: 'quantityInStock', headerName: "SỐ LƯỢNG TRONG KHO" , cellStyle: {textAlign  : 'center'}},
+      { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN"},
       { field: 'expirationDate', headerName: "NGÀY HẾT HẠN" },
     ];
   }

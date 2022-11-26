@@ -1,1 +1,34 @@
-<p>add-warehouse-shelve works!</p>
+<div class="modal-header">
+    <h4 class="modal-title">Thêm mới kệ hàng</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">&times;</button>
+</div>
+<form [formGroup]="addWarehouseShelveForm" (ngSubmit)="addWarehouseShelve()">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="name">Tên kệ hàng<span class="text-danger">*</span></label>
+            <input type="text" name="nick" parsley-trigger="change" class="form-control" formControlName="name" id="name">
+            <div class="feedback" *ngIf="name?.errors?.['required'] && (name?.dirty)">Tên dãy không được để trống</div>
+        </div>
+        <div class="form-group">
+            <label for="warehouse">Dãy hàng<span class="text-danger">*</span></label>
+            <input type="text" readonly value="{{warehouseLineData.name}}" class="form-control"  id="warehouseLine">
+        </div>
+        <div class="form-group">
+            <label for="warehouse">Khu vực kho<span class="text-danger">*</span></label>
+            <input type="text" readonly value="{{warehouseAreaData.name}}" class="form-control"  id="warehouseArea">
+        </div>
+        <div class="form-group">
+            <label for="warehouse">Kho hàng<span class="text-danger">*</span></label>
+            <input type="text" readonly value="{{warehouseData.text}}" class="form-control"  id="warehouse">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" [disabled]="!addWarehouseShelveForm.valid || submitData" class="btn btn-primary btn-sm waves-effect waves-light mr-1">
+            Lưu dữ liệu <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
+        </button>
+        <button type="reset" class="btn btn-secondary btn-sm waves-effect waves-light"
+            (click)="activeModal.close('Close click')">
+            Đóng
+        </button>
+    </div>
+</form>

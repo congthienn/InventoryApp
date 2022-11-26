@@ -19,9 +19,6 @@ namespace InventoryApp.Data.Models
 
         public Guid MaterialId { get; set; }
         public Materials? Material { get; set; }
-        
-        public Guid BrachId { get; set; }
-        public Branches? Branch { get; set; }
 
         public Guid WarehouseShelveId { get; set; }
         public WarehouseShelves? WarehouseShelve { get; set; }

@@ -167,7 +167,11 @@ export class AddCustomerComponent implements OnInit {
     })
   }
   open() {	
-    this.modalService.open(CustomerGroupComponent);
+    this.modalService.open(CustomerGroupComponent).result.then((result) => {
+      this.getCustomerGroupList();
+      },(reason) => {
+        this.getCustomerGroupList();
+      });
 	}
   refreshData(){
     this.getCustomerGroupList();

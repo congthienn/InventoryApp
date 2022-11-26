@@ -64,7 +64,6 @@ namespace InventoryApp.Domain.Services
                 if (inventoryDeliveryVoucher == null)
                     throw new NotImplementedException("InventoryDeliveryVoucher not found");
 
-                inventoryDeliveryVoucher.UserApproveId = userIdentity.Id;
                 inventoryDeliveryVoucher.Status = statusModel.Status;
                 inventoryDeliveryVoucher.UpdateBy(userIdentity);
                 

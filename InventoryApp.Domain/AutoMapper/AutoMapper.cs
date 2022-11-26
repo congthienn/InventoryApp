@@ -52,7 +52,10 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<SupplierOrderDetail, SupplierOrderDetailModel>().ReverseMap();
             CreateMap<InventoryDeliveryVoucher, InventoryDeliveryVoucherModel>().ReverseMap();
             CreateMap<InventoryDeliveryVoucherDetail, InventoryDeliveryVoucherDetailModel>().ReverseMap();
+            CreateMap<InventoryReceivingVoucher, InventoryReceivingVoucherModel>().ReverseMap();
+            CreateMap<InventoryReceivingVoucherDetail, InventoryReceivingVoucherDetailModel>().ReverseMap();
             CreateMap<MaterialQuotation, MaterialQuotationModel>().ReverseMap();
+            CreateMap<MaterialPosition, MaterialPositionModel>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

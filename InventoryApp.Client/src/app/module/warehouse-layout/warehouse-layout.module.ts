@@ -13,6 +13,7 @@ import { AddWarehouseShelveComponent } from './add-warehouse-shelve/add-warehous
 import { ActionButonComponent } from './add-warehouse-area/action-buton/action-buton.component';
 import { ActionButtonWarehouseLineComponent } from './add-warehouse-line/action-button-warehouse-line/action-button-warehouse-line.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActionButtonWarehouseShelveComponent } from './add-warehouse-shelve/action-button-warehouse-shelve/action-button-warehouse-shelve.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AddWarehouseShelveComponent,
     ActionButonComponent,
     ActionButtonWarehouseLineComponent,
+    ActionButtonWarehouseShelveComponent,
   ],
   imports: [
     CommonModule,

@@ -94,7 +94,7 @@ export class BranchListComponent implements OnInit {
         cellRenderer: BtnCellRenderer,
       }, 
       { field: "code", headerName:"MÃ CHI NHÁNH",cellStyle: {fontWeight: '500'}}, 
-      { field: 'companyName', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left',resizable:true },
+      { field: 'companyName', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true },
       { field: 'phoneNumber', headerName: "SỐ ĐIỆN THOẠI"},
       { field: 'email', headerName: "EMAIL", width:250},
       { field: 'taxCode', headerName: "MÃ SỐ THUẾ"},

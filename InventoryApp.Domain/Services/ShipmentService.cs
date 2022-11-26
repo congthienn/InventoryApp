@@ -58,6 +58,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IEnumerable<MaterialShipment> GetAllShipment()
+        {
+            return _shipmentRepository.GetAllShipments();
+        }
+
         public IEnumerable<ShipmentModelRq> GetAllShipments()
         {
             return _mapper.Map<IEnumerable<ShipmentModelRq>>(_shipmentRepository.Get());

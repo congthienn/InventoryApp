@@ -726,12 +726,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserApproveId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserRequestId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uniqueidentifier");
 
@@ -744,10 +738,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("OrderId");
 
                     b.HasIndex("UpdatedByUserId");
-
-                    b.HasIndex("UserApproveId");
-
-                    b.HasIndex("UserRequestId");
 
                     b.HasIndex("WarehouseId");
 
@@ -972,12 +962,8 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("GoodsImportDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("SupplierOrderId")
                         .HasColumnType("int");
@@ -988,13 +974,7 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserApproveId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserReceiveId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserRequestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("WarehouseId")
@@ -1010,11 +990,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.HasIndex("UpdatedByUserId");
 
-                    b.HasIndex("UserApproveId");
-
                     b.HasIndex("UserReceiveId");
-
-                    b.HasIndex("UserRequestId");
 
                     b.HasIndex("WarehouseId");
 
@@ -1051,14 +1027,11 @@ namespace InventoryApp.DbMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<int>("DamagedQuantity")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("InventoryReceivingVoucherId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("MaterialShipmentId")
-                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
@@ -1066,14 +1039,14 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<int>("QuantityReceiving")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuantityRequest")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ShipmentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MaterialShipmentId");
+                    b.HasIndex("ShipmentId");
 
-                    b.HasIndex("InventoryReceivingVoucherId", "MaterialShipmentId")
+                    b.HasIndex("InventoryReceivingVoucherId", "ShipmentId")
                         .IsUnique();
 
                     b.ToTable("InventoryReceivingVoucherDetail");
@@ -1187,12 +1160,6 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("BrachId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("BranchId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("MaterialId")
                         .HasColumnType("uniqueidentifier");
 
@@ -1200,8 +1167,6 @@ namespace InventoryApp.DbMigrations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BranchId");
 
                     b.HasIndex("MaterialId");
 
@@ -3074,16 +3039,6 @@ namespace InventoryApp.DbMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryApp.Data.Models.Users", "UserApprove")
-                        .WithMany()
-                        .HasForeignKey("UserApproveId");
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "UserRequest")
-                        .WithMany()
-                        .HasForeignKey("UserRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InventoryApp.Data.Models.Warehouses", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId")
@@ -3097,10 +3052,6 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("UpdatedByUser");
-
-                    b.Navigation("UserApprove");
-
-                    b.Navigation("UserRequest");
 
                     b.Navigation("Warehouse");
                 });
@@ -3261,21 +3212,9 @@ namespace InventoryApp.DbMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryApp.Data.Models.Users", "UserApprove")
-                        .WithMany()
-                        .HasForeignKey("UserApproveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("InventoryApp.Data.Models.Users", "UserReceive")
                         .WithMany()
                         .HasForeignKey("UserReceiveId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryApp.Data.Models.Users", "UserRequest")
-                        .WithMany()
-                        .HasForeignKey("UserRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -3293,11 +3232,7 @@ namespace InventoryApp.DbMigrations.Migrations
 
                     b.Navigation("UpdatedByUser");
 
-                    b.Navigation("UserApprove");
-
                     b.Navigation("UserReceive");
-
-                    b.Navigation("UserRequest");
 
                     b.Navigation("Warehouse");
                 });
@@ -3324,20 +3259,20 @@ namespace InventoryApp.DbMigrations.Migrations
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucherDetail", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.InventoryReceivingVoucher", "InventoryReceivingVoucher")
-                        .WithMany()
+                        .WithMany("Detail")
                         .HasForeignKey("InventoryReceivingVoucherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InventoryApp.Data.Models.MaterialShipment", "MaterialShipment")
+                    b.HasOne("InventoryApp.Data.Models.Shipment", "Shipment")
                         .WithMany()
-                        .HasForeignKey("MaterialShipmentId")
+                        .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("InventoryReceivingVoucher");
 
-                    b.Navigation("MaterialShipment");
+                    b.Navigation("Shipment");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialAttribute", b =>
@@ -3415,10 +3350,6 @@ namespace InventoryApp.DbMigrations.Migrations
 
             modelBuilder.Entity("InventoryApp.Data.Models.MaterialPosition", b =>
                 {
-                    b.HasOne("InventoryApp.Data.Models.Branches", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId");
-
                     b.HasOne("InventoryApp.Data.Models.Materials", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
@@ -3430,8 +3361,6 @@ namespace InventoryApp.DbMigrations.Migrations
                         .HasForeignKey("WarehouseShelveId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Branch");
 
                     b.Navigation("Material");
 
@@ -4240,6 +4169,11 @@ namespace InventoryApp.DbMigrations.Migrations
             modelBuilder.Entity("InventoryApp.Data.Models.InventoryDeliveryVoucher", b =>
                 {
                     b.Navigation("Details");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.InventoryReceivingVoucher", b =>
+                {
+                    b.Navigation("Detail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.Materials", b =>

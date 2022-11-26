@@ -19,5 +19,14 @@ namespace InventoryApp.Infrastructures.Repositories
         {
             return _dbSet.Where(x => x.WarehouseLineId == warehouseLineId).OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefault();
         }
+
+        public IEnumerable<WarehouseShelves> GetWarehouseShelveByWarehouseLineId(Guid warehouseLineId)
+        {
+            return _dbSet.Where(x => x.WarehouseLineId == warehouseLineId).OrderByDescending(x => x.CreatedDate).ToList().Where(x=> !WarehouseShelvevHasProducts(x.Id));
+        }
+        private bool WarehouseShelvevHasProducts(Guid warehouseShelveId)
+            {
+            return _context.Set<MaterialPosition>().Any(x => x.WarehouseShelveId == warehouseShelveId);
+        }
     }
 }

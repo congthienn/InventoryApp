@@ -132,10 +132,18 @@ export class AddMaterialComponent implements OnInit {
   get detailedDescription() { return this.addMaterialForm.get('detailedDescription'); }
 
   openModalTrademark(){
-    this.modalService.open(TrademarkComponent)
+    this.modalService.open(TrademarkComponent).result.then((result) => {
+      this.getTrademarkList();
+      },(reason) => {
+        this.getTrademarkList();
+      });
   }
   openModalCategoryMaterial(){
-    this.modalService.open(CategoryMaterialComponent)
+    this.modalService.open(CategoryMaterialComponent).result.then((result) => {
+      this.getCategoryMaterialList();
+      },(reason) => {
+        this.getCategoryMaterialList();
+      });
   }
   changCategoryMaterialValue(data:any){
     if(data != undefined){

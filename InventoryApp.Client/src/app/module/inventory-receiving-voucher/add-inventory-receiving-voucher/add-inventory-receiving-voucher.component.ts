@@ -17,7 +17,13 @@ import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { AddShipmentComponent } from '../../shipment/add-shipment/add-shipment.component';
 import { ShipmentService } from '../../shipment/service/shipment.service';
 import { UserService } from '../../user/service/user.service';
+import { WarehouseAreaService } from '../../warehouse-layout/service/warehouse-area.service';
+import { WarehouseLineService } from '../../warehouse-layout/service/warehouse-line.service';
+import { WarehouseShelveService } from '../../warehouse-layout/service/warehouse-shelve.service';
 import { WarehouseService } from '../../warehouse/service/warehouse.service';
+import { InventoryReceivingVoucher } from '../model/inventory-receiving-voucher';
+import { InventoryReceivingVoucherDetail } from '../model/inventory-receiving-voucher-detail';
+import { InventoryReceivingVoucherService } from '../service/inventory-receiving-voucher.service';
 
 @Component({
   selector: 'app-add-inventory-receiving-voucher',
@@ -52,17 +58,20 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   material: Material[] = [];
   branchList!: Array<Select2OptionData>;
   branchId!:string;
-  orderId!:string;
-  quantity!:string;
+  orderIdValue!:string;
+  quantity = 0;
   warehouseList!: Array<Select2OptionData>;
   orderList!: Array<Select2OptionData>;
   userList!:Array<Select2OptionData>;
   materialList!:Array<Select2OptionData>;
   shipmentList!:Array<Select2OptionData>;
-  addOrderDetailForm!:FormGroup;
-  addOrderForm!:FormGroup;
-  orderDetailValue: OrderDetail;
-  order:Order;
+  warehouseArea!:Array<Select2OptionData>;
+  warehouseLine!:Array<Select2OptionData>;
+  warehouseShelve!:Array<Select2OptionData>;
+  addInventoryReceivingVoucherDetailForm!:FormGroup;
+  addInventoryReceivingVoucherForm!:FormGroup;
+  inventoryReceivingVoucherDetailValue: InventoryReceivingVoucherDetail;
+  inventoryReceivingVoucher:InventoryReceivingVoucher;
   showInputQuantity = false;
   public sizePagination = 10;
   public defaultColDef: ColDef = {
@@ -71,8 +80,9 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     sortable: true,
     floatingFilter: true,
   };
-  public totalSale =0;
+  public totalSale = 0;
   public totalMaterial = 0;
+  public totalDamagedQuantity = 0;
   public rowSelection: 'single' | 'multiple' = 'multiple';
   gridOptions: GridOptions = {
     pagination: true,
@@ -88,10 +98,14 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     private orderService: OrderService,
     private userService: UserService,
     private shipmentService: ShipmentService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private warehouseAreaService: WarehouseAreaService,
+    private warehouseLineService: WarehouseLineService,
+    private warehouseShelveService: WarehouseShelveService,
+    private inventoryReceivingVoucherService: InventoryReceivingVoucherService
     ) { 
-    this.orderDetailValue = {} as OrderDetail;
-    this.order = {} as Order;
+    this.inventoryReceivingVoucherDetailValue = {} as InventoryReceivingVoucherDetail;
+    this.inventoryReceivingVoucher = {} as InventoryReceivingVoucher;
   }
   ngOnInit(): void {
     this.title.setTitle("Nhập kho");
@@ -99,58 +113,94 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     this.updateColumnDefs();
     this.getBranchData();
     this.materialList = [];
-    this.addOrderDetailForm = new FormGroup({
-      materialId: new FormControl(this.orderDetailValue.materialId,[Validators.required]),
-      quantityRequest: new FormControl(this.orderDetailValue.quantityRequest,[Validators.required, Validators.min(0)]),
+    this.addInventoryReceivingVoucherDetailForm = new FormGroup({
+      materialId: new FormControl(this.inventoryReceivingVoucherDetailValue.materialId, [Validators.required]),
+      quantityReceiving: new FormControl(this.inventoryReceivingVoucherDetailValue.quantityReceiving, [Validators.required, Validators.min(0)]),
+      shipmentId: new FormControl(this.inventoryReceivingVoucherDetailValue.shipmentId, [Validators.required]),
+      damagedQuantity: new FormControl(this.inventoryReceivingVoucherDetailValue.damagedQuantity, [Validators.required]),
+      warehouseShelveId: new FormControl(this.inventoryReceivingVoucherDetailValue.warehouseShelveId, [Validators.required]),
     });
      
-    this.addOrderForm = new FormGroup({
-      branchRequestId: new FormControl(this.order.branchRequestId,[Validators.required]),
-      supplierId: new FormControl(this.order.supplierId,[Validators.required]),
-      orderDate: new FormControl(this.order.orderDate),
-      supplierOrderDetail: new FormControl(this.order.supplierOrderDetail, [Validators.required]),
+    this.addInventoryReceivingVoucherForm = new FormGroup({
+      branchRequestId: new FormControl(this.inventoryReceivingVoucher.branchRequestId,[Validators.required]),
+      warehouseId: new FormControl(this.inventoryReceivingVoucher.warehouseId,[Validators.required]),
+      supplierOrderId: new FormControl(this.inventoryReceivingVoucher.supplierOrderId,[Validators.required]),
+      detail: new FormControl(this.inventoryReceivingVoucher.detail,[Validators.required]),
+      userReceiveId: new FormControl(this.inventoryReceivingVoucher.userReceiveId,[Validators.required]),
+      goodsImportDate: new FormControl(this.inventoryReceivingVoucher.goodsImportDate),
     });
   }
-  get materialId() { return this.addOrderDetailForm.get('materialId'); }
-  get quantityRequest() { return this.addOrderDetailForm.get('quantityRequest'); }
+  get materialId() { return this.addInventoryReceivingVoucherDetailForm.get('materialId'); }
+  get quantityReceiving() { return this.addInventoryReceivingVoucherDetailForm.get('quantityReceiving'); }
+  get shipmentId() { return this.addInventoryReceivingVoucherDetailForm.get('shipmentId'); }
+  get damagedQuantity() { return this.addInventoryReceivingVoucherDetailForm.get('damagedQuantity'); }
+  get warehouseShelveId() { return this.addInventoryReceivingVoucherDetailForm.get('warehouseShelveId'); }
 
 
-  get branchRequestId() { return this.addOrderForm.get('branchRequestId'); }
-  get supplierId() { return this.addOrderForm.get('supplierId'); }
-  get supplierOrderDetail() { return this.addOrderForm.get('supplierOrderDetail'); }
-  private updateColumnDefs() {
+  get branchRequestId() { return this.addInventoryReceivingVoucherForm.get('branchRequestId'); }
+  get warehouseId() { return this.addInventoryReceivingVoucherForm.get('warehouseId'); }
+  get supplierOrderId() { return this.addInventoryReceivingVoucherForm.get('supplierOrderId'); }
+  get detail() { return this.addInventoryReceivingVoucherForm.get('detail'); }
+  get userReceiveId() { return this.addInventoryReceivingVoucherForm.get('userReceiveId'); }
+
+  private updateColumnDefs() { 
     this.columnDefs  =  [
-      { field: 'materialCategory', headerName: "LÔ HÀNG", width:240, initialPinned: 'left' },
-      { field: "code", headerName:"MÃ SẢN PHẨM",cellStyle: {fontWeight: '500'}}, 
+      { field: 'shipment', headerName: "LÔ HÀNG", width:240,  cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true},
+      { field: "code", headerName:"MÃ SẢN PHẨM", cellStyle: {fontWeight: '500'}}, 
       { field: 'name', headerName: "TÊN SẢN PHẨM", width: 300,  cellStyle: {fontWeight: '500'},resizable:true },
-      { field: 'costPrice', headerName: "GIÁ NHẬP", width: 180, cellRendererFramework: CurrencyComponent,},
-      { field: 'quantityRequest', headerName: "SỐ LƯỢNG", width:180, cellStyle: {textAlign: 'center'} },
+      { field: 'price', headerName: "GIÁ NHẬP", width: 180, cellRendererFramework: CurrencyComponent,},
+      { field: 'quantityReceiving', headerName: "SỐ LƯỢNG NHẬP", width:180, cellStyle: {textAlign: 'center'} },
+      { field: 'damagedQuantity', headerName: "SỐ LƯỢNG HƯ HẠI", width:180, cellStyle: {textAlign: 'center'} },
       { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN", width:180, cellStyle: {textAlign: 'center'} },
       { field: 'materialCategory', headerName: "NHÓM SẢN PHẨM", width:240 },
+      { field: 'materialPosistion', headerName: "VỊ TRÍ SẢN PHẨM", width:240 },
     ];
   }
   changeBranchValue(branchId: any){
-    this.branchId = branchId;
+    this.branchId = branchId; 
+    this.warehouseArea = [];
+    this.warehouseLine = [];
+    this.warehouseShelve = [];
     if(branchId != undefined){
       this.getOrderData(branchId);
       this.getWarehouseData(branchId);  
       this.getUserData(branchId);
-      this.getShipmentData(branchId);
-      this.addOrderForm.patchValue({branchRequestId: branchId != 'null' ? branchId : null});
+      this.getShipmentData();
+      this.addInventoryReceivingVoucherForm.patchValue({branchRequestId: branchId != 'null' ? branchId : null});
       document.getElementById("branchRequestId")?.focus();
     }
   }
+
+  warehouseIdValue = '';
+  changWarehouseValue(warehouseId: any){
+    if(warehouseId == undefined)
+      return;
+    this.warehouseIdValue = warehouseId;
+    this.warehouseArea = [];
+    this.warehouseLine = [];
+    this.warehouseShelve = [];
+    this.getWarehouseArea();
+    this.addInventoryReceivingVoucherForm.patchValue({warehouseId: warehouseId != 'null' ? warehouseId : null});
+    document.getElementById("warehouseId")?.focus();
+  }
+
   changeOrderValue(orderId:any){
     this.materialList = [];
-    this.orderId = orderId;
+    this.orderIdValue = orderId;
     if(orderId != undefined){
-      this.getMaterialData(orderId);
+      this.getMaterialData();
+      this.addInventoryReceivingVoucherForm.patchValue({supplierOrderId: orderId != 'null' ? orderId : null});
+      document.getElementById("supplierOrderId")?.focus();
     }
   }
-  changeOrderDetailValue(){
-    this.addOrderForm.patchValue({supplierOrderDetail: this.dataRow });
-    document.getElementById("supplierOrderDetail")?.focus();
+
+  changeUserValue(userId:any){
+    if(userId == undefined)
+      return;
+    this.addInventoryReceivingVoucherForm.patchValue({userReceiveId: userId != 'null' ? userId : null});
+    document.getElementById("userReceiveId")?.focus();
   }
+  
   getBranchData(){
     document.body.style.overflow = 'hidden';
     var tempData: { id: string; text: string; }[] = [];
@@ -210,9 +260,9 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       this.userList = tempData;
     })
   }
-  getMaterialData(orderId:string){
+  getMaterialData(){
     var tempData: { id: string; text: string; }[] = [];
-    this.orderService.getAllMaterialOrderByOrderId(orderId).subscribe(response => {
+    this.orderService.getAllMaterialOrderByOrderId(this.orderIdValue).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
@@ -223,9 +273,9 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       this.materialList = tempData;
     })
   }
-  getShipmentData(branchId:string){
+  getShipmentData(){
     var tempData: { id: string; text: string; }[] = [];
-    this.shipmentService.getAllShipmentsByBranchId(branchId).subscribe(response => {
+    this.shipmentService.getAllShipmentsByBranchId(this.branchId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
@@ -239,78 +289,158 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   refreshBranchData(){
     this.getBranchData();
   }
- 
+  getWarehouseArea(){ 
+    var tempData: { id: string; text: string; }[] = [];
+    this.warehouseAreaService.getAllWarehouseByWarehouseId(this.warehouseIdValue).subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.name
+        }
+        tempData.push(data);
+      });
+      this.warehouseArea = tempData;
+    })
+  }
+  getWarehouseLine(warehouseAreaId:string){ 
+    var tempData: { id: string; text: string; }[] = [];
+    this.warehouseLineService.getAllWarehouseLineByWarehouseAreaId(warehouseAreaId).subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.name
+        }
+        tempData.push(data);
+      });
+      this.warehouseLine = tempData;
+    })
+  }
+  changeInventoryReceivingVoucherDetailValue(){
+    this.addInventoryReceivingVoucherForm.patchValue({detail: this.dataRow });
+    document.getElementById("detail")?.focus();
+  }
+  getWarehouseShelve(warehouseLineId:string){ 
+    var tempData: { id: string; text: string; }[] = [];
+    this.warehouseShelveService.getAllWarehouseShelveByWarehouseLineId(warehouseLineId).subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.name
+        }
+        tempData.push(data);
+      });
+      this.warehouseShelve = tempData;
+    })
+  }
+  warehouseAreaName = '';
+  changWarehouseAreaValue(warehouseAreaId: any){
+    if(warehouseAreaId ==  undefined)
+      return;
+    this.warehouseShelve = [];
+    this.getWarehouseLine(warehouseAreaId);
+    this.warehouseAreaName = this.warehouseArea.filter(x=>x.id == warehouseAreaId)[0].text;
+  }
+
+  warehouseLineName = '';
+  changWarehouseLineValue(warehouseLineId: any){
+    if(warehouseLineId ==  undefined)
+      return;
+    this.getWarehouseShelve(warehouseLineId);
+    this.warehouseLineName = this.warehouseLine.filter(x=>x.id == warehouseLineId)[0].text;
+  }
+
+  warehouseShelveName = '';
+  changWarehouseShelveValue(warehouseShelveId:any){ 
+    if(warehouseShelveId == undefined)
+      return;
+    this.addInventoryReceivingVoucherDetailForm.patchValue({warehouseShelveId: warehouseShelveId != 'null' ? warehouseShelveId : null});
+    document.getElementById("warehouseShelveId")?.focus();
+    this.warehouseShelveName = this.warehouseShelve.filter(x=>x.id == warehouseShelveId)[0].text;
+  }
+
   changMaterialValue(materialId:any){
-    this.quantity = '';
+    this.quantity = 0;
     if(materialId == undefined)
       return;
-    this.orderService.getQuantityRequest(this.orderId, materialId).subscribe(
+    this.addInventoryReceivingVoucherDetailForm.patchValue({materialId: materialId != 'null' ? materialId : null});
+    document.getElementById("materialId")?.focus();
+    this.orderService.getQuantityRequest(this.orderIdValue, materialId).subscribe(
       response => {
         this.quantity = response;
       }
     )
-    this.addOrderDetailForm.patchValue({materialId: materialId != 'null' ? materialId : null});
+    this.addInventoryReceivingVoucherDetailForm.patchValue({materialId: materialId != 'null' ? materialId : null});
       document.getElementById("materialId")?.focus();
   }
-  addOrderDetail(){
-    var materialAlreadyExists = false;
+  shipmentName = '';
+  changShipmentValue(shipmentId:any){
+    if(shipmentId == undefined)
+      return;
+    this.addInventoryReceivingVoucherDetailForm.patchValue({shipmentId: shipmentId != 'null' ? shipmentId : null});
+    document.getElementById("shipmentId")?.focus();
+    this.shipmentName = this.shipmentList.filter(x=>x.id == shipmentId)[0].text;
+  }
+
+  addInventoryReceivingVoucherDetail(){
+
     var dataRowTemp: any[]= [];
-    this.numericalOrder ++;
-    var materialId = this.addOrderDetailForm.value.materialId;
-    var quantityRequest = this.addOrderDetailForm.value.quantityRequest;
-   
-    this.materialService.getMaterialById(materialId).subscribe(
-      response => {
-        var data = {
-          "materialId":response.id,
-          "code": response.code, 
-          "name": response.name, 
-          "costPrice": response.costPrice,
-          "baseMaterialUnit": response.baseMaterialUnit,
-          "materialCategory": response.categoryMaterial.name,
-          "quantityRequest": quantityRequest
-        }
-        this.dataRow.forEach(item => {
-          if(item.code == response.code){
-              materialAlreadyExists = true;
+    var materialId = this.addInventoryReceivingVoucherDetailForm.value.materialId;
+    var quantityReceiving = this.addInventoryReceivingVoucherDetailForm.value.quantityReceiving;
+    var damagedQuantity = this.addInventoryReceivingVoucherDetailForm.value.damagedQuantity;
+    var shipmentId = this.addInventoryReceivingVoucherDetailForm.value.shipmentId;
+    var warehouseShelveId = this.addInventoryReceivingVoucherDetailForm.value.warehouseShelveId;
+    var materialAlreadyExists = this.dataRow.filter(x=>x.materialId == materialId)[0];
+    var shipmentAlreadyExists = this.dataRow.filter(x=>x.shipmentId == shipmentId)[0];
+    var warehouseShelveExits = this.dataRow.filter(x=>x.warehouseShelveId == warehouseShelveId)[0];
+    if(materialAlreadyExists != undefined){
+      this.sweetalertService.alertMini("Sản phẩm đã được nhập", "Vui lòng kiểm tra lại", "error");
+    }else if(shipmentAlreadyExists != undefined){
+      this.sweetalertService.alertMini("Lô hàng đã được nhập", "Vui lòng kiểm tra lại", "error");
+    }else if(warehouseShelveExits != undefined){
+      this.sweetalertService.alertMini("Kệ hàng đã có sản phẩm", "Vui lòng kiểm tra lại", "error");
+    }
+    else{
+      this.materialService.getMaterialById(materialId).subscribe(
+        response => {
+          var data = {
+            "shipment": this.shipmentName,
+            "warehouseShelveId":warehouseShelveId,
+            "shipmentId":shipmentId,
+            "damagedQuantity":damagedQuantity,
+            "materialId":response.id,
+            "code": response.code, 
+            "name": response.name, 
+            "price": response.costPrice,
+            "baseMaterialUnit": response.baseMaterialUnit,
+            "materialCategory": response.categoryMaterial.name,
+            "quantityReceiving": quantityReceiving, 
+            "materialPosistion": `${this.warehouseAreaName}, ${this.warehouseLineName}, ${this.warehouseShelveName}`
           }
-        })
-        if(materialAlreadyExists){
-          Swal.fire({
-            title: 'Sản phẩm đã có trong đơn đặt hàng',
-            text: "Bạn có muốn cập nhật số lượng",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Cập nhật',
-            cancelButtonText: 'Hủy bỏ'
-          }).then((result) => {
-            if (result.isConfirmed) {    
-              var index = this.dataRow.findIndex((item => item.code == response.code));
-              this.dataRow[index].quantityRequest += quantityRequest;
-              dataRowTemp.push(...this.dataRow);
-              this.dataRow = dataRowTemp;
-              this.addOrderDetailForm.reset();
-              this.materialList = [];   
-              this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-              this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
-              this.changeOrderDetailValue();
-            }
-          })
+            dataRowTemp.push(...this.dataRow);
+            dataRowTemp.push(data);
+            this.dataRow = dataRowTemp;
+            this.addInventoryReceivingVoucherDetailForm.reset();
+            this.resetData();
+            this.quantity = 0;
+            this.materialList = [];
+            this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityReceiving || 0), 0);
+            this.totalSale = this.dataRow.reduce((a, b) => a + (b.price || 0), 0) * this.totalMaterial;
+            this.totalDamagedQuantity = this.dataRow.reduce((a, b) => a + (b.damagedQuantity || 0), 0);
+            this.changeInventoryReceivingVoucherDetailValue();
+            console.log(this.addInventoryReceivingVoucherForm);
         }
-        else{
-          dataRowTemp.push(...this.dataRow);
-          dataRowTemp.push(data);
-          this.dataRow = dataRowTemp;
-          this.addOrderDetailForm.reset();
-          this.materialList = [];
-          this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-          this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
-          this.changeOrderDetailValue();
-        }  
-      }
-    )
+      )
+    }
+  }
+  resetData(){
+    this.materialList = [];
+    this.getMaterialData();
+    this.shipmentList = [];
+    this.getShipmentData();
+    this.warehouseArea = [];
+    this.getWarehouseArea();
+    this.warehouseLine = [];
+    this.warehouseShelve = [];
   }
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
@@ -327,19 +457,19 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     }
     this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
     this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
-    this.changeOrderDetailValue();
+    this.changeInventoryReceivingVoucherDetailValue();
   }
   showSuccess() {  
-    this.sweetalertService.alertAction("/dat-hang","Thêm đơn đặt hàng thành công");
+    this.sweetalertService.alertAction("/kho-hang/danh-sach-phieu-nhap-kho","Thêm đơn đặt hàng thành công");
   }
   showError(){
     this.sweetalertService.alertMini("Không thể lưu dữ liệu", "Vui lòng kiểm tra lại", "error");
   }
-  addOrder(){
+  addInventoryReceivingVoucher(){
     this.submitData = true;
     var dateNow = new Date(Date.now());
-    this.addOrderForm.patchValue({orderDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
-    this.orderService.addOrder(this.addOrderForm.value).subscribe(
+    this.addInventoryReceivingVoucherForm.patchValue({goodsImportDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
+    this.inventoryReceivingVoucherService.addInventoryReceivingVoucher(this.addInventoryReceivingVoucherForm.value).subscribe(
       response => {
         this.showSuccess();
       },
@@ -356,9 +486,9 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     modalRef.componentInstance.branchIdInput = this.branchId;
     modalRef.result.then(
       (result) => {
-        this.getShipmentData(this.branchId);
+        this.getShipmentData();
       },(reason) => {
-        this.getShipmentData(this.branchId);
+        this.getShipmentData();
       });
   }
 }

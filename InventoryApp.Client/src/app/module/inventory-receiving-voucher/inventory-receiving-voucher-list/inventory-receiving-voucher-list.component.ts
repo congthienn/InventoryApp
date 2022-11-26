@@ -9,6 +9,8 @@ import { ActionButtonViewDetailComponent } from '../../order/order-list/action-b
 import { ButtonUpdateStatusComponent } from '../../order/order-list/button-update-status/button-update-status.component';
 import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
+import { InventoryReceivingVoucher } from '../model/inventory-receiving-voucher';
+import { InventoryReceivingVoucherService } from '../service/inventory-receiving-voucher.service';
 
 @Component({
   selector: 'app-inventory-receiving-voucher-list',
@@ -23,7 +25,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
   dataRow: any[] = [];
   columnDefs : any[]= [];
   orderData: Order[] = [];
-  
+  inventoryReceivingVoucher : InventoryReceivingVoucher[] = [];
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',
@@ -56,6 +58,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
 
   constructor(private orderService: OrderService, 
         private title: Title, 
+        private inventoryReceivingVoucherService : InventoryReceivingVoucherService,
         private sweetalertService: SweetalertService,
         private modalService: NgbModal
   ) {}
@@ -64,22 +67,25 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
     this.title.setTitle("Phiếu nhập kho");
     this.Title = "Quản lý phiếu nhập kho";
     this.updateColumnDefs();
+    this.getInventoryReceivingVoucher();
   }
-  public getAllOrder(){
+
+  getInventoryReceivingVoucher(){
     document.body.style.overflow = 'hidden';
-    this.orderService.getAllOrder().subscribe(
-      response =>{
-        this.orderData = response;
+      this.inventoryReceivingVoucherService.getInventoryReceivingVoucher().subscribe(
+        response =>{
+        this.inventoryReceivingVoucher = response;
         var dataRowTemp: any[]= [];
-        this.orderData.forEach(element => {
-          var date = new Date(element.orderDate);
+        this.inventoryReceivingVoucher.forEach(element => {
+          var date = new Date(element.goodsImportDate);
           var data = {
-              "code":element.code,
-              "supplier": element.supplier.supplierName, 
-              "branchRequest": element.branchRequest.companyName, 
-              "priceTotal": element.priceTotal,
-              "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
-              "status": element.code,
+            "code":element.code,
+            "supplier": element.supplierOrder.supplier.supplierName, 
+            "branchRequest": element.branchRequest.companyName,
+            "warehouse": element.warehouse.name, 
+            "priceTotal": element.code,
+            "supplierOrder":element.supplierOrder.code,
+            "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
             }
             dataRowTemp.push(data);
         });
@@ -91,6 +97,8 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
         this.loadData = true;
       })
   }
+
+  
   private updateColumnDefs() {
     this.columnDefs  =  [ 
       { field: "code", width: 68,
@@ -101,11 +109,10 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
         initialPinned: 'left',
         cellRenderer: ActionButtonViewDetailComponent,}, 
       { field: "code", headerName:"MÃ NHẬP KHO", width:180, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
-      { field: "code", headerName:"MÃ HÓA ĐƠN", width:180, cellStyle: {fontWeight: '500'}}, 
-      { field: 'supplier', headerName: "NHÀ CUNG CẤP",width:300, cellStyle: {fontWeight: '500'},resizable:true },
+      { field: "supplierOrder", headerName:"MÃ HÓA ĐƠN", width:180, cellStyle: {fontWeight: '500'}}, 
+      { field: 'supplier', headerName: "NHÀ CUNG CẤP", width:300, cellStyle: {fontWeight: '500'},resizable:true },
       { field: 'branchRequest', headerName: "CHI NHÁNH", resizable:true, width:230 },
-      { field: 'branchRequest', headerName: "KHO HÀNG", resizable:true, width:230 },
-      { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},
+      { field: 'warehouse', headerName: "KHO HÀNG", resizable:true, width:230 },
       { field: 'orderDate', headerName: "NGÀY NHẬP KHO", resizable:true, width:200},
     ];
   }
@@ -115,7 +122,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
     this.sizePagination = Number(text);
   }
   refreshData(){
-    this.getAllOrder();
+    this.getInventoryReceivingVoucher();
   }
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
