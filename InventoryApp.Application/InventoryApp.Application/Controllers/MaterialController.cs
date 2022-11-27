@@ -131,5 +131,12 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("GetMaterialPositionsByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<ShowMaterialPosition> GetMaterialPositionsByBranchId(Guid branchId)
+        {
+            return _materialService.GetMaterialPositionsByBranchId(branchId);
+        }
     }
 }

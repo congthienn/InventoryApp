@@ -8,4 +8,5 @@ export interface MaterialShipment{
     shipment:Shipment;
     materialQuantity:string;
     quantityInStock:string;
+    position:string;
 }

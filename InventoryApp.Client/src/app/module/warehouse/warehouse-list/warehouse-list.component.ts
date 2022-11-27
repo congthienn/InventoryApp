@@ -19,6 +19,7 @@ export class WarehouseListComponent implements OnInit {
   public loadData = true;
   dataRow: any[] = [];
   columnDefs : any[]= [];
+  public rowSelection: 'single' | 'single' = 'single';
   warehouseData: Warehouse[] = [];
   public pageTite : PageTitle[] = [
     {

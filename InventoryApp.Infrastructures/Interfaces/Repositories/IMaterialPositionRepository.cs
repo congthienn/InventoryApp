@@ -10,5 +10,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 {
     public interface IMaterialPositionRepository : IGenericRepository<MaterialPosition>
     {
+        IEnumerable<MaterialPosition> GetMaterialPositionsByBranchId(Guid branchId);
     }
 }

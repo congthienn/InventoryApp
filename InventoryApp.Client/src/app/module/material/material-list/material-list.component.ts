@@ -18,6 +18,7 @@ export class MaterialListComponent implements OnInit {
   public material: Material[] = [];
   public loadData = true;
   public deleteData = false;
+  public rowSelection: 'single' | 'single' = 'single';
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',

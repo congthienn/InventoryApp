@@ -17,6 +17,8 @@ namespace InventoryApp.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMaterialRepository _materialRepository;
+        private readonly IMaterialPositionRepository _materialPositionRepository;
+        private readonly IMaterialShipmentRepository _materialShipmentRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly IAzureStorage _azureStorage;
@@ -24,6 +26,8 @@ namespace InventoryApp.Domain.Services
         {
             _unitOfWork = new UnitOfWork();
             _materialRepository = new MaterialRepository(_unitOfWork);
+            _materialPositionRepository = new MaterialPositionRepository(_unitOfWork);
+            _materialShipmentRepository = new MaterialShipmentRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
             _azureStorage = azureStorage;
@@ -247,6 +251,21 @@ namespace InventoryApp.Domain.Services
         {
             await DeleteMaterialPositionById(id);
             return await AddMaterialPosition(model);
+        }
+
+        public IEnumerable<ShowMaterialPosition> GetMaterialPositionsByBranchId(Guid branchId)
+        {
+            IEnumerable<MaterialPosition> materialPositions = _materialPositionRepository.GetMaterialPositionsByBranchId(branchId).ToList();
+            List<ShowMaterialPosition> showMaterialPositions = new List<ShowMaterialPosition>();
+            foreach(var item in materialPositions)
+            {
+                string materialPosition = $"{item.WarehouseShelve.WarehouseLine.WarehouseArea.Warehouse.Name }, {item.WarehouseShelve.WarehouseLine.WarehouseArea.Name}, {item.WarehouseShelve.WarehouseLine.Name}, {item.WarehouseShelve.Name}";
+                ShowMaterialPosition materialShipment = _mapper.Map<ShowMaterialPosition>(_materialShipmentRepository.GetMaterialShipmentByShipmentIdAndMaterialId(item.ShipmentId, item.MaterialId));
+                materialShipment.Position = materialPosition;
+                showMaterialPositions.Add(materialShipment);
+            }
+            return showMaterialPositions;
+
         }
     }
 }   

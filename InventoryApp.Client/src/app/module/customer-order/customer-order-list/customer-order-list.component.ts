@@ -22,6 +22,7 @@ export class CustomerOrderListComponent implements OnInit {
   public loadData = true;
   dataRow: any[] = [];
   columnDefs : any[]= [];
+  public rowSelection: 'single' | 'single' = 'single';
   orderData: CustomerOrder[] = [];
   
   public pageTite : PageTitle[] = [

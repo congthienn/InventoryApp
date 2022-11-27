@@ -11,5 +11,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface IMaterialShipmentRepository : IGenericRepository<MaterialShipment>
     {
         Task<Materials> GetMaterialByShipmentId(Guid shipmentId);
+        MaterialShipment GetMaterialShipmentByShipmentIdAndMaterialId(Guid shipmentId, Guid materialId);
     }
 }

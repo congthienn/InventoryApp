@@ -14,6 +14,7 @@ export class ShipmentComponent implements OnInit {
   dataRow: any[] = [];
   columnDefs : any[]= [];
   materialShipment: MaterialShipment[]= [];
+  public rowSelection: 'single' | 'single' = 'single';
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',

@@ -20,5 +20,10 @@ namespace InventoryApp.Infrastructures.Repositories
         {
            return await _dbSet.Include(x=>x.Material).Where(x=>x.ShipmentId == shipmentId).Select(x=>x.Material).FirstOrDefaultAsync();
         }
+
+        public MaterialShipment GetMaterialShipmentByShipmentIdAndMaterialId(Guid shipmentId, Guid materialId)
+        {
+            return _dbSet.Where(x => x.ShipmentId == shipmentId && x.MaterialId == materialId).FirstOrDefault();
+        }
     }
 }

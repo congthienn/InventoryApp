@@ -19,6 +19,8 @@ namespace InventoryApp.Data.Models
 
         public Guid MaterialId { get; set; }
         public Materials? Material { get; set; }
+        public Guid ShipmentId { get; set; }
+        public Shipment Shipment { get; set; }
 
         public Guid WarehouseShelveId { get; set; }
         public WarehouseShelves? WarehouseShelve { get; set; }

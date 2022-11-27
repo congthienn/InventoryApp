@@ -24,5 +24,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<MaterialPositionModel> AddMaterialPosition(MaterialPositionModel model);
         Task DeleteMaterialPositionById(int materialPositionId);
         Task<MaterialPositionModel> UpdateMaterialPosition(int id, MaterialPositionModel model);
+        IEnumerable<ShowMaterialPosition> GetMaterialPositionsByBranchId(Guid branchId);
     }
 }

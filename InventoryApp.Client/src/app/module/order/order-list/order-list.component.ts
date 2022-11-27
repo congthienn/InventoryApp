@@ -18,6 +18,7 @@ import { ButtonUpdateStatusComponent } from './button-update-status/button-updat
 })
 export class OrderListComponent implements OnInit {
   public Title = '';
+  public rowSelection: 'single' | 'single' = 'single';
   private gridApi!: GridApi;
   public loadData = true;
   dataRow: any[] = [];

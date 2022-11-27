@@ -21,6 +21,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
 
   public Title = '';
   private gridApi!: GridApi;
+  public rowSelection: 'single' | 'single' = 'single';
   public loadData = true;
   dataRow: any[] = [];
   columnDefs : any[]= [];

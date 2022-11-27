@@ -51,4 +51,15 @@ export class MaterialService {
       })
     )
   }
+  getMaterialPositionsByBranchId(branchId:string):Observable<any> {
+    let url = `${this.materialURL}/getMaterialPositionsByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response:any) =>{
+        return response;
+      }),
+      catchError((error:any) =>{
+        return throwError(error);
+      })
+    )
+  }
 }

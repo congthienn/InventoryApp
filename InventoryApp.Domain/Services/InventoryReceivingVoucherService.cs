@@ -60,7 +60,8 @@ namespace InventoryApp.Domain.Services
                     MaterialPosition materialPosition = new MaterialPosition()
                     {
                         MaterialId = item.MaterialId,
-                        WarehouseShelveId = item.WarehouseShelveId
+                        WarehouseShelveId = item.WarehouseShelveId,
+                        ShipmentId = item.ShipmentId
                     };
                     await _materialPositionRepository.Insert(materialPosition);
 
@@ -68,7 +69,8 @@ namespace InventoryApp.Domain.Services
                     {
                         MaterialId = item.MaterialId,
                         ShipmentId = item.ShipmentId,
-                        MaterialQuantity = item.QuantityReceiving
+                        MaterialQuantity = item.QuantityReceiving,
+                        QuantityInStock = item.QuantityReceiving
                     };
                     materialShipment.CreateBy(userIdentity);
                     materialShipment.UpdateBy(userIdentity);

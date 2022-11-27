@@ -21,6 +21,7 @@ export class BranchListComponent implements OnInit {
   dataRow: any[] = [];
   columnDefs : any[]= [];
   branchData: Branch[] = [];
+  public rowSelection: 'single' | 'single' = 'single';
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',

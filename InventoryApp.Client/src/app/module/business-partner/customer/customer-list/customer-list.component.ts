@@ -15,6 +15,7 @@ export class CustomerListComponent implements OnInit {
   public Title = '';
   public loadData = true;
   public sizePagination = 10;
+  public rowSelection: 'single' | 'single' = 'single';
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',
