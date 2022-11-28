@@ -5,13 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
-import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Material } from '../../material/model/material';
 import { MaterialService } from '../../material/service/material.service';
-import { Order } from '../../order/model/order';
-import { OrderDetail } from '../../order/model/order-detail';
 import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { AddShipmentComponent } from '../../shipment/add-shipment/add-shipment.component';
@@ -427,7 +424,6 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
             this.totalSale = this.dataRow.reduce((a, b) => a + (b.price || 0), 0) * this.totalMaterial;
             this.totalDamagedQuantity = this.dataRow.reduce((a, b) => a + (b.damagedQuantity || 0), 0);
             this.changeInventoryReceivingVoucherDetailValue();
-            console.log(this.addInventoryReceivingVoucherForm);
         }
       )
     }
@@ -460,7 +456,7 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     this.changeInventoryReceivingVoucherDetailValue();
   }
   showSuccess() {  
-    this.sweetalertService.alertAction("/kho-hang/danh-sach-phieu-nhap-kho","Thêm đơn đặt hàng thành công");
+    this.sweetalertService.alertAction("/kho-hang/danh-sach-phieu-nhap-kho","Tạo phiếu nhập kho thành công");
   }
   showError(){
     this.sweetalertService.alertMini("Không thể lưu dữ liệu", "Vui lòng kiểm tra lại", "error");

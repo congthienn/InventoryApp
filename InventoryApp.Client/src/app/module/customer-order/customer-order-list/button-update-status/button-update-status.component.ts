@@ -33,6 +33,7 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
         this.order = response;  
         this.statusClass = this.getColorStatus(Number(this.order.status));
         this.status = this.getStatus(Number(this.order.status));
+        this.disableButton = Number(this.order.status) == 1;
       }
     )
   }

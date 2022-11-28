@@ -70,5 +70,12 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("GetAllShipmentByMaterialIdAndBranchId/{materialId}/{branchId}")]
+        [HttpGet]
+        public IEnumerable<MaterialShipment> GetAllShipmentByMaterialIdAndBranchId(Guid materialId, Guid branchId)
+        {
+            return _shipmentService.GetAllShipmentByMaterialIdAndBranchId(materialId, branchId);
+        }
     }
 }

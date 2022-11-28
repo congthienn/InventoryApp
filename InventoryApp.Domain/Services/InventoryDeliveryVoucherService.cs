@@ -21,12 +21,18 @@ namespace InventoryApp.Domain.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInventoryDeliveryVoucherRepository _inventoryDeliveryVoucherRepository;
+        private readonly IWarehouseRepository _warehouseRepository;
+        private readonly IMaterialShipmentRepository _materialShipmentRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public InventoryDeliveryVoucherService(IMapper mapper, ILogger<InventoryDeliveryVoucherService> logger)
         {
             _unitOfWork = new UnitOfWork();
             _inventoryDeliveryVoucherRepository = new InventoryDeliveryVoucherRepository(_unitOfWork);
+            _orderRepository = new OrderRepository(_unitOfWork);
+            _warehouseRepository = new WarehouseRepository(_unitOfWork);
+            _materialShipmentRepository = new MaterialShipmentRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -43,6 +49,34 @@ namespace InventoryApp.Domain.Services
                 inventoryDeliveryVoucher.UpdateBy(userIdentity);
 
                 await _inventoryDeliveryVoucherRepository.Insert(inventoryDeliveryVoucher);
+                Order order = await _orderRepository.GetByID(model.OrderId);
+                if (order == null)
+                    throw new NotImplementedException("Order not found");
+                order.Status++;
+                await _orderRepository.Update(order);
+
+                int totalQuantity = 0;
+
+                foreach (var item in model.Details)
+                {
+                    MaterialShipment materialShipment = _materialShipmentRepository.GetMaterialShipmentByShipmentIdAndMaterialId(item.ShipmentId, item.MaterialId);
+                    if (materialShipment == null)
+                        throw new NotImplementedException("Material Shipment not found");
+
+                    if (materialShipment.QuantityInStock < item.QuantityDelivery)
+                        throw new NotImplementedException("Invalid quantity");
+
+                    materialShipment.QuantityInStock -= item.QuantityDelivery;
+                    await _materialShipmentRepository.Update(materialShipment);
+
+                    totalQuantity += item.QuantityDelivery;
+                }
+
+                Warehouses warehouses = await _warehouseRepository.GetByID(model.WarehouseId);
+                if (warehouses == null)
+                    throw new NotImplementedException("Warehouse not found");
+                warehouses.Blank += totalQuantity;
+                await _warehouseRepository.Update(warehouses);
 
                 _unitOfWork.Save();
                 _unitOfWork.Commit();
@@ -56,68 +90,18 @@ namespace InventoryApp.Domain.Services
             }
         }
 
-        public async Task<bool> ApproveInventoryDeliveryVoucher(string code, OrderStatusModel statusModel ,UserIdentity userIdentity)
-        {
-            try
-            {
-                InventoryDeliveryVoucher inventoryDeliveryVoucher = await _inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherByCode(code);
-                if (inventoryDeliveryVoucher == null)
-                    throw new NotImplementedException("InventoryDeliveryVoucher not found");
+        
 
-                inventoryDeliveryVoucher.Status = statusModel.Status;
-                inventoryDeliveryVoucher.UpdateBy(userIdentity);
-                
-                await _inventoryDeliveryVoucherRepository.Update(inventoryDeliveryVoucher);
-                _unitOfWork.Save();
-                return true;
-            }
-            catch(Exception e)
-            {
-                _logger.LogError(e.Message);
-                throw new NotImplementedException(e.Message);
-            }
-        }
-
-        public async Task<bool> ConfirmGoodsIssueDate(string code, UserIdentity userIdentity)
-        {
-            try
-            {
-                InventoryDeliveryVoucher inventoryDeliveryVoucher = await _inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherByCode(code);
-                if (inventoryDeliveryVoucher == null)
-                    throw new NotImplementedException("InventoryDeliveryVoucher not found");
-
-                inventoryDeliveryVoucher.UpdateBy(userIdentity);
-                inventoryDeliveryVoucher.GoodsIssueDate = inventoryDeliveryVoucher.UpdatedDate;
-
-                await _inventoryDeliveryVoucherRepository.Update(inventoryDeliveryVoucher);
-                _unitOfWork.Save();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                throw new NotImplementedException(e.Message);
-            }
-        }
+        
 
         public IEnumerable<InventoryDeliveryVoucherModel> GetAllInventoryDeliveryVoucher()
         {
-            return _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.Get());
+            return _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucher());
         }
 
-        public async Task<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCode(string code)
+        public async Task<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId)
         {
-            return _mapper.Map<InventoryDeliveryVoucherModel>(await _inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherByCode(code));
-        }
-
-        public IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByPurpose(int purpose)
-        {
-            return _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherByCodeByPurpose(purpose));
-        }
-
-        public IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByStatus(int status)
-        {
-            return _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherByCodeByStatus(status));
+            return _mapper.Map<InventoryDeliveryVoucherModel>(await _inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucherById(inventoryDeliveryVoucherId));
         }
     }
 }

@@ -46,4 +46,15 @@ export class ShipmentService {
       })
     )
   }
+  getAllShipmentByMaterialIdAndBranchId(materialId:string, branchId:string): Observable<any> {
+    let url = `${this.shipmentURL}/GetAllShipmentByMaterialIdAndBranchId/${materialId}/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
 }

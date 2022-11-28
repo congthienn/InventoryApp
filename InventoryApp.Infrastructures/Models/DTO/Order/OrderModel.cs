@@ -10,6 +10,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
 {
     public class OrderModel
     {
+
+        public int Id { get; private set; }
         public string Code { get; private set; }
         public int Status { get; set; } = (int)ORDER_STATUS.WaitForConfirmation;
         public Guid CustomerId { get; set; }

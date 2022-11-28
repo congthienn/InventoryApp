@@ -30,8 +30,8 @@ export class AddCustomerOrderComponent implements OnInit {
       active: false
     },
     {
-      path: '/dat-hang/',
-      title: 'Đặt hàng',
+      path: '/don-hang/',
+      title: 'Đơn hàng',
       active: false
     },
     {

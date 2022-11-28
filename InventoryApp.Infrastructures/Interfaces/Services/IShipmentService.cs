@@ -17,5 +17,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         IEnumerable<ShipmentModelRq> GetAllShipments();
         IEnumerable<ShipmentModelRq> GetAllShipmentsByBranchId(Guid branchId);
         Task<bool> DeleteShipment(string shipmentId);
+        IEnumerable<MaterialShipment> GetAllShipmentByMaterialIdAndBranchId(Guid materialId, Guid branchId);
     }
 }

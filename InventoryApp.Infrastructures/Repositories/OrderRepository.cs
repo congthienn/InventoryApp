@@ -28,6 +28,16 @@ namespace InventoryApp.Infrastructures.Repositories
             _dbSetOrderDetail.Remove(orderDetail);
         }
 
+        public IEnumerable<Materials> GetAllMaterialOrderByOrderId(int orderId)
+        {
+            return _dbSetOrderDetail.Include(x => x.Material).Where(x => x.OrderId == orderId).Select(x => x.Material);
+        }
+
+        public IEnumerable<Order> GetAllOrderByBranchId(Guid branchId)
+        {
+            return _dbSet.Where(x => x.BranchId == branchId && x.Status == 1).OrderByDescending(x => x.CreatedDate);
+        }
+
         public IEnumerable<Order> GetAllOrders()
         {
             return _dbSet.Include(x => x.Customer).Include(x => x.Branch).OrderByDescending(x => x.CreatedDate).ToList();

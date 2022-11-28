@@ -11,10 +11,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     {
         IEnumerable<InventoryDeliveryVoucherModel> GetAllInventoryDeliveryVoucher();
         Task<InventoryDeliveryVoucherModel> AddInventoryDeliveryVoucher(InventoryDeliveryVoucherModel model, UserIdentity userIdentity);
-        Task<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCode(string code);
-        IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByStatus(int status);
-        IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByPurpose(int purpose);
-        Task<bool> ApproveInventoryDeliveryVoucher(string code, OrderStatusModel statusModel, UserIdentity userIdentity);
-        Task<bool> ConfirmGoodsIssueDate(string code, UserIdentity userIdentity);
+        Task<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId);
     }
 }

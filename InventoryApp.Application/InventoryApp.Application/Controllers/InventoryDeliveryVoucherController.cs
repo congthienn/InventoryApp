@@ -36,54 +36,11 @@ namespace InventoryApp.Application.Controllers
             }
         }
 
-        [Route("Code/{code}")]
+        [Route("GetInventoryDeliveryVoucherById/{inventoryDeliveryVoucherId}")]
         [HttpGet]
-        public async Task<IActionResult> GetInventoryDeliveryVoucherByCode(string code)
+        public async Task<IActionResult> GetInventoryDeliveryVoucherByCode(Guid inventoryDeliveryVoucherId)
         {
-            return Ok(await _inventoryDeliveryVoucherService.GetInventoryDeliveryVoucherByCode(code));
-        }
-
-        [Route("Status/{status}")]
-        [HttpGet]
-        public IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByStatus(int status)
-        {
-            return _inventoryDeliveryVoucherService.GetInventoryDeliveryVoucherByCodeByStatus(status);
-        }
-
-        [Route("Purpose/{purpose}")]
-        [HttpGet]
-        public IEnumerable<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherByCodeByPurpose(int purpose)
-        {
-            return _inventoryDeliveryVoucherService.GetInventoryDeliveryVoucherByCodeByPurpose(purpose);
-        }
-
-        [HttpPut("Approve/{code}")]
-        public async Task<IActionResult> ApproveInventoryDeliveryVoucher(string code, [FromBody]OrderStatusModel statusModel)
-        {
-            try
-            {
-                UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _inventoryDeliveryVoucherService.ApproveInventoryDeliveryVoucher(code, statusModel, userIdentity));
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [Route("ConfirmGoodsIssueDate/{code}")]
-        [HttpPut]
-        public async Task<IActionResult> ConfirmGoodsIssueDate(string code)
-        {
-            try
-            {
-                UserIdentity userIdentity = GetCurrentUserIdentity();
-                return Ok(await _inventoryDeliveryVoucherService.ConfirmGoodsIssueDate(code, userIdentity));
-            }
-            catch(Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return Ok(await _inventoryDeliveryVoucherService.GetInventoryDeliveryVoucherById(inventoryDeliveryVoucherId));
         }
     }
 }

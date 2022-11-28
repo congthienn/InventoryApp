@@ -148,5 +148,15 @@ namespace InventoryApp.Domain.Services
             }
             
         }
+
+        public IEnumerable<OrderModel> GetAllOrderByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetAllOrderByBranchId(branchId));
+        }
+
+        public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
+        {
+            return _mapper.Map<IEnumerable<MaterialModelRq>>(_orderRepository.GetAllMaterialOrderByOrderId(orderId));
+        }
     }
 }

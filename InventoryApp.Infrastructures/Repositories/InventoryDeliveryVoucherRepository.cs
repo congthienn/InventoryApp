@@ -17,20 +17,22 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
-        public async Task<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCode(string code)
+        public IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucher()
         {
-            return await _dbSet.Include(x => x.Details).Where(x => x.Code == code).FirstOrDefaultAsync();
+            return _dbSet.Include(x => x.Branch).Include(x => x.Warehouse).Include(x => x.Order).ThenInclude(x => x.Customer);
         }
 
-        public IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCodeByPurpose(int purpose)
+        public async Task<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId)
         {
-            return _dbSet.Include(x => x.Details).Where(x => x.Purpose == purpose);
+            return _dbSet.Include(x=>x.Details).ThenInclude(x=>x.Shipment)
+                    .Include(x => x.Details).ThenInclude(x => x.Material)
+                    .Include(x => x.Branch)
+                    .Include(x => x.Warehouse)
+                    .Include(x => x.Order).ThenInclude(x => x.Customer)
+                    .Include(x=>x.UserDelivery)
+                    .Where(x=>x.Id == inventoryDeliveryVoucherId).FirstOrDefault();
         }
 
-        public IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCodeByStatus(int status)
-        {
-            return _dbSet.Include(x => x.Details).Where(x => x.Status == status);
-        }
 
         public async Task<string> GetLastCode()
         {

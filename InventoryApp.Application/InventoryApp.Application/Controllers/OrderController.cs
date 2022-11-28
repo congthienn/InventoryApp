@@ -89,5 +89,18 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("GetAllOrderByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<OrderModel> GetAllOrderByBranchId(Guid branchId)
+        {
+            return _orderService.GetAllOrderByBranchId(branchId);
+        }
+
+        [Route("GetAllMaterialOrderByOrderId/{orderId}")]
+        public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
+        {
+            return _orderService.GetAllMaterialOrderByOrderId(orderId);
+        }
     }
 }

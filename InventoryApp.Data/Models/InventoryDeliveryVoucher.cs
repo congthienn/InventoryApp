@@ -14,17 +14,16 @@ namespace InventoryApp.Data.Models
     {
         [Key]
         public Guid Id { get; set; }
-        public string Name { get; set; }
         public string Code { get; set; }
-        public int Status { get; set; }
-        public int Purpose { get; set; }
         public Guid WarehouseId { get; set; }
         public Warehouses? Warehouse { get; set; }
         public Guid BranchId { get; set; }
         public Branches? Branch { get; set; }
         public DateTime? GoodsIssueDate { get; set; }
         public int? OrderId { get; set; }
-        public Order? Order { get; set; }
+        public Order Order { get; set; }
+        public Guid UserDeliveryId { get; set; }
+        public Users? UserDelivery { get; set; }
         public List<InventoryDeliveryVoucherDetail> Details { get; set; }  
     }
 }

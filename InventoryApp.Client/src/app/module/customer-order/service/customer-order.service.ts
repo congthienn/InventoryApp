@@ -57,4 +57,26 @@ export class CustomerOrderService {
       })
     )
   }
+  getAllOrderByBranchId(branchId: string): Observable<any>{
+    let url = `${this.customerOrderURL}/GetAllOrderByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    )
+  }
+  getAllMaterialOrderByOrderId(orderId:string): Observable<any>{
+    let url = `${this.customerOrderURL}/GetAllMaterialOrderByOrderId/${orderId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    )
+  }
 }

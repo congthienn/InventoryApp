@@ -37,7 +37,7 @@ export const ROUTES: RouteInfo[] = [
     roleAccess: true,
     children: [
       { path: '', title: 'Danh sách'},
-      { path: 'xuat-kho', title: 'Xuất kho'},
+      { path: 'danh-sach-phieu-xuat-kho', title: 'Xuất kho'},
       { path: 'danh-sach-phieu-nhap-kho', title: 'Nhập kho'},
       { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
       { path: 'bo-cuc-kho', title: 'Bố cục kho'},

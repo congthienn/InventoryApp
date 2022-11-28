@@ -86,7 +86,7 @@ export class ShipmentComponent implements OnInit {
       { field: 'branch', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'}, resizable:true },
       { field: 'materialQuantity', headerName: "SỐ LƯỢNG NHẬP KHO", cellStyle: {textAlign  : 'center'}},
       { field: 'quantityInStock', headerName: "SỐ LƯỢNG TRONG KHO" , cellStyle: {textAlign  : 'center'}},
-      { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN"},
+      { field: 'baseMaterialUnit', headerName: "ĐƠN VỊ CƠ BẢN", cellStyle: {textAlign  : 'center'}},
       { field: 'expirationDate', headerName: "NGÀY HẾT HẠN" },
     ];
   }

@@ -3,9 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridApi, ColDef, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
-import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Order } from '../../order/model/order';
-import { ButtonUpdateStatusComponent } from '../../order/order-list/button-update-status/button-update-status.component';
+
 import { OrderService } from '../../order/service/order.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { InventoryReceivingVoucher } from '../model/inventory-receiving-voucher';

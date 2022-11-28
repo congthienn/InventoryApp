@@ -1,0 +1,12 @@
+.modal-lg { width: 1490px !important; }
+.huge > .modal-dialog {
+    max-width: 1490px !important;
+    min-width: 971px !important;   
+    width: 95% !important;
+}
+.inputOrderDetail{
+    width: 320px;
+}
+.show-input-container{
+    display: none !important;
+}

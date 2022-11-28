@@ -16,10 +16,17 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public IEnumerable<MaterialShipment> GetAllShipmentByMaterialIdAndBranchId(Guid materialId, Guid branchId)
+        {
+            return _context.Set<MaterialShipment>().Include(x => x.Shipment).Where(x=>x.MaterialId == materialId && x.Shipment.BranchId == branchId).OrderBy(x=>x.CreatedDate);
+        }
+
         public IEnumerable<MaterialShipment> GetAllShipments()
         {
             return _context.Set<MaterialShipment>().Include(x => x.Shipment).ThenInclude(x=>x.Branch).Include(x => x.Material);
         }
+
+        
 
         public IEnumerable<Shipment> GetAllShipmentsByBranchId(Guid branchId)
         {

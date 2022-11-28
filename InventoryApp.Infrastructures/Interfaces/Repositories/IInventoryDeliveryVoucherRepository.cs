@@ -12,8 +12,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface IInventoryDeliveryVoucherRepository : IGenericRepository<InventoryDeliveryVoucher>
     {
         Task<string> GetLastCode();
-        Task<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCode(string code);
-        IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCodeByStatus(int status);
-        IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherByCodeByPurpose(int purpose);
+        IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucher();
+        Task<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId);
     }
 }
