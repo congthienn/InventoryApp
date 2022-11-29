@@ -72,5 +72,6 @@ namespace InventoryApp.Data
         public DbSet<SupplierOrder> SupplierOrder { get; set; }
         public DbSet<SupplierOrderDetail> SupplierOrderDetail { get; set; }
         public DbSet<MaterialQuotation> MaterialQuotation { get; set; }
+        public DbSet<Employee> Employee { get; set; }
     }
 }

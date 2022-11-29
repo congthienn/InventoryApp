@@ -1,0 +1,155 @@
+<app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
+<form [formGroup]="addEmployeeForm" (ngSubmit)="addEmployee()">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-4">Form thông tin cơ bản nhập thông tin nhân viên</h4>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="name">Ảnh thẻ 3 x 4<span class="text-danger">*</span></label>
+                                <div class="custom-dropzone" [multiple]="false" ngx-dropzone [accept]="'image/*'"
+                                    (change)="onSelect($event)">
+                                    <ngx-dropzone-label>
+                                        <div>
+                                            <span>Upload hình ảnh</span>
+                                        </div>
+                                    </ngx-dropzone-label>
+                                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview"
+                                        *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                    </ngx-dropzone-image-preview>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label for="name">Họ và tên<span class="text-danger">*</span></label>
+                                <input type="text" name="nick" parsley-trigger="change" class="form-control"
+                                    formControlName="name" id="name">
+                                <div class="feedback" *ngIf="name?.errors?.['required'] && (name?.dirty)">
+                                    Họ và tên không được để trống</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="birthday">Ngày sinh<span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="birthday" formControlName="birthday">
+                                <div class="feedback" *ngIf="birthday?.errors?.['required'] && (birthday?.dirty)">
+                                    Ngày sinh nhân viên không được để trống
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="mt-3" style="display: flex;column-gap: 20px;">
+                                    <label for="fax">Giới tính<span class="text-danger">*</span></label>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" value="true" id="customRadio1" name="sex"
+                                            class="custom-control-input" formControlName="sex">
+                                        <label class="custom-control-label text-xs" for="customRadio1">Nam</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" value="false" id="customRadio2" name="sex"
+                                            class="custom-control-input" formControlName="sex">
+                                        <label class="custom-control-label text-xs" for="customRadio2">Nữ</label>
+                                    </div>
+                                </div>
+                                <div class="feedback" *ngIf="sex?.errors?.['required'] && (sex?.dirty)">
+                                    Họ và tên không được để trống</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="identityCard">CCCD / CMND<span class="text-danger">*</span></label>
+                        <input id="identityCard" type="phone" class="form-control" formControlName="identityCard">
+                        <div class="feedback" *ngIf="identityCard?.errors?.['required'] && (identityCard?.dirty)">CCCD / CMND không được để trống</div>
+                        <div class="feedback"
+                            *ngIf="(identityCard?.errors?.['pattern']) && (identityCard?.dirty)">
+                            CCCD / CMND không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại<span class="text-danger">*</span></label>
+                        <input id="phone" type="phone" class="form-control" formControlName="phoneNumber">
+                        <div class="feedback" *ngIf="phoneNumber?.errors?.['required'] && (phoneNumber?.dirty)">Số điện
+                            thoại không được để trống</div>
+                        <div class="feedback"
+                            *ngIf="(phoneNumber?.errors?.['maxlength'] || phoneNumber?.errors?.['pattern'] || phoneNumber?.errors?.['minlength']) && (phoneNumber?.dirty)">
+                            Số điện thoại không hợp lệ</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Địa chỉ email<span class="text-danger">*</span></label>
+                        <input type="email" name="email" parsley-trigger="change" class="form-control" id="email"
+                            formControlName="email">
+                        <div class="feedback" *ngIf="email?.errors?.['required'] && (email?.dirty)">Địa chỉ email không
+                            được để trống</div>
+                        <div class="feedback" *ngIf="email?.errors?.['email'] && (email?.dirty)">Địa chỉ email không hợp
+                            lệ</div>
+                    </div>
+                    <div class="form-group specialFormGroup">
+                        <label for="province">Chi nhánh<span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2 (valueChanged)="changeBranchValue($event)" [data]="branchList"
+                                aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="branchId" id="branchId">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-4">Địa chỉ nhân viên</h4>
+                    <div class="form-group specialFormGroup">
+                        <label for="province">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2 (valueChanged)="changeProvinceValue($event)" [data]="provinceList"
+                                aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="provinceId" id="province">
+                        </div>
+                    </div>
+                    <div class="form-group specialFormGroup">
+                        <label for="district">Quận (Huyện)
+                            <span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2 (valueChanged)="changeDistrictValue($event)" [data]="districtList"
+                                aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="districtId" id="district">
+                        </div>
+                    </div>
+                    <div class="form-groupspecialFormGroup">
+                        <label for="ward">Phường (Xã)<span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2 (valueChanged)="changeWardValue($event)" [data]="wardList" aria-required="true">
+                            </ng-select2>
+                            <input type="text" class="specialInput" formControlName="wardId" id="ward">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Tên đường - Số nhà<span class="text-danger">*</span></label>
+                        <div>
+                            <input type="string" class="form-control" formControlName="address" id="address">
+                            <div class="feedback" *ngIf="address?.errors?.['required'] && (address?.dirty)">Tên đường -
+                                Số nhà không được để trống</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-0">
+                        <div class="col-md-8 offset-md-4">
+                            <button type="submit" [disabled]="!addEmployeeForm.valid || submitData"
+                                class="btn btn-primary waves-effect waves-light mr-1">
+                                Lưu dữ liệu <span class=""
+                                    [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
+                            </button>
+                            <button type="reset" class="btn btn-secondary waves-effect waves-light">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div *ngIf="submitData" class="containerLoader">
+    <div class="loader"></div>
+</div>

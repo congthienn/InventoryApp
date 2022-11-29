@@ -5,6 +5,8 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserListModule } from './user-list/user-list.module';
 import { RouterModule } from '@angular/router';
 import { AddUserModule } from './add-user/add-user.module';
+import { AddEmployeeModule } from './add-employee/add-employee.module';
+import { EmployeeListModule } from './employee-list/employee-list.module';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { AddUserModule } from './add-user/add-user.module';
     UserRoutingModule,
     UserListModule,
     AddUserModule,
-    RouterModule,
+    AddEmployeeModule,
+    EmployeeListModule,
+    RouterModule
   ]
 })
 export class UserModule { }

@@ -95,7 +95,6 @@ export class AddMaterialComponent implements OnInit {
   }
 	onSelect(event: { addedFiles: any; }) {
 		this.files.push(...event.addedFiles);
-    console.log(this.files);
 	}
 
 	onRemove(event: File) {

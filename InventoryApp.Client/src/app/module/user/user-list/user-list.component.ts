@@ -64,7 +64,6 @@ export class UserListComponent implements OnInit {
     this.userService.getAllUser().subscribe(
       response =>{
         this.user = response;
-        console.log(this.user);
         var dataRowTemp: any[]= [];
         this.user.forEach(element => {
           var data = {

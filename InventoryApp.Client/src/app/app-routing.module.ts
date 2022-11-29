@@ -14,7 +14,7 @@ const routes: Routes = [
   { path:'kho-hang/', redirectTo: 'kho-hang', pathMatch: 'full'},
   { path:'dat-hang/', redirectTo: 'dat-hang', pathMatch: 'full'},
   { path:'don-hang/', redirectTo: 'don-hang', pathMatch: 'full'},
-  { path:'tai-khoan/', redirectTo: 'tai-khoan', pathMatch: 'full'},
+  { path:'nhan-vien/', redirectTo: 'nhan-vien', pathMatch: 'full'},
   { path: '', component: AdminLayoutComponent, canActivate: [AuthGuard],
     children:[
       {path:'tong-quan', loadChildren: () => import('./module/dashboard/dashboard.module').then(m => m.DashboardModule) },
@@ -26,7 +26,7 @@ const routes: Routes = [
       {path:'kho-hang', loadChildren: () => import('./module/warehouse/warehouse.module').then(m => m.WarehouseModule) },
       {path:'dat-hang', loadChildren: () => import('./module/order/order.module').then(m => m.OrderModule) },
       {path:'don-hang', loadChildren: () => import('./module/customer-order/customer-order.module').then(m => m.CustomerOrderModule) },
-      {path:'tai-khoan', loadChildren: () => import('./module/user/user.module').then(m => m.UserModule) }
+      {path:'nhan-vien', loadChildren: () => import('./module/user/user.module').then(m => m.UserModule) }
     ]
   },
   { path:"login", component: LoginComponent, canActivate:[LoginGuard] },

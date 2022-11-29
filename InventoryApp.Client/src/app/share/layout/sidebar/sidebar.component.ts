@@ -110,13 +110,14 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
   {
-    path: 'tai-khoan',
-    title: 'Quản lý tài khoản',
+    path: 'nhan-vien',
+    title: 'Nhân viên',
     icontype: faUsers,
     collapse: 'managerUser',
     roleAccess: true,
     children: [
       { path: '',title: 'Danh sách'},
+      { path: 'tai-khoan',title: 'Quản lý tài khoản'},
     ],
   },
   {
