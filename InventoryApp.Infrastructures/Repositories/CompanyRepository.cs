@@ -16,6 +16,11 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public Company GetCompanyInformation()
+        {
+            return _dbSet.Include(x => x.Province).Include(x => x.District).Include(x => x.Ward).FirstOrDefault();
+        }
+
         public async Task<bool> RepositoryIsNotEmpty()
         {
             return await _dbSet.AnyAsync();

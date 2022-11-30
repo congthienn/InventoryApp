@@ -11,5 +11,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     public interface ICompanyRepository : IGenericRepository<Company>
     {
         public Task<bool> RepositoryIsNotEmpty();
+        Company GetCompanyInformation();
     }
 }

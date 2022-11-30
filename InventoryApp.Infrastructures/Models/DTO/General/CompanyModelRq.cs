@@ -23,8 +23,11 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public string? WebsiteURL { get; set; }
         public string? FacebookName { get; set; }
         public int ProvinceId { get; set; }
+        public ProvinceDTO? Province { get; set; }
         public int DistrictId { get; set; }
+        public DistrictDTO? District { get; set; }
         public int WardId { get; set; }
+        public WardDTO? Ward { get; set; }
     }
 
     public class CompanyModelValidator : AbstractValidator<CompanyModelRq>

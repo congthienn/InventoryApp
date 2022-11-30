@@ -118,6 +118,8 @@ export class AddBranchComponent implements OnInit {
   get branchMain() { return this.addBranchForm.get('branchMain'); }
   
   changeProvinceValue(data: any){
+    if(data == undefined)
+      return;
     this.addBranchForm.patchValue({provinceId: data != 'null' ? data : null});
     this.getDistrictList(data); 
   }

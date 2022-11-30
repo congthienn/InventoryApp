@@ -62,7 +62,7 @@ namespace InventoryApp.Domain.Services
 
         public CompanyModelRq GetCompanyInformation()
         {
-            return _mapper.Map<CompanyModelRq>(_companyRepository.Get().FirstOrDefault());
+            return _mapper.Map<CompanyModelRq>(_companyRepository.GetCompanyInformation());
         }
 
         public async Task<CompanyModelRq> UpdateCompanyInformation(CompanyUpdateModelRq model, UserIdentity userIdentity)

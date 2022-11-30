@@ -26,6 +26,7 @@ import { CustomerOrderModule } from './module/customer-order/customer-order.modu
 import { UserModule } from './module/user/user.module';
 import { RoleModule } from './module/role/role.module';
 import { WarehouseLayoutModule } from './module/warehouse-layout/warehouse-layout.module';
+import { GeneralModule } from './module/general/general.module';
 
 
 @NgModule({ 
@@ -58,7 +59,8 @@ import { WarehouseLayoutModule } from './module/warehouse-layout/warehouse-layou
     CustomerOrderModule,
     UserModule,
     RoleModule,
-    WarehouseLayoutModule
+    WarehouseLayoutModule,
+    GeneralModule
   ],
   providers: [
     {
