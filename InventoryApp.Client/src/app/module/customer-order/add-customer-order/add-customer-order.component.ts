@@ -85,16 +85,17 @@ export class AddCustomerOrderComponent implements OnInit {
     this.Title = "Quản lý đơn hàng";
     this.updateColumnDefs();
     this.getBranchData();
-    this.getCustomerData();
     this.getMaterialCategory();
     this.addOrderDetailForm = new FormGroup({
       materialId: new FormControl(this.orderDetailValue.materialId,[Validators.required]),
-      quantityRequest: new FormControl(this.orderDetailValue.quantityRequest,[Validators.required, Validators.min(0)]),
+      quantityRequest: new FormControl(this.orderDetailValue.quantityRequest,[Validators.required, Validators.min(1)]),
     });
      
     this.addOrderForm = new FormGroup({
       branchId: new FormControl(this.order.branchId,[Validators.required]),
       customerId: new FormControl(this.order.customer,[Validators.required]),
+      prepayment: new FormControl(this.order.prepayment,[Validators.required]),
+      paid: new FormControl(this.order.paid,[Validators.required]),
       orderDate: new FormControl(this.order.orderDate),
       orderDetail: new FormControl(this.order.orderDetail, [Validators.required]),
     });
@@ -105,6 +106,8 @@ export class AddCustomerOrderComponent implements OnInit {
 
   get branchId() { return this.addOrderForm.get('branchId'); }
   get customerId() { return this.addOrderForm.get('customerId'); }
+  get prepayment() { return this.addOrderForm.get('prepayment'); }
+  get paid() { return this.addOrderForm.get('paid'); }
   get orderDetail() { return this.addOrderForm.get('orderDetail'); }
   private updateColumnDefs() {
     this.columnDefs  =  [
@@ -116,11 +119,15 @@ export class AddCustomerOrderComponent implements OnInit {
       { field: 'materialCategory', headerName: "NHÓM SẢN PHẨM", width:240 },
     ];
   }
-  changeBranchValue(data: any){
-    if(data != undefined){
-      this.addOrderForm.patchValue({branchId: data != 'null' ? data : null});
-      document.getElementById("branchId")?.focus();
-    }
+
+  public branchIdValue = '';
+  changeBranchValue(branchId: any){
+    if(branchId == undefined)
+      return;
+    this.addOrderForm.patchValue({branchId: branchId != 'null' ? branchId : null});
+    document.getElementById("branchId")?.focus();
+    this.branchIdValue = branchId;
+    this.getCustomerData(branchId);
   }
   changeSupplierValue(data: any){
     if(data != undefined){
@@ -151,13 +158,13 @@ export class AddCustomerOrderComponent implements OnInit {
       this.loadData = true;
     })
   }
-  getCustomerData(){
+  getCustomerData(branchId:string){
     var tempData: { id: string; text: string; }[] = [];
-    this.customerService.getAllCustomerData().subscribe(response => {
+    this.customerService.getAllCustomerDataByBranchId(branchId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,
-          text: element.customerName
+          text: `${element.customerName} - ${element.phoneNumber}` 
         }
         tempData.push(data);
       });
@@ -181,7 +188,7 @@ export class AddCustomerOrderComponent implements OnInit {
     this.getBranchData();
   }
   refreshCustomerData(){
-    this.getCustomerData();
+    this.getCustomerData(this.branchIdValue);
   }
   refreshCategoryData(){
     this.getMaterialCategory();
@@ -202,9 +209,11 @@ export class AddCustomerOrderComponent implements OnInit {
       this.materialList = tempData;
     })
   }
-  changMaterialValue(data:any){
-    this.addOrderDetailForm.patchValue({materialId: data != 'null' ? data : null});
-      document.getElementById("materialId")?.focus();
+  materialName = '';
+  changMaterialValue(materialId:any){
+    this.addOrderDetailForm.patchValue({materialId: materialId});
+    document.getElementById("materialId")?.focus();
+    this.materialName = this.materialList.filter(x=>x.id == materialId)[0].text;
   }
   addOrderDetail(){
     var materialAlreadyExists = false;
@@ -212,38 +221,61 @@ export class AddCustomerOrderComponent implements OnInit {
     this.numericalOrder ++;
     var materialId = this.addOrderDetailForm.value.materialId;
     var quantityRequest = this.addOrderDetailForm.value.quantityRequest;
-   
-    this.materialService.getMaterialById(materialId).subscribe(
+    if(this.branchIdValue == ''){
+      this.sweetalertService.alertMini(`Vui lòng chọn chi nhánh nhập đơn hàng`,'Để hệ thống kiểm tra số lượng sản phẩm', "warning", 500);
+        return;
+    }
+    this.materialService.getMaterialQuantityByMaterialIdAndBranchId(this.branchIdValue, materialId).subscribe(
       response => {
-        var data = {
-          "materialId":response.id,
-          "code": response.code, 
-          "name": response.name, 
-          "salePrice": response.salePrice,
-          "baseMaterialUnit": response.baseMaterialUnit,
-          "materialCategory": response.categoryMaterial.name,
-          "quantityRequest": quantityRequest
+        if(Number(response) < Number(quantityRequest)){
+          this.sweetalertService.alertMini(`Số lượng sản phẩm trong kho không đủ `, `${this.materialName} còn ${response} sản phẩm`, "warning", 500);
+          return;
         }
-        this.dataRow.forEach(item => {
-          if(item.code == response.code){
-              materialAlreadyExists = true;
-          }
-        })
-        if(materialAlreadyExists){
-          Swal.fire({
-            title: 'Sản phẩm đã có trong đơn đặt hàng',
-            text: "Bạn có muốn cập nhật số lượng",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Cập nhật',
-            cancelButtonText: 'Hủy bỏ'
-          }).then((result) => {
-            if (result.isConfirmed) {    
-              var index = this.dataRow.findIndex((item => item.code == response.code));
-              this.dataRow[index].quantityRequest += quantityRequest;
+        this.materialService.getMaterialById(materialId).subscribe(
+          response => {
+            var data = {
+              "materialId":response.id,
+              "code": response.code, 
+              "name": response.name, 
+              "salePrice": response.salePrice,
+              "baseMaterialUnit": response.baseMaterialUnit,
+              "materialCategory": response.categoryMaterial.name,
+              "quantityRequest": quantityRequest
+            }
+            this.dataRow.forEach(item => {
+              if(item.code == response.code){
+                  materialAlreadyExists = true;
+              }
+            })
+            if(materialAlreadyExists){
+              Swal.fire({
+                title: 'Sản phẩm đã có trong đơn đặt hàng',
+                text: "Bạn có muốn cập nhật số lượng",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Hủy bỏ'
+              }).then((result) => {
+                if (result.isConfirmed) {    
+                  var index = this.dataRow.findIndex((item => item.code == response.code));
+                  this.dataRow[index].quantityRequest += quantityRequest;
+                  dataRowTemp.push(...this.dataRow);
+                  this.dataRow = dataRowTemp;
+                  this.addOrderDetailForm.reset();
+                  this.materialList = [];
+                  this.categoryList = [];
+                  this.getMaterialCategory();
+                  this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
+                  this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
+                  this.changeOrderDetailValue();
+                }
+              })
+            }
+            else{
               dataRowTemp.push(...this.dataRow);
+              dataRowTemp.push(data);
               this.dataRow = dataRowTemp;
               this.addOrderDetailForm.reset();
               this.materialList = [];
@@ -252,23 +284,12 @@ export class AddCustomerOrderComponent implements OnInit {
               this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
               this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
               this.changeOrderDetailValue();
-            }
-          })
-        }
-        else{
-          dataRowTemp.push(...this.dataRow);
-          dataRowTemp.push(data);
-          this.dataRow = dataRowTemp;
-          this.addOrderDetailForm.reset();
-          this.materialList = [];
-          this.categoryList = [];
-          this.getMaterialCategory();
-          this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-          this.totalSale = this.dataRow.reduce((a, b) => a + (b.salePrice || 0), 0) * this.totalMaterial;
-          this.changeOrderDetailValue();
-        }  
+            }  
+          }
+        )
       }
     )
+    
   }
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;

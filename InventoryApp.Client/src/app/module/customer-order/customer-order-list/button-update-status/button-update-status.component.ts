@@ -33,7 +33,7 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
         this.order = response;  
         this.statusClass = this.getColorStatus(Number(this.order.status));
         this.status = this.getStatus(Number(this.order.status));
-        this.disableButton = Number(this.order.status) == 1;
+        this.disableButton = Number(this.order.status) == 1 ||  Number(this.order.status) == 4;
       }
     )
   }
@@ -66,11 +66,13 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
   private getColorStatus(status: number): string {
     switch(status) {      
       case 1:      
-          return "btn-info";  
+          return "btn-warning";  
       case 2:
-        return "btn-primary";
+        return "btn-info";
       case 3: 
-        return "btn-success"
+        return "btn-primary";
+      case 4: 
+        return "btn-success";
       default:
           return "btn-danger";
     }
@@ -95,6 +97,8 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
           return "Tiến hành xuất kho";  
       case 2:      
           return "Vận chuyển - Giao hàng";  
+      case 3:      
+          return "Giao hàng thành công";  
       default:
           return "Phê duyệt đơn đặt hàng";
     }

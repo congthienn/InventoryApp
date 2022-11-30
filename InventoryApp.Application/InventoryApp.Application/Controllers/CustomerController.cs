@@ -65,5 +65,12 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Route("GetAllCustomerByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<CustomerModel> GetAllCustomerByBranchId(Guid branchId)
+        {
+            return _customerService.GetAllCustomerByBranchId(branchId);
+        }
     }
 }

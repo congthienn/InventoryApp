@@ -26,5 +26,7 @@ namespace InventoryApp.Data.Models
         public Branches? Branch { get; set; }
         public List<OrderDetail>? OrderDetail { get; set; }
         public int PriceTotal { get; set; }
+        public int Prepayment { get; set; }
+        public bool Paid { get; set; }
     }
 }

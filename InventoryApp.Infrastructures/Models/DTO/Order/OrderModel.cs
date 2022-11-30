@@ -13,7 +13,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
 
         public int Id { get; private set; }
         public string Code { get; private set; }
-        public int Status { get; set; } = (int)ORDER_STATUS.WaitForConfirmation;
+        public int Status { get; set; } = (int)ORDER_STATUS.Processing;
         public Guid CustomerId { get; set; }
         public CustomerModel Customer { get; set; }
         public DateTime OrderDate { get; set; }
@@ -21,6 +21,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public BranchModelRq Branch { get; set; }
         public List<OrderDetailModel> OrderDetail { get; set; }
         public int PriceTotal { get; private set; }
+        public int Prepayment { get; set; }
+        public bool Paid { get; set; }
     }
     public class OrderModelValidator : AbstractValidator<OrderModel>
     {

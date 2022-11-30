@@ -70,6 +70,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IEnumerable<CustomerModel> GetAllCustomerByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<CustomerModel>>(_customerRepository.GetAllCustomerByBranchId(branchId));
+        }
+
         public IEnumerable<CustomerModel> GetAllCustomers()
         {
             return _mapper.Map<IEnumerable<CustomerModel>>(_customerRepository.GetAllCustomer());

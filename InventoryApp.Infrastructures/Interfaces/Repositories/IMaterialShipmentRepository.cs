@@ -12,5 +12,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         Task<Materials> GetMaterialByShipmentId(Guid shipmentId);
         MaterialShipment GetMaterialShipmentByShipmentIdAndMaterialId(Guid shipmentId, Guid materialId);
+        Task<int> GetMaterialQuantityByMaterialIdAndBranchId(Guid materialId, Guid branchId);
     }
 }

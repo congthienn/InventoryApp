@@ -7,16 +7,16 @@ import Swal, { SweetAlertIcon } from 'sweetalert2'
 export class SweetalertService {
 
   constructor(private router:Router) { }
-  public alertMini(title:string, text:string, icon: SweetAlertIcon){
+  public alertMini(title:string, text:string, icon: SweetAlertIcon, width = 400, timer = 3000){
     Swal.fire({
       toast: true,
       position: 'top-right',
       showConfirmButton: false,
       icon: icon,
       timerProgressBar: true,
-      timer: 3000,
+      timer: timer,
       title: title,
-      width:400,
+      width: width,
       text: text
     })
   }

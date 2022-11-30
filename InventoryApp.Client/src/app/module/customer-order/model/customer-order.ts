@@ -12,4 +12,6 @@ export interface CustomerOrder{
     branch: Branch;
     orderDetail: CustomerOrderDetail[];
     priceTotal:string;
+    prepayment:string;
+    paid: boolean;
 }

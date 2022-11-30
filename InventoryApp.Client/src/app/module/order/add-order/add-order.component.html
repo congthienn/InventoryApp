@@ -14,7 +14,6 @@
                             <ng-select2 aria-required="true" [data]="branchList" (valueChanged)="changeBranchValue($event)"></ng-select2>
                             <div class="feedback" *ngIf="branchRequestId?.errors?.['required'] && (branchRequestId?.touched)">Chọn nhà cung cấp</div>
                             <input type="text" class="specialInput" formControlName="branchRequestId" id="branchRequestId"> 
-                            
                         </div>
                     </div>
                     <div class="form-group specialFormGroup">

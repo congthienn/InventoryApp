@@ -21,6 +21,11 @@ namespace InventoryApp.Infrastructures.Repositories
            return await _dbSet.Include(x=>x.Material).Where(x=>x.ShipmentId == shipmentId).Select(x=>x.Material).FirstOrDefaultAsync();
         }
 
+        public async Task<int> GetMaterialQuantityByMaterialIdAndBranchId(Guid materialId, Guid branchId)
+        {
+            return await _dbSet.Where(x => x.Shipment.BranchId == branchId && x.MaterialId == materialId).SumAsync(x=>x.QuantityInStock);
+        }
+
         public MaterialShipment GetMaterialShipmentByShipmentIdAndMaterialId(Guid shipmentId, Guid materialId)
         {
             return _dbSet.Where(x => x.ShipmentId == shipmentId && x.MaterialId == materialId).FirstOrDefault();

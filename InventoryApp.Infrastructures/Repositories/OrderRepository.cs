@@ -63,6 +63,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return await _dbSetOrderDetail.FindAsync(id);
         }
 
+        public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
+        {
+            return await _dbSetOrderDetail.Where(x => x.OrderId == orderId && x.MaterialId == materialId).Select(x => x.QuantityRequest).FirstOrDefaultAsync();
+        }
+
         public async Task UpdateOrderDetail(OrderDetail orderDetail)
         {
             _dbSetOrderDetail.Attach(orderDetail);

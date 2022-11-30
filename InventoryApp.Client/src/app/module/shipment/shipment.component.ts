@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { ButtonShipmentStatusComponent } from './button-shipment-status/button-shipment-status.component';
 import { MaterialShipment } from './model/material-shipment';
 import { ShipmentService } from './service/shipment.service';
 
@@ -67,6 +68,7 @@ export class ShipmentComponent implements OnInit {
               "materialQuantity": element.materialQuantity,
               "quantityInStock": element.quantityInStock,
               "baseMaterialUnit":element.material.baseMaterialUnit,
+              "status":element.quantityInStock,
               "expirationDate": `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
             }
             dataRowTemp.push(data);
@@ -81,7 +83,8 @@ export class ShipmentComponent implements OnInit {
   }
   private updateColumnDefs() {
     this.columnDefs  =  [
-      { field: "code", headerName:"MÃ LÔ HÀNG", width:300, cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true}, 
+      { field: "code", headerName:"MÃ LÔ HÀNG", width:300, cellStyle: {fontWeight: '500'}, initialPinned: 'left', resizable:true},
+      { field: "status", headerName:"TRẠNG THÁI", width:150, cellRenderer: ButtonShipmentStatusComponent}, 
       { field: 'material', headerName: "SẢN PHẨM", resizable:true, width:300},
       { field: 'branch', headerName: "CHI NHÁNH", width:300,  cellStyle: {fontWeight: '500'}, resizable:true },
       { field: 'materialQuantity', headerName: "SỐ LƯỢNG NHẬP KHO", cellStyle: {textAlign  : 'center'}},

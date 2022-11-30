@@ -13,9 +13,8 @@
                         <div>
                             <ng-select2 aria-required="true" [data]="branchList" (valueChanged)="changeBranchValue($event)"></ng-select2>
                             <div class="feedback" *ngIf="branchId?.errors?.['required'] && (branchId?.touched)">Chọn nhà cung cấp</div>
-                            <input type="text" class="specialInput" formControlName="branchId" id="branchId"> 
-                            
-                        </div>
+                            <input type="text" class="specialInput" formControlName="branchId" id="branchId">
+                        </div>  
                     </div>
                     <div class="form-group specialFormGroup">
                         <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshCustomerData()" class="btnAdd">
@@ -26,6 +25,26 @@
                             <ng-select2 aria-required="true" (valueChanged)="changeSupplierValue($event)" [data]="supplierList"></ng-select2>
                             <div class="feedback" *ngIf="customerId?.errors?.['required'] && (customerId?.touched)">Chọn khách hàng</div>
                             <input type="text" class="specialInput" formControlName="customerId" id="customerId"> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="prepayment">Tiền trả trước<span class="text-danger">*</span></label>
+                        <input type="number" name="prepayment" step="any" parsley-trigger="change" class="form-control" id="prepayment" formControlName="prepayment">
+                        <div class="feedback" *ngIf="prepayment?.errors?.['required'] && (prepayment?.touched)">Nhập số tiền trả trước</div>
+                    </div>
+                    <div class="form-group">
+                        <div class="mt-3" style="display: flex;column-gap: 20px;">
+                            <label for="fax">Thanh toán<span class="text-danger">*</span></label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" value="true" id="customRadio1" name="paid"
+                                    class="custom-control-input" formControlName="paid">
+                                <label class="custom-control-label text-xs" for="customRadio1">Đã thanh toán đủ</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" value="false" id="customRadio2" name="paid"
+                                    class="custom-control-input" formControlName="paid">
+                                <label class="custom-control-label text-xs" for="customRadio2">Chưa thanh toán đủ</label>
+                            </div>
                         </div>
                     </div>
                 </div>

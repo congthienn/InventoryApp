@@ -267,5 +267,10 @@ namespace InventoryApp.Domain.Services
             return showMaterialPositions;
 
         }
+
+        public async Task<int> GetMaterialQuantityByMaterialIdAndBranchId(Guid materialId, Guid branchId)
+        {
+            return await _materialShipmentRepository.GetMaterialQuantityByMaterialIdAndBranchId(materialId, branchId);
+        }
     }
 }   

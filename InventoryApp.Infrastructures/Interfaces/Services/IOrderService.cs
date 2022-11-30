@@ -17,7 +17,9 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<OrderModel> AddOrder(OrderModel model, UserIdentity userIdentity);
         Task<OrderModel> UpdateOrder(string code, OrderModel model, UserIdentity userIdentity);
         Task<OrderModel> UpdateStatusOrder(string code, UserIdentity userIdentity);
+        Task<OrderModel> UpdateOrderPayment(string code, UserIdentity userIdentity);
         Task<bool> DeleteOrderDetail(int id);
         IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId);
+        Task<int> GetQuantityRequest(int orderId, Guid materialId);
     }
 }

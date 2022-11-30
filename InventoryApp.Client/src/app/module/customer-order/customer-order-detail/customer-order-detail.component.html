@@ -38,6 +38,9 @@
                   {{order.code}}<br>
                   Đơn đặt hàng của khách hàng
                </div>
+               <div style="margin-top: 10px;">
+                  Thanh toán: <span style="font-weight: 600;">{{paidString}}</span>
+               </div>
             </div>
          </div>
          <div class="invoice-content">
@@ -66,11 +69,22 @@
             </div>
             <div class="invoice-price">
                <div class="invoice-price-left">
-                  <div class="invoice-price-row">        
+                  <div class="invoice-price-row">  
+                     <div class="sub-price">
+                        <small>TỔNG GIÁ TRỊ</small>
+                        <span class="text-inverse">{{ order.priceTotal | currency:'VND':'symbol' }}</span>
+                     </div>
+                     <div class="sub-price">
+                        <i class="fa fa-minus text-muted"></i>
+                     </div>
+                     <div class="sub-price">
+                        <small>TRẢ TRƯỚC</small>
+                        <span class="text-inverse">{{ order.prepayment | currency:'VND':'symbol' }}</span>
+                     </div> 
                   </div>
                </div>
                <div class="invoice-price-right">
-                  <small>TOTAL</small> <span class="f-w-600">{{ order.priceTotal | currency:'VND':'symbol' }}</span>
+                  <small>{{paidStatus}}</small> <span>{{ needToPay| currency:'VND':'symbol' }}</span>
                </div>
             </div>
          </div>

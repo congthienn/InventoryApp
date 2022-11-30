@@ -57,6 +57,20 @@ export class CustomerOrderService {
       })
     )
   }
+
+  updateOrderPayment(code:string):Observable<any>{
+    let url = `${this.customerOrderURL}/UpdateOrderPayment/${code}`;
+    let data = "UpdateOrderPayment";
+    return this.http.put(url, data, this.httpOptions).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+
   getAllOrderByBranchId(branchId: string): Observable<any>{
     let url = `${this.customerOrderURL}/GetAllOrderByBranchId/${branchId}`;
     return this.http.get(url).pipe(
@@ -75,6 +89,17 @@ export class CustomerOrderService {
         return response;
       }),
       catchError(error => {
+        return throwError(error);
+      })
+    )
+  }
+  getQuantityRequest(id:string, materialId:string):Observable<any> {
+    let url =`${this.customerOrderURL}/GetQuantityRequest/${id}/${materialId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
         return throwError(error);
       })
     )

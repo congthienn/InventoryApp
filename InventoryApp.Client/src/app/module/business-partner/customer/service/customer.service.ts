@@ -42,4 +42,13 @@ export class CustomerService {
       })
     )
   }
+
+  getAllCustomerDataByBranchId(branchId:string) : Observable<any>{
+    let url = `${this.customerURL}/GetAllCustomerByBranchId/${branchId}`;
+    return this.http.get(url, this.httpOptions).pipe(
+      tap((response:any) =>{
+        return response;
+      })
+    )
+  }
 }

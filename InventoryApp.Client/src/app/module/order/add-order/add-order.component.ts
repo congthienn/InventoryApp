@@ -116,11 +116,14 @@ export class AddOrderComponent implements OnInit {
       { field: 'materialCategory', headerName: "NHÓM SẢN PHẨM", width:240 },
     ];
   }
-  changeBranchValue(data: any){
-    if(data != undefined){
-      this.addOrderForm.patchValue({branchRequestId: data != 'null' ? data : null});
-      document.getElementById("branchRequestId")?.focus();
-    }
+  branchIdValue = '';
+  changeBranchValue(branchId: any){
+    if(branchId == undefined)
+      return;
+    this.addOrderForm.patchValue({branchRequestId: branchId});
+    document.getElementById("branchRequestId")?.focus();
+    this.branchIdValue = branchId
+    
   }
   changeSupplierValue(data: any){
     if(data != undefined){
@@ -210,9 +213,13 @@ export class AddOrderComponent implements OnInit {
     var materialAlreadyExists = false;
     var dataRowTemp: any[]= [];
     this.numericalOrder ++;
+    var error = false;
     var materialId = this.addOrderDetailForm.value.materialId;
     var quantityRequest = this.addOrderDetailForm.value.quantityRequest;
-   
+    if(this.branchIdValue == ''){
+      this.sweetalertService.alertMini(`Vui lòng chọn chi nhánh nhập đơn hàng`,'Để hệ thống kiểm tra số lượng sản phẩm', "warning", 500);
+        return;
+    }
     this.materialService.getMaterialById(materialId).subscribe(
       response => {
         var data = {
@@ -224,26 +231,46 @@ export class AddOrderComponent implements OnInit {
           "materialCategory": response.categoryMaterial.name,
           "quantityRequest": quantityRequest
         }
-        this.dataRow.forEach(item => {
-          if(item.code == response.code){
-              materialAlreadyExists = true;
-          }
-        })
-        if(materialAlreadyExists){
-          Swal.fire({
-            title: 'Sản phẩm đã có trong đơn đặt hàng',
-            text: "Bạn có muốn cập nhật số lượng",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Cập nhật',
-            cancelButtonText: 'Hủy bỏ'
-          }).then((result) => {
-            if (result.isConfirmed) {    
-              var index = this.dataRow.findIndex((item => item.code == response.code));
-              this.dataRow[index].quantityRequest += quantityRequest;
+        this.materialService.getMaterialQuantityByMaterialIdAndBranchId(this.branchIdValue,response.id).subscribe(
+          result => {
+            if((Number(result) + Number(quantityRequest)) > Number(response.maximumInventory)){
+              this.sweetalertService.alertMini(`Số lượng sản phẩm đặt mua đã vượt quá định mức tối đa`, `Định mức tối đa của sản phẩm ${response.name} là ${response.maximumInventory} sản phẩm`, "warning", 700, 5000);
+              return;
+            }
+            this.dataRow.forEach(item => {
+              if(item.code == response.code){
+                  materialAlreadyExists = true;
+              }
+            })
+            if(materialAlreadyExists){
+              Swal.fire({
+                title: 'Sản phẩm đã có trong đơn đặt hàng',
+                text: "Bạn có muốn cập nhật số lượng",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Hủy bỏ'
+              }).then((result) => {
+                if (result.isConfirmed) {    
+                  var index = this.dataRow.findIndex((item => item.code == response.code));
+                  this.dataRow[index].quantityRequest += quantityRequest;
+                  dataRowTemp.push(...this.dataRow);
+                  this.dataRow = dataRowTemp;
+                  this.addOrderDetailForm.reset();
+                  this.materialList = [];
+                  this.categoryList = [];
+                  this.getMaterialCategory();
+                  this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
+                  this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
+                  this.changeOrderDetailValue();
+                }
+              })
+            }
+            else{
               dataRowTemp.push(...this.dataRow);
+              dataRowTemp.push(data);
               this.dataRow = dataRowTemp;
               this.addOrderDetailForm.reset();
               this.materialList = [];
@@ -252,21 +279,9 @@ export class AddOrderComponent implements OnInit {
               this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
               this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
               this.changeOrderDetailValue();
-            }
-          })
-        }
-        else{
-          dataRowTemp.push(...this.dataRow);
-          dataRowTemp.push(data);
-          this.dataRow = dataRowTemp;
-          this.addOrderDetailForm.reset();
-          this.materialList = [];
-          this.categoryList = [];
-          this.getMaterialCategory();
-          this.totalMaterial = this.dataRow.reduce((a, b) => a + (b.quantityRequest || 0), 0);
-          this.totalSale = this.dataRow.reduce((a, b) => a + (b.costPrice || 0), 0) * this.totalMaterial;
-          this.changeOrderDetailValue();
-        }  
+            }  
+          }
+        )
       }
     )
   }

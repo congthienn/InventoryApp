@@ -9,6 +9,7 @@ import { CustomerOrderDetailComponent } from '../customer-order-detail/customer-
 import { CustomerOrder } from '../model/customer-order';
 import { CustomerOrderService } from '../service/customer-order.service';
 import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
+import { ButtonPaymentStatusComponent } from './button-payment-status/button-payment-status.component';
 import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
 
 @Component({
@@ -78,6 +79,7 @@ export class CustomerOrderListComponent implements OnInit {
               "priceTotal": element.priceTotal,
               "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
               "status": element.code,
+              "paid": element.code
             }
             dataRowTemp.push(data);
         });
@@ -99,8 +101,9 @@ export class CustomerOrderListComponent implements OnInit {
         initialPinned: 'left',
         cellRenderer: ActionButtonViewDetailComponent
       }, 
-      { field: 'status', headerName: "TRẠNG THÁI", width: 150, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent},
-      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 240, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
+      { field: 'status', headerName: "TRẠNG THÁI", width: 200, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent},
+      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 200, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
+      { field: 'paid', headerName: "THANH TOÁN", width: 180, cellRenderer: ButtonPaymentStatusComponent},
       { field: 'customer', headerName: "KHÁCH HÀNG", width: 230, cellStyle: {fontWeight: '500'},resizable:true },
       { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width: 230 },
       { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},

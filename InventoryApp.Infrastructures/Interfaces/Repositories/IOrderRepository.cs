@@ -20,5 +20,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         Task DeleteOrderDetail(OrderDetail orderDetail);
         Task UpdateOrderDetail(OrderDetail orderDetail);
         Task<OrderDetail> GetOrderDetailById(int id);
+        Task<int> GetQuantityRequest(int orderId, Guid materialId);
     }
 }

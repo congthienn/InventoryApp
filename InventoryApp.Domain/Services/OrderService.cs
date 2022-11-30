@@ -117,7 +117,7 @@ namespace InventoryApp.Domain.Services
             if (order == null)
                 throw new NotImplementedException("Order not found");
 
-            if (order.Status == (int)ORDER_STATUS.Delivering || order.Status == (int)ORDER_STATUS.Done)
+            if (order.Status == (int)ORDER_STATUS.Done)
                 throw new NotImplementedException("Can't update order");
 
             if (order.Status > 4)
@@ -157,6 +157,27 @@ namespace InventoryApp.Domain.Services
         public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
         {
             return _mapper.Map<IEnumerable<MaterialModelRq>>(_orderRepository.GetAllMaterialOrderByOrderId(orderId));
+        }
+
+        public async Task<OrderModel> UpdateOrderPayment(string code, UserIdentity userIdentity)
+        {
+            Order order = await _orderRepository.GetOrderByCode(code);
+            if (order == null)
+                throw new NotImplementedException("Order not found");
+
+            if (order.Status != (int)ORDER_STATUS.Done)
+                throw new NotImplementedException("Can't update order");
+
+            order.Paid = true; ;
+            order.UpdateBy(userIdentity);
+            await _orderRepository.Update(order);
+            _unitOfWork.Save();
+            return _mapper.Map<OrderModel>(order);
+        }
+
+        public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
+        {
+            return await _orderRepository.GetQuantityRequest(orderId, materialId);
         }
     }
 }

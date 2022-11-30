@@ -6,6 +6,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { RouterModule } from '@angular/router';
 import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
 import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
+import { ButtonPaymentStatusComponent } from './button-payment-status/button-payment-status.component';
 
 
 
@@ -13,7 +14,8 @@ import { ButtonUpdateStatusComponent } from './button-update-status/button-updat
   declarations: [
     CustomerOrderListComponent,
     ActionButtonViewDetailComponent,
-    ButtonUpdateStatusComponent
+    ButtonUpdateStatusComponent,
+    ButtonPaymentStatusComponent
   ],
   imports: [
     CommonModule, PageTitleModule, AgGridModule, RouterModule

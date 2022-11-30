@@ -59,7 +59,7 @@ export class AddShipmentComponent implements OnInit {
   showSuccess() {  
     Swal.fire({
       title: 'Success!',
-      text: 'Thêm mới kho hàng thành công',
+      text: 'Thêm mới lô hàng thành công',
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {

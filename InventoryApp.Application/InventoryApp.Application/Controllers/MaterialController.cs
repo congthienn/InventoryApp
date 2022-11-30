@@ -138,5 +138,12 @@ namespace InventoryApp.Application.Controllers
         {
             return _materialService.GetMaterialPositionsByBranchId(branchId);
         }
+
+        [Route("GetMaterialQuantityByMaterialIdAndBranchId/{materialId}/{branchId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetMaterialQuantityByMaterialIdAndBranchId(Guid branchId, Guid materialId)
+        {
+            return Ok(await _materialService.GetMaterialQuantityByMaterialIdAndBranchId(materialId, branchId));
+        }
     }
 }

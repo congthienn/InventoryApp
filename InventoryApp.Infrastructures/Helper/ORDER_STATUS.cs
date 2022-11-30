@@ -8,8 +8,9 @@ namespace InventoryApp.Infrastructures.Helper
 {
     public enum ORDER_STATUS
     {
-        WaitForConfirmation,
         Processing,
+        Export,
+        Approved,
         Delivering,
         Done,
         Returned,

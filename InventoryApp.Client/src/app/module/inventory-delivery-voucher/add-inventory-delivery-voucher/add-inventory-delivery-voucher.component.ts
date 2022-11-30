@@ -269,6 +269,11 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
     if(materialId == undefined)
       return;
     this.materialIdValue = materialId;
+    this.customerOrderService.getQuantityRequest(this.orderIdValue, materialId).subscribe(
+      response => {
+        this.quantity = response;
+      }
+    )
     this.addInventoryDeliveryVoucherDetailForm.patchValue({materialId: materialId != 'null' ? materialId : null});
     document.getElementById("materialId")?.focus();
     this.getShipmentData();

@@ -32,7 +32,7 @@ import { GeneralModule } from './module/general/general.module';
 @NgModule({ 
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
   ],
   imports: [
     AgGridModule,

@@ -16,6 +16,9 @@ export class CustomerOrderDetailComponent implements OnInit {
   public loadData = false;
   public company:any;
   public dateOrder:any;
+  public needToPay = 0;
+  public paidString = '';
+  public paidStatus = ''
   public order!:CustomerOrder;
   constructor(private companyService: CompanyService,
       private customerOrderService: CustomerOrderService
@@ -41,6 +44,9 @@ export class CustomerOrderDetailComponent implements OnInit {
           item.priceTotalItem = Number(item.materialPrice) * Number(item.quantityRequest);
       })
       this.loadData = false;
+      this.needToPay = Number(this.order.priceTotal) - Number(this.order.prepayment);
+      this.paidString = this.order.paid ? "Đã thanh toán đủ" : "Chưa thanh toán đủ";
+      this.paidStatus = this.order.paid ? "ĐÃ THANH TOÁN" : "CẦN THANH TOÁN";
     })
   }
 

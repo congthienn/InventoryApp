@@ -76,6 +76,21 @@ namespace InventoryApp.Application.Controllers
             }
         }
 
+        [Route("UpdateOrderPayment/{code}")]
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrderPayment(string code)
+        {
+            try
+            {
+                UserIdentity userIdentity = GetCurrentUserIdentity();
+                return Ok(await _orderService.UpdateOrderPayment(code, userIdentity));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [Route("orderDetail/{id}")]
         [HttpDelete]
         public async Task<IActionResult> DeleteOrderDetail(int id)
@@ -101,6 +116,13 @@ namespace InventoryApp.Application.Controllers
         public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
         {
             return _orderService.GetAllMaterialOrderByOrderId(orderId);
+        }
+
+        [Route("GetQuantityRequest/{orderId}/{materialId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityRequest(int orderId, Guid materialId)
+        {
+            return Ok(await _orderService.GetQuantityRequest(orderId, materialId));
         }
     }
 }
