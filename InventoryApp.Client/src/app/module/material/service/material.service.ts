@@ -74,4 +74,15 @@ export class MaterialService {
       })
     )
   }
+  getAllMaterialAndQuantityByBranchId(branchId:string): Observable<any> {
+    let url = `${this.materialURL}/getAllMaterialAndQuantityByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response:any) =>{
+        return response;
+      }),
+      catchError((error:any) =>{
+        return throwError(error);
+      })
+    )
+  }
 }

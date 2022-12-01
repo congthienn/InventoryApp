@@ -145,5 +145,13 @@ namespace InventoryApp.Application.Controllers
         {
             return Ok(await _materialService.GetMaterialQuantityByMaterialIdAndBranchId(materialId, branchId));
         }
+
+        [Route("GetAllMaterialAndQuantityByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<ShowMaterialModel> GetAllMaterialAndQuantityByBranchId(Guid branchId)
+        {
+            return _materialService.GetAllMaterialAndQuantityByBranchId(branchId);
+        }
+
     }
 }

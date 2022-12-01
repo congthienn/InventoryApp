@@ -39,19 +39,8 @@ export const ROUTES: RouteInfo[] = [
       { path: '', title: 'Danh sách'},
       { path: 'danh-sach-phieu-xuat-kho', title: 'Xuất kho'},
       { path: 'danh-sach-phieu-nhap-kho', title: 'Nhập kho'},
-      { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
+      { path: 'thong-ke-san-pham', title: 'Thống kê sản phẩm'},
       { path: 'bo-cuc-kho', title: 'Bố cục kho'},
-    ],
-  },
-  {
-    path: 'chi-nhanh',
-    title: 'Chi nhánh',
-    icontype: faBuilding,
-    collapse: 'managerBranch',
-    roleAccess: true,
-    children: [
-      { path: '',title: 'Danh sách'},
-      { path: 'them-moi', title: 'Thêm mới'},
     ],
   },
   {
@@ -61,8 +50,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'managerShipment',
     roleAccess: true,
     children: [
-      { path: '',title: 'Danh sách'},
-      { path: 'so-lieu-thong-ke', title: 'Số liệu thống kê'},
+      { path: '',title: 'Danh sách'}
     ],
   },
   {
@@ -107,6 +95,17 @@ export const ROUTES: RouteInfo[] = [
       { path: 'ban-hang', title: 'Bán hàng'},
       { path: 'khach-hang',title: 'Khách hàng'},
       { path: 'nha-cung-cap',title: 'Nhà cung cấp'},
+    ],
+  },
+  {
+    path: 'chi-nhanh',
+    title: 'Chi nhánh',
+    icontype: faBuilding,
+    collapse: 'managerBranch',
+    roleAccess: true,
+    children: [
+      { path: '',title: 'Danh sách'},
+      { path: 'them-moi', title: 'Thêm mới'},
     ],
   },
   {

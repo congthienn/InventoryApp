@@ -22,6 +22,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public TrademarkModelRq Trademark { get; set; }
         public int MinimumInventory { get; set; }
         public int MaximumInventory { get; set; }
+        public int TotalQuantity { get; set; }
         public double Weight { get; set; }
         public string DetailedDescription { get; set; }
         public List<ShowMaterialPicture>? Pictures { get; set; }

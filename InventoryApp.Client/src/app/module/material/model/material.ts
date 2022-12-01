@@ -17,4 +17,5 @@ export interface Material{
     weight :string;
     detailedDescription :string;
     stopBusiness:boolean;
+    totalQuantity:string;
 }

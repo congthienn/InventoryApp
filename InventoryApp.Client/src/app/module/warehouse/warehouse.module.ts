@@ -6,6 +6,7 @@ import { AddWarehouseModule } from './add-warehouse/add-warehouse.module';
 import { WarehouseListModule } from './warehouse-list/warehouse-list.module';
 import { InventoryReceivingVoucherModule } from '../inventory-receiving-voucher/inventory-receiving-voucher.module';
 import { InventoryDeliveryVoucherModule } from '../inventory-delivery-voucher/inventory-delivery-voucher.module';
+import { ProductStatisticsModule } from './product-statistics/product-statistics.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { InventoryDeliveryVoucherModule } from '../inventory-delivery-voucher/in
     AddWarehouseModule,
     WarehouseListModule,
     InventoryReceivingVoucherModule,
-    InventoryDeliveryVoucherModule
+    InventoryDeliveryVoucherModule,
+    ProductStatisticsModule
   ]
 })
 export class WarehouseModule { }

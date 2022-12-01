@@ -272,5 +272,15 @@ namespace InventoryApp.Domain.Services
         {
             return await _materialShipmentRepository.GetMaterialQuantityByMaterialIdAndBranchId(materialId, branchId);
         }
+
+        public IEnumerable<ShowMaterialModel> GetAllMaterialAndQuantityByBranchId(Guid branchId)
+        {
+            IEnumerable<ShowMaterialModel> materialList = _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialRepository.GetAllMaterials());
+            foreach(var material in materialList)
+            {
+                material.TotalQuantity = _materialShipmentRepository.GetMaterialQuantityByMaterialIdAndBranchId(material.Id, branchId).Result;
+            }
+            return materialList;
+        }
     }
 }   

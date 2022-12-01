@@ -80,9 +80,9 @@ export class MaterialPositionComponent implements OnInit {
     this.columnDefs  =  [
       { field: "material", headerName:"SẢN PHẨM",cellStyle: {fontWeight: '500'}, initialPinned: 'left', width:250, resizable:true}, 
       { field: 'shipment', headerName: "LÔ HÀNG", width:300,  cellStyle: {fontWeight: '500'}, resizable:true },
-      { field: 'quantityReceiving', headerName: "SỐ LƯỢNG NHẬP", width:220, cellStyle: {textAlign  : 'center'}},
-      { field: 'quantityInStock', headerName: "SỐ LƯỢNG TRONG KHO", width:220, cellStyle: {textAlign  : 'center'}},
-      { field: 'position', headerName: "VỊ TRÍ SẢN PHẨM", width:350},  
+      { field: 'code', headerName: "MÃ SẢN PHẨM", width:170 },
+      { field: 'quantityInStock', headerName: "SỐ LƯỢNG TRONG KHO", width:220, cellStyle: {textAlign  : 'center', fontWeight: '500'}},
+      { field: 'position', headerName: "VỊ TRÍ SẢN PHẨM", width:350 },  
     ];
   }
 
@@ -103,8 +103,8 @@ export class MaterialPositionComponent implements OnInit {
         this.materialPosistion.forEach(element => {
           var data = {
               "material":element.material.name,
+              "code": element.material.code,
               "shipment": element.shipment.code, 
-              "quantityReceiving": element.materialQuantity, 
               "quantityInStock": element.quantityInStock,
               "position": element.position,
             }

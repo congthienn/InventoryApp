@@ -1,0 +1,56 @@
+<app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
+<div class="row">
+    <div class="col-lg-5">
+      <div class="specialFormGroup inputOrderDetail" style="width: 100%;">
+        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" class="btnAdd" (click)="refreshData()">
+          <i class="icon-refresh" style="font-weight: 500;"></i>
+        </span>
+        <label for="categoryMaterial">Chi nhánh<span class="text-danger">*</span></label>
+        <div>
+          <ng-select2 aria-required="true" (valueChanged)="onChangeBranch($event)"  [data]="branchList"></ng-select2>
+          <input type="text" class="specialInput" id="categoryMaterialId">
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="card">  
+  <div class="card-body table-responsive">
+      <h4 class="m-t-0 header-title mb-4">
+        <b>Thông kê số lượng sản phẩm theo chi nhánh</b>
+        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshData()" class="btnAdd">
+          <i class="icon-refresh" style="font-weight: 500;"></i>
+        </span>
+      </h4>
+      <div style="display: flex; align-content: space-between ;">
+        <div style="display: flex; column-gap: 10px;flex: 1; ">
+          <label class="col-form-label">Hiển thị</label>
+          <div style="width: 70px;">
+            <select class="form-control" (change)="onPageSizeChanged()" id="page-size">
+              <option value="10" selected="">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <label class="col-form-label">phần tử</label>
+        </div>
+      </div>  
+    <ag-grid-angular
+      style="width: 100%; height: 600px;"
+      class="ag-theme-alpine mt-1"  
+      [rowData]="dataRow"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs"
+      [alwaysShowHorizontalScroll]="true"
+      [alwaysShowVerticalScroll]="true"
+      [gridOptions]="gridOptions"
+      [paginationPageSize]="sizePagination"
+      [rowSelection]="rowSelection"
+    > 
+    </ag-grid-angular>
+  </div>
+</div>
+<div *ngIf="loadData" class="containerLoader">
+  <div class="loader"></div>
+</div>
+  

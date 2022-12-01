@@ -26,5 +26,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<MaterialPositionModel> UpdateMaterialPosition(int id, MaterialPositionModel model);
         IEnumerable<ShowMaterialPosition> GetMaterialPositionsByBranchId(Guid branchId);
         Task<int> GetMaterialQuantityByMaterialIdAndBranchId(Guid materialId, Guid branchId);
+        IEnumerable<ShowMaterialModel> GetAllMaterialAndQuantityByBranchId(Guid branchId);
     }
 }
