@@ -18,7 +18,7 @@
           <label class="col-form-label">phần tử</label>
         </div>
         <div>
-          <button class="btn btn-primary waves-effect waves-light mr-1" (click)="openModalAddWarehouse()">
+          <button *ngIf="enableButton" class="btn btn-primary waves-effect waves-light mr-1" (click)="openModalAddWarehouse()">
             <span style="padding-right: 5px;font-size: 16px;"  class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm kho hàng
           </button>
         </div>

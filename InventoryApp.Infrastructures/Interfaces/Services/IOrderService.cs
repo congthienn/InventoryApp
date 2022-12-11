@@ -14,6 +14,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<OrderModel> GetOrderByCode(string code);
         IEnumerable<OrderModel> GetAllOrderByStatus(int status);
         IEnumerable<OrderModel> GetAllOrderByBranchId(Guid branchId);
+        IEnumerable<OrderModel> GetOrderListByBranchId(Guid branchId);
         Task<OrderModel> AddOrder(OrderModel model, UserIdentity userIdentity);
         Task<OrderModel> UpdateOrder(string code, OrderModel model, UserIdentity userIdentity);
         Task<OrderModel> UpdateStatusOrder(string code, UserIdentity userIdentity);
@@ -21,5 +22,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<bool> DeleteOrderDetail(int id);
         IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId);
         Task<int> GetQuantityRequest(int orderId, Guid materialId);
+        Task AddReturnMaterial(ReturnedMaterialModel model, UserIdentity userIdentity);
     }
 }

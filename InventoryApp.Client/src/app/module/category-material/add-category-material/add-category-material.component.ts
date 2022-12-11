@@ -45,7 +45,7 @@ export class AddCategoryMaterialComponent implements OnInit {
   showSuccess() {  
     Swal.fire({
       title: 'Success!',
-      text: 'Thêm mới thương hiệu sản phẩm thành công',
+      text: 'Thêm mới loại sản phẩm thành công',
       icon: "success",
       confirmButtonText: 'Done'
     }).then((result) => {

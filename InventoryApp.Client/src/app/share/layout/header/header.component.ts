@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   @Output() clickButton = new EventEmitter<boolean>();
 
   public userName:string = this.authService.getUserName();
+  public CardImage:string = this.authService.getCardImage();
   constructor(public authService: AuthService, public router: Router) { 
   }
 

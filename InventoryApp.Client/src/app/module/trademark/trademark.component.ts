@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { AuthService } from 'src/app/auth/auth.service';
 import { AddTrademarkComponent } from './add-trademark/add-trademark.component';
 import { TrademarkService } from './service/trademark.service';
 import { TrademarkActionButtonComponent } from './trademark-action-button/trademark-action-button.component';
@@ -28,7 +29,10 @@ export class TrademarkComponent implements OnInit {
 
 	constructor(public activeModal: NgbActiveModal, 
     private modalService: NgbModal, 
-    private trademarkService: TrademarkService) {}
+    private trademarkService: TrademarkService,
+    private authService: AuthService
+    ) {}
+    enableButton = this.authService.getRole() === "Quản trị hệ thống";
   ngOnInit(): void {
     this.columnDefs  =  [
       { field: "name", headerName:"THƯƠNG HIỆU",width:400, cellStyle: {fontWeight: '500'}}, 

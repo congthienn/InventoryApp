@@ -30,5 +30,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
 
         Task<MaterialPosition> GetMaterialPositionById(int id);
         IEnumerable<Materials> GetAllMaterials();
+        IEnumerable<Materials> RelatedMaterial(Guid caterogyId, Guid materialId);
     }
 }

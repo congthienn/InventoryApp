@@ -13,5 +13,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         Task<string> GetLastCode();
         IEnumerable<Employee> GetAllEmployee();
         Task<Employee> GetEmployeeById(Guid employeeId);
+        IEnumerable<Employee> GetEmployeeByBranchId(Guid branchId);
     }
 }

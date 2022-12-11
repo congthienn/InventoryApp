@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
@@ -23,7 +24,8 @@ export class AddWarehouseComponent implements OnInit {
     private sweetalertService: SweetalertService, 
     private branchService: BranchService,
     private warehouseService : WarehouseService,
-    private router : Router
+    private router : Router,
+    private authService: AuthService
     ) {
     this.warehouse = {} as Warehouse;   
   }
@@ -78,7 +80,8 @@ export class AddWarehouseComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
     })
   }
   changeBranchValue(data: any){

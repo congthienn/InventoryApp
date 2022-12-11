@@ -16,9 +16,14 @@ namespace InventoryApp.Infrastructures.Repositories
         {
         }
 
+        public IEnumerable<Guid> GetAllBranchByUserId(Guid userId)
+        {
+            return _dbSet.Include(x => x.User).Where(x => x.UserId == userId).Select(x => x.Branch.Id);
+        }
+
         public IEnumerable<string> GetAllBranchOfTheUser(Guid userId)
         {
-            return _dbSet.Include(x => x.User).Where(x => x.UserId == userId).Select(x => x.Branch.CompanyName);
+            return _dbSet.Include(x => x.User).Where(x => x.UserId == userId).Select(x => x.Branch.Id.ToString());
         }
 
         public IEnumerable<string> GetAllUsersOfTheBranch(Guid branchId)

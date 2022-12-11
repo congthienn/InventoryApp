@@ -105,6 +105,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return await _dbMaterialPosition.FindAsync(id);
         }
 
+        public IEnumerable<Materials> RelatedMaterial(Guid caterogyId, Guid materialId)
+        {
+            return _dbSet.Include(x => x.Pictures).Where(x => x.CategoryMaterialId == caterogyId && x.Id != materialId).OrderBy(x => Guid.NewGuid()).Take(9);
+        }
+
         public async Task UpdateMaterialAttributeValue(MaterialAttributeValue materialAttributeValue)
         {
             _dbSetMaterialAttributeValue.Update(materialAttributeValue);

@@ -42,6 +42,11 @@ namespace InventoryApp.Domain.Services
             }
         }
 
+        public IEnumerable<Guid> GetAllBranchByUserId(Guid userId)
+        {
+            return _userBranchRepository.GetAllBranchByUserId(userId);
+        }
+
         public IEnumerable<string> GetAllBranchOfTheUser(Guid userId)
         {
             return _userBranchRepository.GetAllBranchOfTheUser(userId);

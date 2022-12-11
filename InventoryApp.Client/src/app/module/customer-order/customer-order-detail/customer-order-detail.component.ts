@@ -17,8 +17,12 @@ export class CustomerOrderDetailComponent implements OnInit {
   public company:any;
   public dateOrder:any;
   public needToPay = 0;
+  public returnMaterialPrice = 0;
+  public priceTotal = 0;
+  public formula = ''
   public paidString = '';
-  public paidStatus = ''
+  public paidStatus = '';
+  public returnedMaterialExists = false;
   public order!:CustomerOrder;
   constructor(private companyService: CompanyService,
       private customerOrderService: CustomerOrderService
@@ -43,6 +47,16 @@ export class CustomerOrderDetailComponent implements OnInit {
       this.order.orderDetail.forEach((item) => {
           item.priceTotalItem = Number(item.materialPrice) * Number(item.quantityRequest);
       })
+      this.returnedMaterialExists = this.order.returnedMaterial != null;
+      this.priceTotal = Number(this.order.priceTotal);
+      if(this.returnedMaterialExists){
+        this.order.returnedMaterial.detail.forEach((item) => {
+          item.priceTotalItem = Number(item.quantity) * Number(item.price);
+          this.returnMaterialPrice +=  item.priceTotalItem;
+        })
+        this.priceTotal -=this.returnMaterialPrice;
+        this.formula = this.order.returnedMaterial.formula  ? "Hoàn tiền" : "Đổi sản phẩm mới";
+      }
       this.loadData = false;
       this.needToPay = Number(this.order.priceTotal) - Number(this.order.prepayment);
       this.paidString = this.order.paid ? "Đã thanh toán đủ" : "Chưa thanh toán đủ";

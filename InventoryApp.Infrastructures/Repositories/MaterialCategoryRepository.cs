@@ -19,7 +19,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IEnumerable<Materials> GetAllMaterialByCategoryId(Guid categoryId)
         {
-            return _dbSet.Include(x => x.Materials).Where(x => x.Id == categoryId).Select(x=>x.Materials).FirstOrDefault();
+            return _dbSet.Include(x => x.Materials).ThenInclude(x=>x.Pictures).Where(x => x.Id == categoryId).Select(x=>x.Materials).FirstOrDefault();
         }
 
         public async Task<string> GetLastCode()

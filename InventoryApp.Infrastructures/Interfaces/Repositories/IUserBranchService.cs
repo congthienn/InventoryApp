@@ -13,5 +13,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         Task<bool> DeleteBranchToUser(UserBranchModelRq model);
         IEnumerable<string> GetAllUsersOfTheBranch(Guid branchId);
         IEnumerable<string> GetAllBranchOfTheUser(Guid userId);
+        IEnumerable<Guid> GetAllBranchByUserId(Guid userId);
     }
 }

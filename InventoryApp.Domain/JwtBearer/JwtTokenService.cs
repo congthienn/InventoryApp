@@ -1,5 +1,7 @@
 ﻿using InventoryApp.Common;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.Identity.IServices;
+using InventoryApp.Infrastructures.Interfaces.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,14 +17,18 @@ namespace InventoryApp.Domain.JwtBearer
     public class JwtTokenService : IJwtTokenService
     {
         private IConfigurationRoot _configuration;
-        public JwtTokenService()
+        private readonly IUserBranchService _userBranchService;
+        private readonly IUserService _userService;
+        public JwtTokenService(IUserBranchService userBranchService, IUserService userService)
         {
             _configuration = Appsetting.GetConfiguration();
+            _userBranchService = userBranchService;
+            _userService = userService;
         }
         public JwtToken GenerateJwtToken(Users user, IEnumerable<string> roles = null)
         {
             var userIdInString = user.Id.ToString();
-
+            Employee employee = _userService.GetEmployeeByUserId(user.Id).Result;
             double tokenTimeOutMinutes = Convert.ToDouble(_configuration.GetSection("Security:Jwt:TokenTimeOutMinutes").Value);
             var timeout = TimeSpan.FromMinutes(tokenTimeOutMinutes);
             var issueDate = DateTime.UtcNow;
@@ -37,9 +43,23 @@ namespace InventoryApp.Domain.JwtBearer
                 {
                     claims.Add(new Claim("Role", role));
                 }
+            IEnumerable<Guid> branchs = _userBranchService.GetAllBranchByUserId(user.Id);
+            if(branchs != null)
+            {
+                foreach (var branch in branchs)
+                {
+                    claims.Add(new Claim("Branch", branch.ToString()));
+                }
+            }
+            else
+            {
+                claims.Add(new Claim("Branch", null));
+            }
+               
 
-            claims.Add(new Claim("UserName", user.UserName));
+            claims.Add(new Claim("UserName", employee == null ? "System" : employee.Name));
             claims.Add(new Claim("UserId", userIdInString));
+            claims.Add(new Claim("CardImage", employee == null ? "System" : employee.CardImage));
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Security:Jwt:SecurityKey").Value));
             var sigingCredential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

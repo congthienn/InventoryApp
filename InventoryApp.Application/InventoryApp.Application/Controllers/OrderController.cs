@@ -11,7 +11,7 @@ namespace InventoryApp.Application.Controllers
     public class OrderController : BaseController
     {
         private readonly IOrderService _orderService;
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService     orderService)
         {
             _orderService = orderService;
         }
@@ -112,7 +112,15 @@ namespace InventoryApp.Application.Controllers
             return _orderService.GetAllOrderByBranchId(branchId);
         }
 
-        [Route("GetAllMaterialOrderByOrderId/{orderId}")]
+        [Route("GetOrderListByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<OrderModel> GetOrderListByBranchId(Guid branchId)
+        {
+            return _orderService.GetOrderListByBranchId(branchId);
+        }
+        
+
+       [Route("GetAllMaterialOrderByOrderId/{orderId}")]
         public IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId)
         {
             return _orderService.GetAllMaterialOrderByOrderId(orderId);
@@ -123,6 +131,21 @@ namespace InventoryApp.Application.Controllers
         public async Task<IActionResult> GetQuantityRequest(int orderId, Guid materialId)
         {
             return Ok(await _orderService.GetQuantityRequest(orderId, materialId));
+        }
+
+        [Route("AddReturnMaterial")]
+        [HttpPost]
+        public async Task AddReturnMaterial([FromBody] ReturnedMaterialModel model)
+        {
+            try
+            {
+                UserIdentity userIdentity = GetCurrentUserIdentity();
+                await _orderService.AddReturnMaterial(model, userIdentity);
+            }
+            catch (Exception e)
+            {
+                BadRequest(e.Message);
+            }
         }
     }
 }

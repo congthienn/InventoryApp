@@ -34,6 +34,20 @@ export class CustomerOrderService {
       })
     )
   }
+
+  addReturnMaterial(data: any): Observable<any> {
+    let url = `${this.customerOrderURL}/addReturnMaterial`;
+    return this.http.post(url, data, this.httpOptions).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  
+
   getCustomerOrderByCode(id:string):Observable<any> {
     let url = `${this.customerOrderURL}/Code/${id}`;
     return this.http.get(url).pipe(
@@ -82,6 +96,18 @@ export class CustomerOrderService {
       })
     )
   }
+  getOrderListByBranchId(branchId: string): Observable<any>{
+    let url = `${this.customerOrderURL}/GetOrderListByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    )
+  }
+
   getAllMaterialOrderByOrderId(orderId:string): Observable<any>{
     let url = `${this.customerOrderURL}/GetAllMaterialOrderByOrderId/${orderId}`;
     return this.http.get(url).pipe(

@@ -36,12 +36,14 @@ namespace InventoryApp.Application.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<ShowMaterialModel> GetAllMaterials() 
         {
             return _materialService.GetAllMaterials();
         }
 
+        [AllowAnonymous]
         [HttpGet("{materialId}")]
         public async Task<IActionResult> GetMaterialById(Guid materialId)
         {
@@ -152,6 +154,15 @@ namespace InventoryApp.Application.Controllers
         {
             return _materialService.GetAllMaterialAndQuantityByBranchId(branchId);
         }
+
+        [AllowAnonymous]
+        [Route("RelatedMaterial/{categoryId}/{materialId}")]
+        [HttpGet]
+        public async Task<IActionResult> RelatedMaterial(Guid categoryId, Guid materialId)
+        {
+            return Ok(await _materialService.RelatedMaterial(categoryId, materialId));
+        }
+        
 
     }
 }

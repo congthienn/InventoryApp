@@ -13,7 +13,8 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         IEnumerable<SupplierOrderModel> GetAllSupplierOrder();
         IEnumerable<MaterialModelRq> GetAllMaterialOrderByOrderId(int orderId);
         IEnumerable<SupplierOrderModel> GetAllSupplierOrderByBranchId(Guid branchId);
-        Task<SupplierOrderModel> GetSupplierOrderByCode(string code);
+        IEnumerable<SupplierOrderModel> GetSupplierOrderListByBranchId(Guid branchId); 
+         Task<SupplierOrderModel> GetSupplierOrderByCode(string code);
         IEnumerable<SupplierOrderModel> GetAllSupplierOrderByStatus(int status);
         Task<SupplierOrderModel> AddSupplierOrder(SupplierOrderModel model, UserIdentity userIdentity);
         Task<SupplierOrderModel> UpdateSupplierOrder(string code, SupplierOrderModel model, UserIdentity userIdentity);

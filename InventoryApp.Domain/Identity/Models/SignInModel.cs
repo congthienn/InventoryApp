@@ -24,6 +24,7 @@ namespace InventoryApp.Domain.Identity.Models
         public bool IsNotAllowed { get; set; }
         public bool RequiresTwoFactor { get; set; }
         public IEnumerable<string>? Roles { get; set; }
+        public IEnumerable<string>? Branch { get; set; }
         public Users UserIdentity { get; set; }
         public string AvatarURL { set; get; }
         public bool EmailConfirmed { get; set; }

@@ -36,6 +36,18 @@ export class ShipmentService {
       })
     )
   }
+
+  GetAllShipmentHasProductByBranchId(branchId:string): Observable<any> {
+    let url = `${this.shipmentURL}/GetAllShipmentHasProductByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }), 
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
   addShipment(data: any) : Observable<any> {
     return this.http.post(this.shipmentURL, data, this.httpOptions).pipe(
       tap((response: any) =>{

@@ -28,5 +28,6 @@ namespace InventoryApp.Data.Models
         public int PriceTotal { get; set; }
         public int Prepayment { get; set; }
         public bool Paid { get; set; }
+        public string DeliveryAddress { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { AuthService } from 'src/app/auth/auth.service';
 import Swal from 'sweetalert2';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { TrademarkService } from '../service/trademark.service';
@@ -16,8 +17,11 @@ export class TrademarkActionButtonComponent implements ICellRendererAngularComp 
   clickDelete = false;
   constructor(private sweetalertService: SweetalertService, 
     private trademarkService: TrademarkService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private authService: AuthService
   ) { }
+
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   refresh() {
     return false;
   }

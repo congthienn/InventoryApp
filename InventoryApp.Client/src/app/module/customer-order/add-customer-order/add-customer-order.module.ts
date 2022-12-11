@@ -18,7 +18,7 @@ import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.modu
     ReactiveFormsModule,
     NgSelect2Module,
     AgGridModule,
-    PageTitleModule
+    PageTitleModule 
   ],
   exports:[AddCustomerOrderComponent]
 })

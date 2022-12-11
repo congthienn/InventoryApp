@@ -12,6 +12,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
         public string Name { get; set; }
+        public string Code { get; set; }
         public int SalePrice { get; set; }
         public int CostPrice { get; set; }
         public string BaseMaterialUnit { get; set; }

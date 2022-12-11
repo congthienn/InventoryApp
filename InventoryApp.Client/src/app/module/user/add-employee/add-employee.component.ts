@@ -3,9 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { BranchService } from '../../branch/branch.service';
 import { ProvinceService } from '../../province/province.service';
+import { RoleService } from '../../role/service/role.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { Employee } from '../model/employee';
 import { EmployeeService } from '../service/employee.service';
@@ -43,13 +45,14 @@ export class AddEmployeeComponent implements OnInit {
   provinceList!: Array<Select2OptionData>;
   districtList!: Array<Select2OptionData>;
   wardList!: Array<Select2OptionData>;
-
+  roleList!: Array<Select2OptionData>;
   constructor(public title: Title, 
       private provinceService: ProvinceService, 
       private branchService: BranchService,
       private employeeService: EmployeeService,
-      private router: Router,
-      private sweetalertService: SweetalertService
+      private sweetalertService: SweetalertService,
+      private roleService: RoleService,
+      private authService: AuthService,
     ) 
   { 
     this.employee = {} as Employee;   
@@ -59,7 +62,9 @@ export class AddEmployeeComponent implements OnInit {
     this.addEmployeeForm.patchValue({cardImage: this.files[0].name});
     console.log(this.addEmployeeForm);
 	}
-
+  options = {
+    multiple: true
+  };
 	onRemove(event: File) {
 		this.files.splice(this.files.indexOf(event), 1);
     this.addEmployeeForm.patchValue({cardImage: null});
@@ -80,10 +85,12 @@ export class AddEmployeeComponent implements OnInit {
       provinceId: new FormControl(this.employee.provinceId, Validators.required),
       wardId: new FormControl(this.employee.wardId, Validators.required),
       address:new FormControl(this.employee.address, Validators.required),
+      roleId: new FormControl(this.employee.roleId, Validators.required),
     })
 
     this.getProvinceList();
     this.getBranchList();
+    this.getRoleList();
   }
   showSuccess() {  
     this.sweetalertService.alertAction("/nhan-vien","Thêm thông tin nhân viên thành công");
@@ -103,8 +110,26 @@ export class AddEmployeeComponent implements OnInit {
   get districtId() { return this.addEmployeeForm.get('districtId'); }
   get wardId() { return this.addEmployeeForm.get('wardId'); }
   get address() { return this.addEmployeeForm.get('address'); }
- 
-  
+  get roleId() { return this.addEmployeeForm.get('roleId'); }
+  getRoleList(){
+    var tempData: { id: string; text: string; }[] = [];
+    this.roleService.getAllRole().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.name
+        }
+        tempData.push(data);
+      });
+      this.roleList = tempData;
+    })
+  }
+  changeRoleValue(data: any){
+    if(data != undefined){
+      this.addEmployeeForm.patchValue({roleId: data != 'null' ? data : null});
+      document.getElementById("roleId")?.focus();
+    }
+  }
   changeProvinceValue(data: any){
     if(data == undefined)
       return;
@@ -153,7 +178,8 @@ export class AddEmployeeComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
     })
   }
   
@@ -171,6 +197,7 @@ export class AddEmployeeComponent implements OnInit {
     formData.append("DistrictId", this.addEmployeeForm.get('districtId')?.value);
     formData.append("WardId", this.addEmployeeForm.get('wardId')?.value);
     formData.append("Address", this.addEmployeeForm.get('address')?.value);
+    formData.append("RoleId", this.addEmployeeForm.get('roleId')?.value);
     formData.append("Image", this.files[0], this.files[0].name);
     this.employeeService.addEmployee(formData).subscribe(
       response => {

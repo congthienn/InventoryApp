@@ -11,7 +11,8 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
     public interface IEmployeeService
     {
         Task AddEmployee(EmployeeModel model, UserIdentity userIdentity);
-        IEnumerable<EmployeeModel> GetAllEmployee();
+        IEnumerable<EmployeeModel> GetAllEmployee(); 
+        IEnumerable<EmployeeModel> GetEmployeeByBranchId(Guid branchId);
         Task<EmployeeModel> GetEmployeeById(Guid employeeId);
         Task DeleteEmployee(Guid employeeId);
     }

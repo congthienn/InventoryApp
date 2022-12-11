@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { BranchService } from '../../branch/branch.service';
 import { Material } from '../../material/model/material';
@@ -52,7 +53,12 @@ export class ProductStatisticsComponent implements OnInit {
     paginationPageSize: 10
   };
 
-  constructor(private branchService: BranchService, private title: Title, private materialService: MaterialService) {}
+  constructor(
+    private branchService: BranchService, 
+    private title: Title, 
+    private materialService: MaterialService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.title.setTitle("Thống kê sản phẩm");
@@ -70,7 +76,8 @@ export class ProductStatisticsComponent implements OnInit {
         }
         tempData.push(data);
       }); 
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
       this.loadData = false;
     })
   }

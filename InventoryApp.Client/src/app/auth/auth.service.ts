@@ -47,8 +47,15 @@ export class AuthService {
     }
   }
   
-  getToken() {
+  getToken(){
     return localStorage.getItem(environment.keyToken);
+  }
+
+  decodeToken(): any { 
+    var token = localStorage.getItem(environment.keyToken);
+    if(token != null){
+      return jwt_decode(token);
+    }
   }
   stillConfirmedRememberLogin() : boolean {
     let rememberLogin = localStorage.getItem('remember');
@@ -81,6 +88,24 @@ export class AuthService {
     if(token !== null){
       const tokenPayload = jwt_decode<any>(token);
       return tokenPayload.UserName;
+    }
+    return false;
+  }
+
+  getCardImage(): any{
+    let token = localStorage.getItem(environment.keyToken);
+    if(token !== null){
+      const tokenPayload = jwt_decode<any>(token);
+      return tokenPayload.CardImage;
+    }
+    return false;
+  }
+
+  getRole(): any{
+    let token = localStorage.getItem(environment.keyToken);
+    if(token !== null){
+      const tokenPayload = jwt_decode<any>(token);
+      return tokenPayload.Role;
     }
     return false;
   }

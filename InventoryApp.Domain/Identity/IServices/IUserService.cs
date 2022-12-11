@@ -1,4 +1,5 @@
 ﻿using InventoryApp.Data.Helper;
+using InventoryApp.Data.Models;
 using InventoryApp.Domain.Identity.DTO.Roles;
 using InventoryApp.Domain.Identity.DTO.Users;
 using System;
@@ -24,5 +25,6 @@ namespace InventoryApp.Domain.Identity.IServices
         Task<bool> CheckEmailAsync(string email);
         Task<bool> ActivateUserAccount(ConfirmEmailModelRq model);
         Task<bool> UpdateAccountStatus(UpdateAccountStatusModelRq model);
+        Task<Employee> GetEmployeeByUserId(Guid userId);
     }
 }

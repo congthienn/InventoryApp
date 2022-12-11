@@ -3,7 +3,10 @@ import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../branch/branch.service';
+import { CompanyService } from '../general/company.service';
 import { SweetalertService } from '../share/sweetalert/sweetalert.service';
 import { WarehouseService } from '../warehouse/service/warehouse.service';
 import { ActionButonComponent } from './add-warehouse-area/action-buton/action-buton.component';
@@ -44,6 +47,7 @@ export class WarehouseLayoutComponent implements OnInit {
   public rowSelectionWarehouseLine: 'single' | 'single' = 'single';
 
   warehouseList!: Array<Select2OptionData>;
+  branchList!: Array<Select2OptionData>;
   public pageTite : PageTitle[] = [
     {
       path: '/tong-quan',
@@ -80,6 +84,8 @@ export class WarehouseLayoutComponent implements OnInit {
   public showButtonAddWarehouseShelve = false;
   constructor(
     private warehouseService: WarehouseService, 
+    private authService: AuthService,
+    private branchService: BranchService,
     private title: Title, 
     private warehouseAreaService: WarehouseAreaService,
     private warehouseLineServicie: WarehouseLineService,
@@ -93,9 +99,36 @@ export class WarehouseLayoutComponent implements OnInit {
     this.updateColumnDefsWarehouseArea();
     this.updateColumnDefsWarehouseLine();
     this.updateColumnDefsWarehouseShelve();
-    this.getWarehouseList();
+    this.getBranchData();
+
   }
-  
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.getWarehouseList(branchId);
+  }
+
   private updateColumnDefsWarehouseArea() {
     this.columnDefsWarehouseArea  =  [
       { field: 'id',  
@@ -138,10 +171,10 @@ export class WarehouseLayoutComponent implements OnInit {
       { field: "name", headerName:"TÊN KỆ HÀNG",width:'290px'}, 
     ];
   }
-  getWarehouseList(){
+  getWarehouseList(branchId:any){
     this.loadData = true;
     var tempData: { id: string; text: string; }[] = [];
-    this.warehouseService.getAllWarehouse().subscribe(response => {
+    this.warehouseService.getAllWarehouseByBranchId(branchId).subscribe(response => {
       response.forEach((element: any) => {
         var data = {
           id: element.id,

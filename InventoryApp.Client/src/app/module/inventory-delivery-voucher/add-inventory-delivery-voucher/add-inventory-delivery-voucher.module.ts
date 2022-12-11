@@ -16,7 +16,7 @@ import { AddInventoryDeliveryVoucherComponent } from './add-inventory-delivery-v
     ReactiveFormsModule,
     NgSelect2Module, 
     AgGridModule,
-    PageTitleModule 
+    PageTitleModule  
   ],
   exports:[AddInventoryDeliveryVoucherComponent]
 })

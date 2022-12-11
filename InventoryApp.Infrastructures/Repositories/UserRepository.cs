@@ -20,6 +20,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return _context.Set<UserBranches>().Include(x => x.Branch).Where(x => x.UserId == userId).Select(x => x.Branch);
         }
 
+        public async Task<Employee> GetEmployeeByUserId(Guid userId)
+        {
+            return await _context.Set<Employee>().Where(x => x.UserId == userId).FirstOrDefaultAsync();
+        }
+
         public IEnumerable<Roles> GetRoleByUser(Guid userId)
         {
             return _context.Set<UserRoles>().Include(x=>x.Role).Where(x=>x.UserId == userId).Select(x=>x.Role);

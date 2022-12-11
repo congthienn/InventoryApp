@@ -14,7 +14,7 @@ import { AddWarehouseComponent } from '../add-warehouse/add-warehouse.component'
     WarehouseListComponent,
     ActionButtonWarehouseComponent
   ],
-  imports:  [CommonModule, PageTitleModule, AgGridModule, RouterModule],
+  imports:  [CommonModule, PageTitleModule, AgGridModule, RouterModule], 
   entryComponents: [AddWarehouseComponent],
   exports:[WarehouseListComponent]
 })

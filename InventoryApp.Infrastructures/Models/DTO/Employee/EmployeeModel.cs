@@ -30,6 +30,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public int WardId { get; set; }
         public WardDTO Ward { get; set; }
         public IFormFile Image { get; set; }
+        public Guid RoleId { get; set; }
     }
     public class EmployeeModelValidator : AbstractValidator<EmployeeModel>
     {
@@ -38,7 +39,6 @@ namespace InventoryApp.Infrastructures.Models.DTO
             RuleFor(p => p.Name).NotEmpty();
             RuleFor(p => p.Email).NotEmpty();
             RuleFor(p => p.PhoneNumber).NotEmpty();
-            RuleFor(p => p.Sex).NotEmpty();
             RuleFor(p => p.IdentityCard).NotEmpty();
             RuleFor(p => p.Address).NotEmpty();
             RuleFor(p => p.ProvinceId).NotEmpty();
@@ -46,6 +46,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
             RuleFor(p => p.WardId).NotEmpty();
             RuleFor(p => p.BranchId).NotEmpty();
             RuleFor(p => p.Image).NotEmpty();
+            RuleFor(p => p.RoleId).NotEmpty();
         }
     }
 }

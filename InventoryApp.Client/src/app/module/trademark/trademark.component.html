@@ -16,7 +16,7 @@
   </ag-grid-angular>
 </div>
 <div class="modal-footer">
-    <button type="submit" (click) = "openAddTraderGroup()" class="btn btn-primary btn-sm waves-effect waves-light mr-1">
+    <button *ngIf = "enableButton" type="submit" (click) = "openAddTraderGroup()" class="btn btn-primary btn-sm waves-effect waves-light mr-1">
         Thêm mới <span class=""></span>
     </button>
     <button type="reset" class="btn btn-secondary btn-sm waves-effect waves-light" (click)="closeModal()">

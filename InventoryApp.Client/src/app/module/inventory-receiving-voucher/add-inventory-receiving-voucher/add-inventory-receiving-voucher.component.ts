@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { BranchService } from '../../branch/branch.service';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
@@ -99,7 +100,8 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
     private warehouseAreaService: WarehouseAreaService,
     private warehouseLineService: WarehouseLineService,
     private warehouseShelveService: WarehouseShelveService,
-    private inventoryReceivingVoucherService: InventoryReceivingVoucherService
+    private inventoryReceivingVoucherService: InventoryReceivingVoucherService,
+    private authService: AuthService
     ) { 
     this.inventoryReceivingVoucherDetailValue = {} as InventoryReceivingVoucherDetail;
     this.inventoryReceivingVoucher = {} as InventoryReceivingVoucher;
@@ -209,7 +211,8 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
       this.loadData = false;
       document.body.style.overflow = '';
     },

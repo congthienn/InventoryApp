@@ -643,6 +643,9 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("WardId")
                         .HasColumnType("int");
 
@@ -666,6 +669,8 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("ProvinceId");
 
                     b.HasIndex("UpdatedByUserId");
+
+                    b.HasIndex("UserId");
 
                     b.HasIndex("WardId");
 
@@ -1676,6 +1681,10 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -1853,6 +1862,78 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsUnique();
 
                     b.ToTable("Provinces");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.ReturnedMaterial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Formula")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.HasIndex("UpdatedByUserId");
+
+                    b.ToTable("ReturnedMaterial");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.ReturnedMaterialDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("MaterialId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReturnedMaterialId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReturnedMaterialId");
+
+                    b.HasIndex("MaterialId", "ReturnedMaterialId")
+                        .IsUnique();
+
+                    b.ToTable("ReturnedMaterialDetail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.RoleClaims", b =>
@@ -3079,6 +3160,12 @@ namespace InventoryApp.DbMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InventoryApp.Data.Models.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InventoryApp.Data.Models.Wards", "Ward")
                         .WithMany()
                         .HasForeignKey("WardId")
@@ -3094,6 +3181,8 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("Province");
 
                     b.Navigation("UpdatedByUser");
+
+                    b.Navigation("User");
 
                     b.Navigation("Ward");
                 });
@@ -3827,6 +3916,52 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("InventoryApp.Data.Models.ReturnedMaterial", b =>
+                {
+                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("UpdatedByUser");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.ReturnedMaterialDetail", b =>
+                {
+                    b.HasOne("InventoryApp.Data.Models.Materials", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.ReturnedMaterial", "ReturnedMaterial")
+                        .WithMany("Detail")
+                        .HasForeignKey("ReturnedMaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("ReturnedMaterial");
+                });
+
             modelBuilder.Entity("InventoryApp.Data.Models.RoleClaims", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.Roles", "Role")
@@ -4378,6 +4513,11 @@ namespace InventoryApp.DbMigrations.Migrations
             modelBuilder.Entity("InventoryApp.Data.Models.Provinces", b =>
                 {
                     b.Navigation("District");
+                });
+
+            modelBuilder.Entity("InventoryApp.Data.Models.ReturnedMaterial", b =>
+                {
+                    b.Navigation("Detail");
                 });
 
             modelBuilder.Entity("InventoryApp.Data.Models.SupplierGroup", b =>

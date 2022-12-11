@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { GridApi, ColDef, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../../branch/branch.service';
 import { Order } from '../../order/model/order';
 import { InventoryDeliveryVoucher } from '../model/inventory-delivery-voucher';
 import { InventoryDeliveryVoucherService } from '../service/inventory-delivery-voucher.service';
@@ -16,6 +19,7 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
 
   public Title = '';
   private gridApi!: GridApi;
+  branchList!: Array<Select2OptionData>;
   public rowSelection: 'single' | 'single' = 'single';
   public loadData = true;
   dataRow: any[] = [];
@@ -34,7 +38,7 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
       active: false
     },
     {
-      path: '/danh-sach-phieu-xuat-kho/',
+      path: '/kho-hang/danh-sach-phieu-xuat-kho/',
       title: 'Danh sách phiếu xuất kho',
       active: false
     }
@@ -53,22 +57,52 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
   };
 
   constructor(
-        private title: Title, 
-        private inventoryDeliveryVoucherService : InventoryDeliveryVoucherService,
-  ) {}
+    private title: Title, 
+    private inventoryDeliveryVoucherService : InventoryDeliveryVoucherService,
+    private authService : AuthService,
+    private branchService: BranchService,
+  ){}
 
   ngOnInit(): void {
     this.title.setTitle("Phiếu xuất kho");
     this.Title = "Quản lý phiếu xuất kho";
     this.updateColumnDefs();
     this.getInventoryReceivingVoucher();
+    this.getBranchData();
   }
-
+  branchId!:string;
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.branchId = branchId;
+    this.getInventoryReceivingVoucher();
+  }
   getInventoryReceivingVoucher(){
     document.body.style.overflow = 'hidden';
       this.inventoryDeliveryVoucherService.getInventoryDeliveryVoucher().subscribe(
         response =>{
         this.inventoryDeliveryVoucher = response;
+        this.inventoryDeliveryVoucher =  this.inventoryDeliveryVoucher.filter(item => item.branchId == this.branchId);
         var dataRowTemp: any[]= [];
         this.inventoryDeliveryVoucher.forEach(element => {
           var date = new Date(element.goodsIssueDate);
@@ -77,6 +111,7 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
             "code":element.code,
             "customer": element.order.customer.customerName,
             "branch": element.branch.companyName,
+            "branchId": element.branch.id,
             "warehouse": element.warehouse.name, 
             "priceTotal": element.code,
             "order":element.order.code,
@@ -84,7 +119,8 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
             }
             dataRowTemp.push(data);
         });
-        this.dataRow = dataRowTemp;
+        var branchs: unknown[] = this.authService.decodeToken().Branch;
+        this.dataRow = dataRowTemp.filter(item => branchs.includes(item.branchId));
         this.loadData = false;
         document.body.style.overflow = '';
       },
@@ -104,11 +140,10 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
         initialPinned: 'left',
         cellRenderer: ActionButtonViewDetailComponent,}, 
       { field: "code", headerName:"MÃ XUẤT KHO", width:180, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
-      { field: "order", headerName:"MÃ HÓA ĐƠN", width:180, cellStyle: {fontWeight: '500'}}, 
-      { field: 'customer', headerName: "KHÁCH HÀNG", width:300, cellStyle: {fontWeight: '500'},resizable:true },
-      { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width:230 },
-      { field: 'warehouse', headerName: "KHO HÀNG", resizable:true, width:230 },
-      { field: 'orderDate', headerName: "NGÀY XUẤT KHO", resizable:true, width:200},
+      { field: "order", headerName:"MÃ HÓA ĐƠN", width:200, cellStyle: {fontWeight: '500'}}, 
+      { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width:250 },
+      { field: 'warehouse', headerName: "KHO HÀNG", resizable:true, width:250 },
+      { field: 'orderDate', headerName: "NGÀY XUẤT KHO", resizable:true, width:210},
     ];
   }
 

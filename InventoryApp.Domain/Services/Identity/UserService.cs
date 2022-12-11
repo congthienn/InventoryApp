@@ -2,6 +2,7 @@
 using InventoryApp.Common;
 using InventoryApp.Data.Helper;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.Azure;
 using InventoryApp.Domain.Identity.DTO.Roles;
 using InventoryApp.Domain.Identity.DTO.Users;
 using InventoryApp.Domain.Identity.IServices;
@@ -24,10 +25,11 @@ namespace InventoryApp.Domain.Services.Identity
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAzureStorage _azureStorage;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public UserService(UserManager<Users> userManager, RoleManager<Roles> roleManager, ILogger<UserService> logger, IMapper mapper, IEmailService emailSender)
+        public UserService(UserManager<Users> userManager, RoleManager<Roles> roleManager, ILogger<UserService> logger, IMapper mapper, IEmailService emailSender, IAzureStorage azureStorage)
         {
             _unitOfWork = new UnitOfWork();
             _userRepository = new UserRepository(_unitOfWork);
@@ -37,6 +39,7 @@ namespace InventoryApp.Domain.Services.Identity
             _emailService = emailSender;
             _logger = logger;
             _mapper = mapper;
+            _azureStorage = azureStorage;
         }
         
         public async Task<bool> ActivateUserAccount(ConfirmEmailModelRq model)
@@ -95,7 +98,7 @@ namespace InventoryApp.Domain.Services.Identity
                 _unitOfWork.Commit();
 
                 var tokenConfirmEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                await _emailService.SendEmailCreateNewUserAsync(user.Email, user.UserName, password, tokenConfirmEmail);
+                await _emailService.SendEmailCreateNewUserAsync(user.Email, model.Employee, password, tokenConfirmEmail);
                 return model;
             }
             catch(Exception e)
@@ -128,6 +131,15 @@ namespace InventoryApp.Domain.Services.Identity
                 _logger.LogError(e.Message);
                 throw new NotImplementedException(e.Message);
             }
+        }
+
+        public async Task<Employee> GetEmployeeByUserId(Guid userId)
+        {
+            Employee employee = await _userRepository.GetEmployeeByUserId(userId);
+            if (employee == null)
+                return null;
+            employee.CardImage = await _azureStorage.DisplayPicture(employee.CardImage);
+            return employee;
         }
 
         public IEnumerable<RoleModelRq> GetRoleByUser(Guid userId)

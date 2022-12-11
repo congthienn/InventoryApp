@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { BranchService } from '../../branch/branch.service';
 import { CustomerOrderService } from '../../customer-order/service/customer-order.service';
@@ -87,7 +88,8 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
     private customerOrderService: CustomerOrderService,
     private userService: UserService,
     private shipmentService: ShipmentService,
-    private inventoryDeliveryVoucherService: InventoryDeliveryVoucherService
+    private inventoryDeliveryVoucherService: InventoryDeliveryVoucherService,
+    private authService: AuthService
     ) { 
     this.inventoryDeliveryVoucherDetail = {} as InventoryDeliveryVoucherDetail;
     this.inventoryDeliveryVoucher = {} as InventoryDeliveryVoucher;
@@ -180,7 +182,8 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
       this.loadData = false;
       document.body.style.overflow = '';
     },

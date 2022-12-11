@@ -1,0 +1,140 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="invoice">
+            <!-- begin invoice-company -->
+            <div class="invoice-company text-inverse f-w-600">
+                <div style="display: flex;align-items: center;column-gap: 10px;">
+                    <div class="logo-lg">
+                        <img src="assets\images\logo-dark.png" alt="" height="18">
+                    </div>
+                    <div style="position: relative;top: 4px;">{{company.companyName}} - Phiếu trả hàng</div>
+                </div>
+            </div>
+            <!-- end invoice-company -->
+            <!-- begin invoice-header -->
+            <form [formGroup]="addReturnedMaterialForm" (ngSubmit)="addReturnedMaterial()">
+                <div class="invoice-header" style="display: flex;column-gap: 100px;">
+                    <div>
+                        <small>Thông tin đơn hàng</small>
+                        <div><span style="font-weight: 600;">{{order.code}}</span></div>
+                        <div>
+                            Thanh toán: <span style="font-weight: 600;">{{paidString}}</span>
+                        </div>
+                        <div>
+                            Trạng thái: <span style="font-weight: 600;">Đã giao hàng</span>
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <small>Khách hàng</small>
+                        <address class="m-t-5 m-b-5">
+                            <strong class="text-inverse">{{order.customer.customerName}}</strong><br>
+                            Phone: {{order.customer.phoneNumber}}<br>
+                            Fax: {{order.customer.fax}}
+                        </address>
+                    </div>
+                    <div class="invoice-content" style="width: 250px;">
+                        <div class="invoice-price">
+                            <div class="invoice-price-right">
+                                <small>TỔNG GIÁ TRỊ </small> <span>{{ order.priceTotal | currency:'VND':'symbol'
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:10px">
+                    <label for="name">Lý do trả hàng<span class="text-danger">*</span></label>
+                    <quill-editor [modules]="modules" [(ngModel)]="reason" (keyup)="changeReason()"
+                        [ngModelOptions]="{standalone: true}"></quill-editor>
+                </div>
+                <div class="form-group">
+                    <div class="mt-3" style="display: flex;column-gap: 20px;">
+                        <label for="fax">Hình thức đổi trả<span class="text-danger">*</span></label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" value="true" id="customRadio1" name="formula"
+                                class="custom-control-input" formControlName="formula">
+                            <label class="custom-control-label text-xs" for="customRadio1">Hoàn tiền</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" value="false" id="customRadio2" name="formula"
+                                class="custom-control-input" formControlName="formula">
+                            <label class="custom-control-label text-xs" for="customRadio2">Đổi sản phẩm mới</label>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="addReturnedMaterialDetailForm" (ngSubmit)="addReturnedMaterialDetail()">
+                    <div style="display:flex;column-gap: 20px;align-items: center;">
+                        <div class="specialFormGroup inputOrderDetail" style="width: 380px;">
+                            <label for="categoryMaterial">Sản phẩm trả<span class="text-danger">*</span></label>
+                            <div>
+                                <ng-select2 aria-required="true" value="" (valueChanged)="changeMaterialValue($event)"
+                                    [data]="materialList"></ng-select2>
+                                <input type="text" class="specialInput" id="materialId">
+                            </div>
+                        </div>
+                        <div class="specialFormGroup inputOrderDetail" style="position: relative;top:1px">
+                            <label for="name">Số lượng trong đơn hàng<span class="text-danger">*</span></label>
+                            <input type="number" name="nick" parsley-trigger="change" readonly min="0"
+                                class="form-control" formControlName="quantityInOrder" id="name">
+                            <input type="text" class="specialInput">
+                        </div>
+                        <div class="specialFormGroup inputOrderDetail" style="position: relative;top:1px">
+                            <label for="name">Số lượng trả lại<span class="text-danger">*</span></label>
+                            <input type="number" name="nick" parsley-trigger="change" min="0" formControlName="quantity"
+                                class="form-control" id="name">
+                            <input type="text" class="specialInput" id="quantityRequest">
+                        </div>
+                        <div class="specialFormGroup" style="position:relative;top:4px;">
+                            <button type="submit" [disabled]="!addReturnedMaterialDetailForm.valid"
+                                class="btn btn-primary waves-effect waves-light mr-1">
+                                <i class="fa fa-plus-circle"></i> Thêm <span class=""></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div>
+                    <div class="card-body table-responsive">
+                        <h4 class="m-t-0 header-title mb-4">
+                            <b>Chi tiết phiếu trả hàng</b>
+                            <span style="padding-left: 5px;font-size: 16px;color:#3bc0c3" class="btnAdd">
+                                <i class="icon-refresh" style="font-weight: 500;"></i>
+                            </span>
+                        </h4>
+                        <span (click)="onRemoveSelected()" class="btn btn-sm btn-danger waves-effect waves-light mr-1">
+                            Xóa sản phẩm <span class=""></span>
+                        </span>
+                        <ag-grid-angular style="width: 100%;height: 500px;" class="ag-theme-alpine mt-1"
+                            [rowData]="dataRow" [defaultColDef]="defaultColDef" [columnDefs]="columnDefs"
+                            [alwaysShowHorizontalScroll]="true" [alwaysShowVerticalScroll]="true"
+                            [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+                            [paginationPageSize]="sizePagination" (gridReady)="onGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+                <div class="specialFormGroup" style="position:relative;top:-10px;">
+                    <button type="submit" [disabled]="!addReturnedMaterialForm.valid"
+                        class="btn btn-primary waves-effect waves-light mr-1">
+                        Tạo phiếu trả hàng <span class=""></span>
+                    </button>
+                    <button type="submit" (click)="activeModal.close()"
+                        class="btn btn-secondary waves-effect waves-light mr-1">
+                        Hủy bỏ
+                    </button>
+                </div>
+            </form>
+            <div class="invoice-footer">
+                <p class="text-center m-b-5">
+                </p>
+                <p class="text-center">
+                    <span><i class="fa fa-fw fa-lg fa-globe"></i>{{company.companyName}}</span>
+                    <span style="margin: 0 15px;"><i
+                            class="fa fa-fw fa-lg fa-phone-volume"></i>{{company.phoneNumber}}</span>
+                    <span><i class="fa fa-fw fa-lg fa-envelope"></i>{{company.email}} </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loadData" class="containerLoader">
+    <div class="loader"></div>
+</div>

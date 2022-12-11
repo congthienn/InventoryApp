@@ -23,6 +23,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public int PriceTotal { get; private set; }
         public int Prepayment { get; set; }
         public bool Paid { get; set; }
+        public string DeliveryAddress { get; set; }
+        public ReturnedMaterialModel ReturnedMaterial { get; set; }
     }
     public class OrderModelValidator : AbstractValidator<OrderModel>
     {
@@ -31,6 +33,7 @@ namespace InventoryApp.Infrastructures.Models.DTO
             RuleFor(p=>p.CustomerId).NotEmpty();
             RuleFor(p=>p.BranchId).NotEmpty();
             RuleFor(p => p.OrderDate).NotEmpty();
+            RuleFor(p => p.DeliveryAddress).NotEmpty();
         }
     }
 }

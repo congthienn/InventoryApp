@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { AddWarehouseComponent } from '../add-warehouse/add-warehouse.component';
@@ -49,8 +50,9 @@ export class WarehouseListComponent implements OnInit {
   constructor(private warehouseService: WarehouseService, 
     private title: Title, 
     public sweetalertService: SweetalertService,
+    private authService: AuthService,
     private modalService: NgbModal) {}
-
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   ngOnInit(): void {
     this.title.setTitle("Kho hàng");
     this.Title = "Quản lý kho hàng";
@@ -68,12 +70,14 @@ export class WarehouseListComponent implements OnInit {
               "code": element.code, 
               "name": element.name, 
               "branch": element.branch.companyName,
+              "branchId": element.branch.id,
               "maximumCapacity": `${element.maximumCapacity} sản phẩm`,
               "blank":  `${element.blank} sản phẩm`,
             }
             dataRowTemp.push(data);
         });
-        this.dataRow = dataRowTemp;
+        var branchs: unknown[] = this.authService.decodeToken().Branch;
+        this.dataRow = dataRowTemp.filter(item => branchs.includes(item.branchId));
         this.loadData = false;
         document.body.style.overflow = '';
       },

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../branch/branch.service';
 import { ButtonShipmentStatusComponent } from './button-shipment-status/button-shipment-status.component';
 import { MaterialShipment } from './model/material-shipment';
 import { ShipmentService } from './service/shipment.service';
@@ -14,6 +17,7 @@ import { ShipmentService } from './service/shipment.service';
 export class ShipmentComponent implements OnInit {
   dataRow: any[] = [];
   columnDefs : any[]= [];
+  branchList!: Array<Select2OptionData>;
   materialShipment: MaterialShipment[]= [];
   public rowSelection: 'single' | 'single' = 'single';
   public pageTite : PageTitle[] = [
@@ -44,19 +48,47 @@ export class ShipmentComponent implements OnInit {
     paginationPageSize: 10
   };
   constructor(private title: Title,
-    private shipmentService: ShipmentService
+    private shipmentService: ShipmentService,
+    private branchService: BranchService,
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
     this.title.setTitle("Lô hàng");
     this.Title = "Quản lý lô hàng";
     this.updateColumnDefs();
-    this.getAllShipment();
+    this.getBranchData();
   }
-  public getAllShipment(){
+  getBranchData(){
     document.body.style.overflow = 'hidden';
-    this.shipmentService.getAllShipments().subscribe(
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.getAllShipment(branchId);
+  }
+  public getAllShipment(branchId:any){
+    document.body.style.overflow = 'hidden';
+    this.shipmentService.GetAllShipmentHasProductByBranchId(branchId).subscribe(
       response =>{
+        console.log(response)
         this.materialShipment = response;
         var dataRowTemp: any[]= [];
         this.materialShipment.forEach(element => {
@@ -74,6 +106,7 @@ export class ShipmentComponent implements OnInit {
             dataRowTemp.push(data);
         });
         this.dataRow = dataRowTemp;
+        console.log(dataRowTemp)
         this.loadData = false;
         document.body.style.overflow = '';
       },

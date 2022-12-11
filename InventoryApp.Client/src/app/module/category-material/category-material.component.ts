@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ActionButtonComponent } from './action-button/action-button.component';
 import { AddCategoryMaterialComponent } from './add-category-material/add-category-material.component';
 import { CategoryMaterialService } from './service/category-material.service';
@@ -28,7 +29,10 @@ export class CategoryMaterialComponent implements OnInit {
 
 	constructor(public activeModal: NgbActiveModal, 
     private modalService: NgbModal, 
-    private categoryMaterialService: CategoryMaterialService) {}
+    private categoryMaterialService: CategoryMaterialService,
+    private authService: AuthService
+    ) {}
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   ngOnInit(): void {
     this.columnDefs  =  [
       { field: "name", headerName:"LOẠI SẢN PHẨM",width:400, cellStyle: {fontWeight: '500'}}, 

@@ -16,12 +16,21 @@ namespace InventoryApp.Application.Controllers
             _materialCategoryService = materialCategoryService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IEnumerable<MaterialCategoryModelRq> GetAllCategory()
         {
             return _materialCategoryService.GetAllCategory();
         }
+        [AllowAnonymous]
+        [Route("GetMaterialCategoryById/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetMaterialCategoryById(Guid id)
+        {
+            return Ok(await _materialCategoryService.GetMaterialCategoryById(id));
+        }
 
+        
         [HttpPost]
         public async Task<IActionResult> AddMaterialCategory([FromBody]MaterialCategoryModelRq model)
         {
@@ -62,11 +71,13 @@ namespace InventoryApp.Application.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [AllowAnonymous]
         [Route("{categoryId}/GetAllMaterials")]
         [HttpGet]
-        public IEnumerable<ShowMaterialModel> GetAllMaterialByCategoryId(Guid categoryId)
+        public async Task<IActionResult> GetAllMaterialByCategoryId(Guid categoryId)
         {
-            return _materialCategoryService.GetAllMaterialByCategoryId(categoryId);
+            return Ok(await _materialCategoryService.GetAllMaterialByCategoryId(categoryId));
         }
 
         [Route("{categoryId}/GetAllMaterialAttribute")]

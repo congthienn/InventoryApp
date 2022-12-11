@@ -2,6 +2,7 @@
 using InventoryApp.Common.Helper;
 using InventoryApp.Data.Helper;
 using InventoryApp.Data.Models;
+using InventoryApp.Domain.Azure;
 using InventoryApp.Infrastructures;
 using InventoryApp.Infrastructures.Interfaces.Repositories;
 using InventoryApp.Infrastructures.Interfaces.Services;
@@ -22,12 +23,14 @@ namespace InventoryApp.Domain.Services
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMaterialCategoryRepository _materialCategoryRepository;
-        public MaterialCategoryService(ILogger<MaterialCategoryService> logger, IMapper mapper)
+        private readonly IAzureStorage _azureStorage;
+        public MaterialCategoryService(ILogger<MaterialCategoryService> logger, IMapper mapper, IAzureStorage azureStorage)
         {
             _logger = logger;
             _mapper = mapper;
             _unitOfWork = new UnitOfWork();
             _materialCategoryRepository = new MaterialCategoryRepository(_unitOfWork);
+            _azureStorage = azureStorage;
         }
         public async Task<MaterialCategoryModelRq> AddMaterialCategory(MaterialCategoryModelRq model, UserIdentity userIdentity)
         {
@@ -69,7 +72,7 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<MaterialCategoryModelRq> GetAllCategory()
         {
-            return _mapper.Map<IEnumerable<MaterialCategoryModelRq>>(_materialCategoryRepository.Get());
+            return _mapper.Map<IEnumerable<MaterialCategoryModelRq>>(_materialCategoryRepository.Get().OrderBy(x=>x.CreatedDate));
         }
 
         public IEnumerable<MaterialAttributeModel> GetAllMaterialAttributeByCategoryId(Guid categoryId)
@@ -77,9 +80,20 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<IEnumerable<MaterialAttributeModel>>(_materialCategoryRepository.GetAllMaterialAttributeByCategoryId(categoryId));
         }
 
-        public IEnumerable<ShowMaterialModel> GetAllMaterialByCategoryId(Guid categoryId)
+        public async Task<IEnumerable<ShowMaterialModel>> GetAllMaterialByCategoryId(Guid categoryId)
         {
-            return _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialCategoryRepository.GetAllMaterialByCategoryId(categoryId));
+            IEnumerable<ShowMaterialModel> materialModels = _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialCategoryRepository.GetAllMaterialByCategoryId(categoryId));
+            foreach(var item in materialModels)
+                foreach (var picture in item.Pictures)
+                {
+                    picture.PictureURL =  await _azureStorage.DisplayPicture(picture.PictureURL);
+                }
+           return materialModels;
+        }
+
+        public async Task<MaterialCategoryModelRq> GetMaterialCategoryById(Guid id)
+        {
+            return _mapper.Map<MaterialCategoryModelRq>(await _materialCategoryRepository.GetByID(id));
         }
 
         public async Task<MaterialCategoryModelRq> UpdateMaterialCategory(Guid id, MaterialCategoryModelRq model, UserIdentity userIdentity)

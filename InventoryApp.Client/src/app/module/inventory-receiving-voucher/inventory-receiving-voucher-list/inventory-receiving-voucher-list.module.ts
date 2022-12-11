@@ -5,6 +5,7 @@ import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.modu
 import { RouterModule } from '@angular/router';
 import { AgGridModule } from 'ag-grid-angular';
 import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({ 
   declarations: [
@@ -12,7 +13,7 @@ import { ActionButtonViewDetailComponent } from './action-button-view-detail/act
     ActionButtonViewDetailComponent
   ],
   imports: [
-    CommonModule, PageTitleModule, AgGridModule, RouterModule
+    CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module  
   ],
   exports: [InventoryReceivingVoucherListComponent]
 })

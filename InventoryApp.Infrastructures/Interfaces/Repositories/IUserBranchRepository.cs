@@ -12,5 +12,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         IEnumerable<string> GetAllUsersOfTheBranch(Guid branchId);
         IEnumerable<string> GetAllBranchOfTheUser(Guid userId);
+        IEnumerable<Guid> GetAllBranchByUserId(Guid userId);
     }
 }

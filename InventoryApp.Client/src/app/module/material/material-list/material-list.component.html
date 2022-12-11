@@ -20,8 +20,14 @@
           </div>
           <label class="col-form-label">phần tử</label>
         </div>
-        <button routerLink="/san-pham/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
+        <button *ngIf="enableButton" routerLink="/san-pham/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
           <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm sản phẩm
+        </button>
+        <button (click)="openModalCategoryMaterial()"  type="reset"class="btn btn-secondary waves-effect waves-light mr-1">
+          <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-eye"></i></span> Loại sản phẩm
+        </button>
+        <button (click)="openModalTrademark()"  type="reset"class="btn btn-secondary waves-effect waves-light mr-1">
+          <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-eye"></i></span> Thương hiệu
         </button>
       </div>  
     <ag-grid-angular

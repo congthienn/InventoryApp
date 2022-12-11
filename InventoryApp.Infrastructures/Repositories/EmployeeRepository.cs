@@ -21,6 +21,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return _dbSet.Include(x => x.Branch).Include(x => x.Province).Include(x => x.District).Include(x => x.Ward).OrderByDescending(x=>x.CreatedDate);
         }
 
+        public IEnumerable<Employee> GetEmployeeByBranchId(Guid branchId)
+        {
+            return _dbSet.Include(x => x.Branch).Include(x => x.Province).Include(x => x.District).Include(x => x.Ward).Where(x=>x.BranchId == branchId).OrderByDescending(x => x.CreatedDate);
+        }
+
         public async Task<Employee> GetEmployeeById(Guid employeeId)
         {
             return await _dbSet.Include(x => x.Branch).Include(x => x.Province).Include(x => x.District).Include(x => x.Ward).FirstOrDefaultAsync();

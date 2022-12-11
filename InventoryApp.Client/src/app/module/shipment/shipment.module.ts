@@ -7,6 +7,7 @@ import { AddShipmentModule } from './add-shipment/add-shipment.module';
 import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { ButtonShipmentStatusComponent } from './button-shipment-status/button-shipment-status.component';
+import { NgSelect2Module } from 'ng-select2';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ButtonShipmentStatusComponent } from './button-shipment-status/button-s
     ShipmentRoutingModule,
     AddShipmentModule,
     PageTitleModule, 
-    AgGridModule
+    AgGridModule,
+    NgSelect2Module,
   ],
   exports:[ShipmentComponent]
 })

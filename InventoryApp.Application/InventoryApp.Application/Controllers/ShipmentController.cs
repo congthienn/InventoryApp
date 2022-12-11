@@ -58,6 +58,14 @@ namespace InventoryApp.Application.Controllers
             return _shipmentService.GetAllShipmentsByBranchId(branchId);
         }
 
+        [Route("GetAllShipmentHasProductByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<MaterialShipment> GetAllShipmentHasProductByBranchId(Guid branchId)
+        {
+            return _shipmentService.GetAllShipmentHasProductByBranchId(branchId);
+        }
+        
+
         [HttpDelete("{shipmentId}")]
         public async Task<IActionResult> DeleteShipment(string shipmentId)
         {

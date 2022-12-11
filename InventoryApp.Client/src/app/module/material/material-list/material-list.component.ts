@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import { Branch } from '../../branch/model/branch';
+import { CategoryMaterialComponent } from '../../category-material/category-material.component';
+import { TrademarkComponent } from '../../trademark/trademark.component';
 import { Material } from '../model/material';
 import { MaterialService } from '../service/material.service';
 import { ActionButtonMaterialComponent } from './action-button-material/action-button-material.component';
@@ -47,8 +51,11 @@ export class MaterialListComponent implements OnInit {
     paginationPageSize: 10
   };
 
-  constructor(private title: Title, private materialService: MaterialService) { }
-
+  constructor(private title: Title, 
+    private materialService: MaterialService, 
+    private modalService: NgbModal, 
+    private authService: AuthService) { }
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   ngOnInit(): void {
     this.title.setTitle("Sản phẩm");
     this.Title = "Quản lý sản phẩm";
@@ -107,6 +114,12 @@ export class MaterialListComponent implements OnInit {
       error => {
         this.loadData = true;
       })
+  }
+  openModalTrademark(){
+    this.modalService.open(TrademarkComponent);
+  }
+  openModalCategoryMaterial(){
+    this.modalService.open(CategoryMaterialComponent);
   }
   onPageSizeChanged() {
     var text = (<HTMLInputElement>document.getElementById('page-size')).value;

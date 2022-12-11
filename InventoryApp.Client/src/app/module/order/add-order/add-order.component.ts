@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
@@ -75,7 +76,8 @@ export class AddOrderComponent implements OnInit {
     private supplierService: SupplierService, private materialCategoryService: CategoryMaterialService,
     private materialService: MaterialService,
     private sweetalertService : SweetalertService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private authService : AuthService,
     ) { 
     this.orderDetailValue = {} as OrderDetail;
     this.order = {} as Order;
@@ -146,7 +148,8 @@ export class AddOrderComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
       this.loadData = false;
       document.body.style.overflow = '';
     },

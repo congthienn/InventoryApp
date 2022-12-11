@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridOptions } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../../branch/branch.service';
 import { BtnCellRenderer } from '../../share/ag-grid-button/ag-grid-button.component';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { Employee } from '../model/employee';
@@ -18,6 +21,8 @@ export class EmployeeListComponent implements OnInit {
 
   public Title = '';
   public loadData = true;
+  branchList!: Array<Select2OptionData>;
+  branchId!: string;
   dataRow: any[] = [];
   columnDefs : any[]= [];
   employeeData: Employee[] = [];
@@ -47,13 +52,18 @@ export class EmployeeListComponent implements OnInit {
     paginationPageSize: 10
   };
 
-  constructor(private employeeService: EmployeeService, private title: Title, public sweetalertService: SweetalertService) {}
+  constructor(private employeeService: EmployeeService, 
+    private title: Title, 
+    public sweetalertService: SweetalertService,
+    private branchService: BranchService,
+    private authService: AuthService
+    ) {}
 
   ngOnInit(): void {
     this.title.setTitle("Nhân viên");
     this.Title = "Quản lý thông tin nhân viên";
     this.updateColumnDefs();
-    this.getAllEmployee();
+    this.getBranchData();
   }
 
   private updateColumnDefs() {
@@ -79,9 +89,36 @@ export class EmployeeListComponent implements OnInit {
     ];
   }
 
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+      this.branchId = branchId;
+    this.getAllEmployee();
+  }
   getAllEmployee(){ 
     document.body.style.overflow = 'hidden';
-    this.employeeService.getAllEmployee().subscribe(
+    this.employeeService.getEmployeeByBranchId(this.branchId).subscribe(
       response =>{
         this.employeeData = response;
         console.log(response)

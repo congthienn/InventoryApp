@@ -53,13 +53,13 @@ export class AddMaterialComponent implements OnInit {
       ['clean']
     ]
   };
-    files: File[] = [];
+  files: File[] = [];
   addMaterialForm!:FormGroup;
   material: Material;
   categoryMaterialList!: Array<Select2OptionData>;
   trademarkList!: Array<Select2OptionData>;
   constructor(private title:Title,
-     private modalService: NgbModal,
+    private modalService: NgbModal,
     private categoryMaterialService : CategoryMaterialService ,
     private trademarkService : TrademarkService,
     private materialService : MaterialService,

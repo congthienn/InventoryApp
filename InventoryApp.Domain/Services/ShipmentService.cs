@@ -68,6 +68,11 @@ namespace InventoryApp.Domain.Services
             return _shipmentRepository.GetAllShipmentByMaterialIdAndBranchId(materialId, branchId);
         }
 
+        public IEnumerable<MaterialShipment> GetAllShipmentHasProductByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<MaterialShipment>>(_shipmentRepository.GetAllShipmentHasProductByBranchId(branchId));
+        }
+
         public IEnumerable<ShipmentModelRq> GetAllShipments()
         {
             return _mapper.Map<IEnumerable<ShipmentModelRq>>(_shipmentRepository.Get());

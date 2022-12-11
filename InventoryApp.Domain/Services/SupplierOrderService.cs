@@ -108,6 +108,11 @@ namespace InventoryApp.Domain.Services
             return _mapper.Map<SupplierOrderModel>(await _supplierOrderRepository.GetSupplierOrderByCode(code));
         }
 
+        public IEnumerable<SupplierOrderModel> GetSupplierOrderListByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetSupplierOrderListByBranchId(branchId));
+        }
+
         public async Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code, UserIdentity userIdentity)
         {
             try

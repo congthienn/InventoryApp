@@ -12,6 +12,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         Task<string> GetLastCode();
         IEnumerable<Order> GetAllOrderByBranchId(Guid branchId);
+        IEnumerable<Order> GetOrderListByBranchId(Guid branchId);
         IEnumerable<Materials> GetAllMaterialOrderByOrderId(int orderId);
         IEnumerable<Order> GetAllOrders();
         Task<Order> GetOrderByCode(string code);

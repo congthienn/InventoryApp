@@ -20,7 +20,7 @@
                         <label for="categoryMaterial">Loại sản phẩm <span class="text-danger">*</span></label>         
                         <div>
                             <ng-select2 aria-required="true" [data]="categoryMaterialList" (valueChanged)="changCategoryMaterialValue($event)"></ng-select2>
-                            <div class="feedback" *ngIf="categoryMaterialId?.errors?.['required'] && (categoryMaterialId?.touched)">Nhóm khách hàng không được để trống</div>
+                            <div class="feedback" *ngIf="categoryMaterialId?.errors?.['required'] && (categoryMaterialId?.touched)">Loại sản phẩm không được để trống</div>
                             <input type="text" class="specialInput" formControlName="categoryMaterialId" id="categoryMaterialId"> 
                         </div>      
                     </div>
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label for="name">Chi tiết sản phẩm<span class="text-danger">*</span></label>
                         <quill-editor [modules]="modules" [(ngModel)]="description" [ngModelOptions]="{standalone: true}" (keyup)="changeDetailedDescription()" name="detailedDescription"></quill-editor>
-                        <div class="feedback" *ngIf="detailedDescription?.errors?.['required'] && (detailedDescription?.touched)">Nhóm khách hàng không được để trống</div>
+                        <div class="feedback" *ngIf="detailedDescription?.errors?.['required'] && (detailedDescription?.touched)">Chi tiết sản phẩm không được để trống</div>
                         <input type="text" class="specialInput" formControlName="detailedDescription" id="detailedDescription"> 
                     </div>
                 </div>

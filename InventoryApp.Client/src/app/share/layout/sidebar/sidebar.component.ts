@@ -25,7 +25,6 @@ export const ROUTES: RouteInfo[] = [
     roleAccess: true,
     children: [
       { path: '', title:'Danh sách'},
-      { path: 'them-moi', title:'Thêm mới'},
       { path: 'vi-tri', title:'Vị trí sản phẩm'},
     ],
   },
@@ -84,19 +83,19 @@ export const ROUTES: RouteInfo[] = [
       { path: '',title: 'Danh sách'},
     ],
   },
-  {
-    path: 'bao-cao',
-    title: 'Báo cáo',
-    icontype: faBook,
-    collapse: 'report',
-    roleAccess: true,
-    children: [
-      { path: 'tai-chinh',title: 'Tài chính'},
-      { path: 'ban-hang', title: 'Bán hàng'},
-      { path: 'khach-hang',title: 'Khách hàng'},
-      { path: 'nha-cung-cap',title: 'Nhà cung cấp'},
-    ],
-  },
+  // {
+  //   path: 'bao-cao',
+  //   title: 'Báo cáo',
+  //   icontype: faBook,
+  //   collapse: 'report',
+  //   roleAccess: true,
+  //   children: [
+  //     { path: 'tai-chinh',title: 'Tài chính'},
+  //     { path: 'ban-hang', title: 'Bán hàng'},
+  //     { path: 'khach-hang',title: 'Khách hàng'},
+  //     { path: 'nha-cung-cap',title: 'Nhà cung cấp'},
+  //   ],
+  // },
   {
     path: 'chi-nhanh',
     title: 'Chi nhánh',
@@ -104,8 +103,7 @@ export const ROUTES: RouteInfo[] = [
     collapse: 'managerBranch',
     roleAccess: true,
     children: [
-      { path: '',title: 'Danh sách'},
-      { path: 'them-moi', title: 'Thêm mới'},
+      { path: '',title: 'Danh sách'}
     ],
   },
   {
@@ -116,20 +114,19 @@ export const ROUTES: RouteInfo[] = [
     roleAccess: true,
     children: [
       { path: '',title: 'Danh sách'},
-      { path: 'tai-khoan',title: 'Quản lý tài khoản'},
     ],
   },
-  {
-    path: 'chuc-vu-vai-tro',
-    title: 'Chức vụ - Vai trò',
-    icontype: faUserSecret,
-    collapse: 'role',
-    roleAccess: true,
-    children: [
-      { path: 'danh-sach',title: 'Danh sách'},
-      { path: 'phan-quyen', title: 'Phân quyền'},
-    ],
-  },
+  // {
+  //   path: 'chuc-vu-vai-tro',
+  //   title: 'Chức vụ - Vai trò',
+  //   icontype: faUserSecret,
+  //   collapse: 'role',
+  //   roleAccess: true,
+  //   children: [
+  //     { path: 'danh-sach',title: 'Danh sách'},
+  //     { path: 'phan-quyen', title: 'Phân quyền'},
+  //   ],
+  // },
   {
     path: 'cai-dat-chung',
     title: 'Cài đặt chung',
@@ -138,7 +135,7 @@ export const ROUTES: RouteInfo[] = [
     roleAccess: true,
     children: [
       { path: 'thong-tin-cong-ty',title: 'Thông tin công ty'},
-      { path: 'mau-email-chung', title: 'Mẫu email chung'},
+      // { path: 'mau-email-chung', title: 'Mẫu email chung'},
     ],
   },
 ]

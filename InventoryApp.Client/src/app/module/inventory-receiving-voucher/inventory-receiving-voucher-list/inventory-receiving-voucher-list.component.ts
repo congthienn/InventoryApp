@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridApi, ColDef, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../../branch/branch.service';
 import { Order } from '../../order/model/order';
 
 import { OrderService } from '../../order/service/order.service';
@@ -20,8 +23,10 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
 
   public Title = '';
   private gridApi!: GridApi;
+  branchId!:string;
   public rowSelection: 'single' | 'single' = 'single';
   public loadData = true;
+  branchList!: Array<Select2OptionData>;
   dataRow: any[] = [];
   columnDefs : any[]= [];
   orderData: Order[] = [];
@@ -59,15 +64,15 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
   constructor(private orderService: OrderService, 
         private title: Title, 
         private inventoryReceivingVoucherService : InventoryReceivingVoucherService,
-        private sweetalertService: SweetalertService,
-        private modalService: NgbModal
+        private authService: AuthService,
+        private branchService: BranchService,
   ) {}
 
   ngOnInit(): void {
     this.title.setTitle("Phiếu nhập kho");
     this.Title = "Quản lý phiếu nhập kho";
     this.updateColumnDefs();
-    this.getInventoryReceivingVoucher();
+    this.getBranchData();
   }
 
   getInventoryReceivingVoucher(){
@@ -75,6 +80,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
       this.inventoryReceivingVoucherService.getInventoryReceivingVoucher().subscribe(
         response =>{
         this.inventoryReceivingVoucher = response;
+        this.inventoryReceivingVoucher = this.inventoryReceivingVoucher.filter(item => item.branchRequestId == this.branchId);
         var dataRowTemp: any[]= [];
         this.inventoryReceivingVoucher.forEach(element => {
           var date = new Date(element.goodsImportDate);
@@ -83,6 +89,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
             "code":element.code,
             "supplier": element.supplierOrder.supplier.supplierName, 
             "branchRequest": element.branchRequest.companyName,
+            "branchId": element.branchRequest.id,
             "warehouse": element.warehouse.name, 
             "priceTotal": element.code,
             "supplierOrder":element.supplierOrder.code,
@@ -90,7 +97,8 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
             }
             dataRowTemp.push(data);
         });
-        this.dataRow = dataRowTemp;
+        var branchs: unknown[] = this.authService.decodeToken().Branch;
+        this.dataRow = dataRowTemp.filter(item => branchs.includes(item.branchId));
         this.loadData = false;
         document.body.style.overflow = '';
       },
@@ -98,7 +106,32 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
         this.loadData = true;
       })
   }
-
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.branchId = branchId;
+    this.getInventoryReceivingVoucher();
+  }
   
   private updateColumnDefs() {
     this.columnDefs  =  [ 

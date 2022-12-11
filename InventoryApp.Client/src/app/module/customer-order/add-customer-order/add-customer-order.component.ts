@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
 import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
 import Swal from 'sweetalert2';
 import { BranchService } from '../../branch/branch.service';
@@ -11,6 +12,7 @@ import { CategoryMaterialService } from '../../category-material/service/categor
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { Material } from '../../material/model/material';
 import { MaterialService } from '../../material/service/material.service';
+import { ProvinceService } from '../../province/province.service';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { CustomerOrder } from '../model/customer-order';
 import { CustomerOrderDetail } from '../model/customer-order-detail';
@@ -51,6 +53,9 @@ export class AddCustomerOrderComponent implements OnInit {
   supplierList!: Array<Select2OptionData>;
   categoryList!:Array<Select2OptionData>;
   materialList!:Array<Select2OptionData>;
+  provinceList!: Array<Select2OptionData>;
+  districtList!: Array<Select2OptionData>;
+  wardList!: Array<Select2OptionData>;
   addOrderDetailForm!:FormGroup;
   addOrderForm!:FormGroup;
   orderDetailValue: CustomerOrderDetail;
@@ -75,7 +80,9 @@ export class AddCustomerOrderComponent implements OnInit {
     private customerService: CustomerService, private materialCategoryService: CategoryMaterialService,
     private materialService: MaterialService,
     private sweetalertService : SweetalertService,
-    private CustomerOrderService: CustomerOrderService
+    private CustomerOrderService: CustomerOrderService,
+    private provinceService: ProvinceService,
+    private authService: AuthService
     ) { 
     this.orderDetailValue = {} as CustomerOrderDetail;
     this.order = {} as CustomerOrder;
@@ -86,6 +93,7 @@ export class AddCustomerOrderComponent implements OnInit {
     this.updateColumnDefs();
     this.getBranchData();
     this.getMaterialCategory();
+    this.getProvinceList();
     this.addOrderDetailForm = new FormGroup({
       materialId: new FormControl(this.orderDetailValue.materialId,[Validators.required]),
       quantityRequest: new FormControl(this.orderDetailValue.quantityRequest,[Validators.required, Validators.min(1)]),
@@ -98,6 +106,11 @@ export class AddCustomerOrderComponent implements OnInit {
       paid: new FormControl(this.order.paid,[Validators.required]),
       orderDate: new FormControl(this.order.orderDate),
       orderDetail: new FormControl(this.order.orderDetail, [Validators.required]),
+      provinceId: new FormControl(this.order.provinceId, Validators.required),
+      districtId: new FormControl(this.order.districtId, Validators.required),
+      wardId: new FormControl(this.order.wardId, Validators.required),
+      address: new FormControl(this.order.address, Validators.required),
+      deliveryAddress: new FormControl(this.order.address)
     });
   }
   get materialId() { return this.addOrderDetailForm.get('materialId'); }
@@ -109,6 +122,10 @@ export class AddCustomerOrderComponent implements OnInit {
   get prepayment() { return this.addOrderForm.get('prepayment'); }
   get paid() { return this.addOrderForm.get('paid'); }
   get orderDetail() { return this.addOrderForm.get('orderDetail'); }
+  get provinceId() { return this.addOrderForm.get('provinceId'); }
+  get districtId() { return this.addOrderForm.get('districtId'); }
+  get wardId() { return this.addOrderForm.get('wardId'); }
+  get address() { return this.addOrderForm.get('address'); }
   private updateColumnDefs() {
     this.columnDefs  =  [
       { field: "code", headerName:"MÃ SẢN PHẨM",cellStyle: {fontWeight: '500'}}, 
@@ -139,6 +156,36 @@ export class AddCustomerOrderComponent implements OnInit {
     this.addOrderForm.patchValue({orderDetail: this.dataRow });
     document.getElementById("orderDetail")?.focus();
   }
+  getProvinceList(){
+    this.provinceService.getProvinceList().subscribe(response => { 
+        this.provinceList = response;
+    })
+  }
+  getDistrictList(provinceId:string){
+    this.provinceService.getDistrictList(provinceId).subscribe(response => {
+        this.districtList = response;
+    })
+  }
+  getWardtList(districtId:string){
+    this.provinceService.getWardList(districtId).subscribe(response => {
+        this.wardList = response;
+    })
+  }
+  changeProvinceValue(data: any){
+    if(data == undefined)
+      return;
+    this.addOrderForm.patchValue({provinceId: data != 'null' ? data : null});
+    this.getDistrictList(data); 
+  }
+  changeDistrictValue(data: any){
+    this.addOrderForm.patchValue({districtId: data != 'null' ? data : null});
+    document.getElementById("district")?.focus();
+    this.getWardtList(data == undefined ? "2022" : data);
+  }
+  changeWardValue(data: any){
+    this.addOrderForm.patchValue({wardId: data != 'null' ? data : null});
+    document.getElementById("ward")?.focus();
+  }
   getBranchData(){
     document.body.style.overflow = 'hidden';
     var tempData: { id: string; text: string; }[] = [];
@@ -150,7 +197,8 @@ export class AddCustomerOrderComponent implements OnInit {
         }
         tempData.push(data);
       });
-      this.branchList = tempData;
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
       this.loadData = false;
       document.body.style.overflow = '';
     },
@@ -318,6 +366,17 @@ export class AddCustomerOrderComponent implements OnInit {
     this.submitData = true;
     var dateNow = new Date(Date.now());
     this.addOrderForm.patchValue({orderDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
+    
+    var provinceId = this.addOrderForm.get('provinceId')?.value;
+    var districtId = this.addOrderForm.get('districtId')?.value;
+    var wardId = this.addOrderForm.get('wardId')?.value;
+    var address = this.addOrderForm.get('address')?.value;
+    var provinceName = this.provinceList.filter(x=>x.id == provinceId)[0].text;
+    var districtName = this.districtList.filter(x=>x.id == districtId)[0].text;
+    var wardName = this.wardList.filter(x=>x.id == wardId)[0].text;
+    var deliveryAddress = `${address}, ${wardName}, ${districtName}, ${provinceName}`;
+    this.addOrderForm.patchValue({deliveryAddress: deliveryAddress});
+    
     this.CustomerOrderService.addCustomerOrder(this.addOrderForm.value).subscribe(
       response => {
         this.showSuccess();

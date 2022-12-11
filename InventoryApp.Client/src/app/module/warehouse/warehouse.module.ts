@@ -18,7 +18,7 @@ import { ProductStatisticsModule } from './product-statistics/product-statistics
     WarehouseListModule,
     InventoryReceivingVoucherModule,
     InventoryDeliveryVoucherModule,
-    ProductStatisticsModule
+    ProductStatisticsModule 
   ]
 })
 export class WarehouseModule { }

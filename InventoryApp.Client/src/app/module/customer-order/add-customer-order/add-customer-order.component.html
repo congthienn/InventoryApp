@@ -1,36 +1,44 @@
 <app-page-title title={{Title}} [pageTitle]="pageTite"></app-page-title>
-<form [formGroup] = "addOrderForm" (ngSubmit)="addOrder()">
+<form [formGroup]="addOrderForm" (ngSubmit)="addOrder()">
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mb-4">From thông tin tạo đơn hàng cơ bản</h4>
                     <div class="form-group specialFormGroup">
-                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshBranchData()" class="btnAdd">
+                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshBranchData()"
+                            class="btnAdd">
                             <i class="icon-refresh" style="font-weight: 500;"></i>
                         </span>
                         <label for="categoryMaterial">Chi nhánh<span class="text-danger">*</span></label>
                         <div>
-                            <ng-select2 aria-required="true" [data]="branchList" (valueChanged)="changeBranchValue($event)"></ng-select2>
-                            <div class="feedback" *ngIf="branchId?.errors?.['required'] && (branchId?.touched)">Chọn nhà cung cấp</div>
+                            <ng-select2 aria-required="true" [data]="branchList"
+                                (valueChanged)="changeBranchValue($event)"></ng-select2>
+                            <div class="feedback" *ngIf="branchId?.errors?.['required'] && (branchId?.touched)">Chọn nhà
+                                cung cấp</div>
                             <input type="text" class="specialInput" formControlName="branchId" id="branchId">
-                        </div>  
+                        </div>
                     </div>
                     <div class="form-group specialFormGroup">
-                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshCustomerData()" class="btnAdd">
+                        <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshCustomerData()"
+                            class="btnAdd">
                             <i class="icon-refresh" style="font-weight: 500;"></i>
                         </span>
                         <label for="categoryMaterial">Khách hàng<span class="text-danger">*</span></label>
                         <div>
-                            <ng-select2 aria-required="true" (valueChanged)="changeSupplierValue($event)" [data]="supplierList"></ng-select2>
-                            <div class="feedback" *ngIf="customerId?.errors?.['required'] && (customerId?.touched)">Chọn khách hàng</div>
-                            <input type="text" class="specialInput" formControlName="customerId" id="customerId"> 
+                            <ng-select2 aria-required="true" (valueChanged)="changeSupplierValue($event)"
+                                [data]="supplierList"></ng-select2>
+                            <div class="feedback" *ngIf="customerId?.errors?.['required'] && (customerId?.touched)">Chọn
+                                khách hàng</div>
+                            <input type="text" class="specialInput" formControlName="customerId" id="customerId">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="prepayment">Tiền trả trước<span class="text-danger">*</span></label>
-                        <input type="number" name="prepayment" step="any" parsley-trigger="change" class="form-control" id="prepayment" formControlName="prepayment">
-                        <div class="feedback" *ngIf="prepayment?.errors?.['required'] && (prepayment?.touched)">Nhập số tiền trả trước</div>
+                        <input type="number" name="prepayment" step="any" parsley-trigger="change" class="form-control"
+                            id="prepayment" formControlName="prepayment">
+                        <div class="feedback" *ngIf="prepayment?.errors?.['required'] && (prepayment?.touched)">Nhập số
+                            tiền trả trước</div>
                     </div>
                     <div class="form-group">
                         <div class="mt-3" style="display: flex;column-gap: 20px;">
@@ -43,62 +51,110 @@
                             <div class="custom-control custom-radio">
                                 <input type="radio" value="false" id="customRadio2" name="paid"
                                     class="custom-control-input" formControlName="paid">
-                                <label class="custom-control-label text-xs" for="customRadio2">Chưa thanh toán đủ</label>
+                                <label class="custom-control-label text-xs" for="customRadio2">Chưa thanh toán
+                                    đủ</label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
-        <div class="col-lg-1"></div>
-        <div class="col-lg-4">
-            <div class="card-box">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-md bg-info rounded-circle">
-                            <i class="ion-logo-usd avatar-title font-26 text-white"></i>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-4">Địa chỉ nhận hàng</h4>
+                    <div class="form-group specialFormGroup">
+                        <label for="province">Thành phố (Tỉnh)<span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2  (valueChanged)="changeProvinceValue($event)" [data]="provinceList" aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="provinceId" id="province"> 
+                        </div>      
+                    </div>
+                    <div class="form-group specialFormGroup">
+                        <label for="district">Quận (Huyện)
+                            <span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2  (valueChanged)="changeDistrictValue($event)" [data]="districtList" aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="districtId" id="district">    
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="text-right">
-                            <h3 class="my-0 font-weight-bold"><span data-plugin="counterup"><div>{{ totalSale| currency:'VND':'symbol' }}</div></span></h3>
-                            <p class="mb-0 mt-1 text-truncate">Tổng số tiền cần trả</p>
+                    <div class="form-groupspecialFormGroup">
+                        <label for="ward">Phường (Xã)<span class="text-danger">*</span></label>
+                        <div>
+                            <ng-select2  (valueChanged)="changeWardValue($event)" [data]="wardList" aria-required="true"></ng-select2>
+                            <input type="text" class="specialInput" formControlName="wardId" id="ward">       
+                        </div>
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Tên đường - Số nhà<span class="text-danger">*</span></label>
+                        <div>
+                            <input type="string" class="form-control" formControlName="address" id="address">
+                            <div class="feedback" *ngIf="address?.errors?.['required'] && (address?.dirty)">Tên đường - Số nhà không được để trống</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card-box">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="avatar-md bg-warning rounded-circle">
-                            <i class="ion-md-cart avatar-title font-26 text-white"></i>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-md bg-info rounded-circle">
+                                <i class="ion-logo-usd avatar-title font-26 text-white"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="text-right">
-                            <h3 class="my-0 font-weight-bold"><span data-plugin="counterup">{{totalMaterial}}</span></h3>
-                            <p class="mb-0 mt-1 text-truncate">Tổng số sản phẩm</p>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="my-0 font-weight-bold"><span data-plugin="counterup">
+                                        <div>{{ totalSale| currency:'VND':'symbol' }}</div>
+                                    </span></h3>
+                                <p class="mb-0 mt-1 text-truncate">Tổng số tiền cần trả</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
-        <div class="col-lg-1"></div>  
+            <div class="col-6">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="avatar-md bg-warning rounded-circle">
+                                <i class="ion-md-cart avatar-title font-26 text-white"></i>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <h3 class="my-0 font-weight-bold"><span data-plugin="counterup">{{totalMaterial}}</span>
+                                </h3>
+                                <p class="mb-0 mt-1 text-truncate">Tổng số sản phẩm</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <form [formGroup]="addOrderDetailForm" (ngSubmit)="addOrderDetail()">
-                    <div class="card-body" >
+                    <div class="card-body">
                         <h4 class="header-title mb-4">Chọn sản phẩm tương ứng</h4>
                         <div style="display:flex;column-gap: 20px;align-items: center;">
                             <div class="specialFormGroup inputOrderDetail">
-                                <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3" (click)="refreshCategoryData()" class="btnAdd">
+                                <span style="padding-right: 5px;font-size: 16px;color:#3bc0c3"
+                                    (click)="refreshCategoryData()" class="btnAdd">
                                     <i class="icon-refresh" style="font-weight: 500;"></i>
                                 </span>
-                                <label for="categoryMaterial">Danh mục sản phẩm<span class="text-danger">*</span></label>
+                                <label for="categoryMaterial">Danh mục sản phẩm<span
+                                        class="text-danger">*</span></label>
                                 <div>
-                                    <ng-select2 aria-required="true"[data]="categoryList" (valueChanged)="changCategoryValue($event)"></ng-select2>
+                                    <ng-select2 aria-required="true" [data]="categoryList"
+                                        (valueChanged)="changCategoryValue($event)"></ng-select2>
                                     <input type="text" class="specialInput" id="categoryMaterialId">
                                 </div>
                             </div>
@@ -108,21 +164,25 @@
                                 </span>
                                 <label for="categoryMaterial">Sản phẩm<span class="text-danger">*</span></label>
                                 <div>
-                                    <ng-select2 aria-required="true" [data]="materialList"  (valueChanged)="changMaterialValue($event)"></ng-select2>
-                                    <input type="text" class="specialInput" formControlName="materialId" id="materialId"> 
+                                    <ng-select2 aria-required="true" [data]="materialList"
+                                        (valueChanged)="changMaterialValue($event)"></ng-select2>
+                                    <input type="text" class="specialInput" formControlName="materialId"
+                                        id="materialId">
                                 </div>
                             </div>
                             <div class="specialFormGroup inputOrderDetail" style="position: relative;top:1px">
                                 <label for="name">Số lượng yêu cầu<span class="text-danger">*</span></label>
-                                <input type="number" name="nick" parsley-trigger="change" formControlName="quantityRequest" class="form-control" id="name">
+                                <input type="number" name="nick" parsley-trigger="change"
+                                    formControlName="quantityRequest" class="form-control" id="name">
                                 <input type="text" class="specialInput" id="quantityRequest">
                             </div>
                             <div class="specialFormGroup" style="position:relative;top:4px;">
-                                <button type="submit" [disabled]="!addOrderDetailForm.valid" class="btn btn-primary waves-effect waves-light mr-1">
+                                <button type="submit" [disabled]="!addOrderDetailForm.valid"
+                                    class="btn btn-primary waves-effect waves-light mr-1">
                                     <i class="fa fa-plus-circle"></i> Thêm <span class=""></span>
                                 </button>
-                            </div>  
-                        </div>       
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -133,41 +193,32 @@
             <div class="card">
                 <div class="card-body table-responsive">
                     <h4 class="m-t-0 header-title mb-4">
-                      <b>Chi tiết đơn đặt hàng</b>
-                      <span style="padding-left: 5px;font-size: 16px;color:#3bc0c3" class="btnAdd">
-                        <i class="icon-refresh" style="font-weight: 500;"></i>
-                      </span>
+                        <b>Chi tiết đơn đặt hàng</b>
+                        <span style="padding-left: 5px;font-size: 16px;color:#3bc0c3" class="btnAdd">
+                            <i class="icon-refresh" style="font-weight: 500;"></i>
+                        </span>
                     </h4>
                     <span (click)="onRemoveSelected()" class="btn btn-sm btn-danger waves-effect waves-light mr-1">
-                         Xóa sản phẩm <span class=""></span>
+                        Xóa sản phẩm <span class=""></span>
                     </span>
-                    <ag-grid-angular
-                    style="width: 100%;height: 500px;"
-                    class="ag-theme-alpine mt-1"  
-                    [rowData]="dataRow"
-                    [defaultColDef]="defaultColDef"
-                    [columnDefs]="columnDefs"
-                    [alwaysShowHorizontalScroll]="true"
-                    [alwaysShowVerticalScroll]="true"
-                    [gridOptions]="gridOptions"
-                    [rowSelection]="rowSelection"
-                    [paginationPageSize]="sizePagination"
-                    (gridReady)="onGridReady($event)"
-                  > 
-                  </ag-grid-angular>     
+                    <ag-grid-angular style="width: 100%;height: 500px;" class="ag-theme-alpine mt-1" [rowData]="dataRow"
+                        [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [alwaysShowHorizontalScroll]="true"
+                        [alwaysShowVerticalScroll]="true" [gridOptions]="gridOptions" [rowSelection]="rowSelection"
+                        [paginationPageSize]="sizePagination" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
                 </div>
             </div>
         </div>
     </div>
-    <input type="text" class="specialInput" formControlName="orderDetail" id="orderDetail"> 
+    <input type="text" class="specialInput" formControlName="orderDetail" id="orderDetail">
     <div style="margin-bottom: 20px;">
-        <button type="submit" [disabled] = "!addOrderForm.valid" class="btn btn-primary waves-effect waves-light mr-1">
+        <button type="submit" [disabled]="!addOrderForm.valid" class="btn btn-primary waves-effect waves-light mr-1">
             Lưu dữ liệu <span class="" [ngClass]="submitData ? 'spinner-border spinner-border-sm' : ''"></span>
         </button>
         <button type="reset" class="btn btn-secondary waves-effect waves-light">
             Cancel
         </button>
-    </div>   
+    </div>
 </form>
 <div *ngIf="submitData || loadData" class="containerLoader">
     <div class="loader"></div>

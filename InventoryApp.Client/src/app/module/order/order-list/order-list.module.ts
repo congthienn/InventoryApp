@@ -6,6 +6,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { PageTitleModule } from 'src/app/share/layout/page-title/page-title.module';
 import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
 import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
+import { NgSelect2Module } from 'ng-select2';
 
 
 
@@ -16,7 +17,7 @@ import { ButtonUpdateStatusComponent } from './button-update-status/button-updat
     ButtonUpdateStatusComponent
   ],
   imports: [
-    CommonModule, PageTitleModule, AgGridModule, RouterModule
+    CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module
   ],
   exports: [OrderListComponent]
 })

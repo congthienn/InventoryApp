@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ActionButtonViewDetailComponent } from './action-button-view-detail/action-button-view-detail.component';
 import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
 import { ButtonPaymentStatusComponent } from './button-payment-status/button-payment-status.component';
+import { NgSelect2Module } from 'ng-select2';
 
 
 
@@ -18,7 +19,7 @@ import { ButtonPaymentStatusComponent } from './button-payment-status/button-pay
     ButtonPaymentStatusComponent
   ],
   imports: [
-    CommonModule, PageTitleModule, AgGridModule, RouterModule
+    CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module,
   ],
   exports: [CustomerOrderListComponent]
 })

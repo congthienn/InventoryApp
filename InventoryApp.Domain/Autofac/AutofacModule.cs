@@ -55,6 +55,7 @@ namespace InventoryApp.Infrastructures.Autofac
             builder.RegisterType<MaterialPositionRepository>().As<IMaterialPositionRepository>();
             builder.RegisterType<MaterialShipmentRepository>().As<IMaterialShipmentRepository>();
             builder.RegisterType<EmployeeRepository>().As<IEmployeeRepository>();
+            builder.RegisterType<ReturnedMaterialRepository>().As<IReturnedMaterialRepository>();
         }
         private void RegisterService(ContainerBuilder builder)
         {

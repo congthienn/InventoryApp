@@ -22,6 +22,7 @@ namespace InventoryApp.Domain.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderRepository _orderRepository;
         private readonly IMaterialRepository _materialRepository;
+        private readonly IReturnedMaterialRepository _returnedMaterialRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public OrderService(IMapper mapper, ILogger<OrderService> logger)
@@ -29,6 +30,7 @@ namespace InventoryApp.Domain.Services
             _unitOfWork = new UnitOfWork();
             _orderRepository = new OrderRepository(_unitOfWork);
             _materialRepository = new MaterialRepository(_unitOfWork);
+            _returnedMaterialRepository = new ReturnedMaterialRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -78,7 +80,9 @@ namespace InventoryApp.Domain.Services
 
         public async Task<OrderModel> GetOrderByCode(string code)
         {
-            return _mapper.Map<OrderModel>(await _orderRepository.GetOrderByCode(code));
+            OrderModel orderModel =  _mapper.Map<OrderModel>(await _orderRepository.GetOrderByCode(code));
+            orderModel.ReturnedMaterial = _mapper.Map<ReturnedMaterialModel>(await _returnedMaterialRepository.GetReturnedMaterialByOrderId(orderModel.Id));
+            return orderModel;
         }
 
         public async Task<OrderModel> UpdateOrder(string code, OrderModel model, UserIdentity userIdentity)
@@ -178,6 +182,36 @@ namespace InventoryApp.Domain.Services
         public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
         {
             return await _orderRepository.GetQuantityRequest(orderId, materialId);
+        }
+
+        public async Task AddReturnMaterial(ReturnedMaterialModel model, UserIdentity userIdentity)
+        {
+            try
+            {
+                _unitOfWork.CreateTransaction();
+                ReturnedMaterial returnedMaterial = _mapper.Map<ReturnedMaterial>(model);
+                returnedMaterial.CreateBy(userIdentity);
+                returnedMaterial.UpdateBy(userIdentity);
+                await _returnedMaterialRepository.Insert(returnedMaterial);
+                Order order = await _orderRepository.GetByID(returnedMaterial.OrderId);
+                if (order == null)
+                    throw new NotImplementedException("Order not found");
+                order.Status = (int)ORDER_STATUS.Returned;
+                await _orderRepository.Update(order);
+                _unitOfWork.Save();
+                _unitOfWork.Commit();
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                _unitOfWork.Rollback();
+                throw new NotImplementedException(e.Message);
+            }
+        }
+
+        public IEnumerable<OrderModel> GetOrderListByBranchId(Guid branchId)
+        {
+            return _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetOrderListByBranchId(branchId));
         }
     }
 }

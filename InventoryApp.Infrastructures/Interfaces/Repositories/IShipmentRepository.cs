@@ -12,6 +12,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
     {
         IEnumerable<MaterialShipment> GetAllShipments();
         IEnumerable<Shipment> GetAllShipmentsByBranchId(Guid branchId);
+        IEnumerable<MaterialShipment> GetAllShipmentHasProductByBranchId(Guid branchId);
         IEnumerable<MaterialShipment> GetAllShipmentByMaterialIdAndBranchId(Guid materialId, Guid branchId);
     }
 }

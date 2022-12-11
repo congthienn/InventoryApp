@@ -63,6 +63,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return await _dbSetOrderDetail.FindAsync(id);
         }
 
+        public IEnumerable<Order> GetOrderListByBranchId(Guid branchId)
+        {
+            return _dbSet.Include(x => x.Customer).Include(x => x.Branch).Where(x=>x.BranchId == branchId).OrderByDescending(x => x.CreatedDate).ToList();
+        }
+
         public async Task<int> GetQuantityRequest(int orderId, Guid materialId)
         {
             return await _dbSetOrderDetail.Where(x => x.OrderId == orderId && x.MaterialId == materialId).Select(x => x.QuantityRequest).FirstOrDefaultAsync();

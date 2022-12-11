@@ -80,6 +80,18 @@ export class OrderService {
       })
     )
   }
+  getSupplierOrderListByBranchId(orderId: string): Observable<any>{
+    let url = `${this.orderURL}/GetSupplierOrderListByBranchId/${orderId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  
   getQuantityRequest(id:string, materialId:string):Observable<any> {
     let url =`${this.orderURL}/GetQuantityRequest/${id}/${materialId}`;
     return this.http.get(url).pipe(

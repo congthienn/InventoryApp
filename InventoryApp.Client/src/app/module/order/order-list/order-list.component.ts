@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridApi, GridOptions, GridReadyEvent, ICellRendererParams } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../../branch/branch.service';
 import { Branch } from '../../branch/model/branch';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
@@ -18,6 +21,7 @@ import { ButtonUpdateStatusComponent } from './button-update-status/button-updat
 })
 export class OrderListComponent implements OnInit {
   public Title = '';
+  branchList!: Array<Select2OptionData>;
   public rowSelection: 'single' | 'single' = 'single';
   private gridApi!: GridApi;
   public loadData = true;
@@ -52,19 +56,20 @@ export class OrderListComponent implements OnInit {
 
   constructor(private orderService: OrderService, 
         private title: Title, 
-        private sweetalertService: SweetalertService,
-        private modalService: NgbModal
+       private branchService: BranchService,
+       private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.title.setTitle("Đặt hàng");
     this.Title = "Quản lý đặt hàng";
     this.updateColumnDefs();
-    this.getAllOrder();
+    this.getBranchData();
   }
+  branchId!:string;
   public getAllOrder(){
     document.body.style.overflow = 'hidden';
-    this.orderService.getAllOrder().subscribe(
+    this.orderService.getSupplierOrderListByBranchId(this.branchId).subscribe(
       response =>{
         this.orderData = response;
         var dataRowTemp: any[]= [];
@@ -105,7 +110,32 @@ export class OrderListComponent implements OnInit {
       { field: 'orderDate', headerName: "NGÀY YÊU CẦU ĐẶT HÀNG", resizable:true},
     ];
   }
-
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.branchId = branchId;
+    this.getAllOrder();
+  }
   onPageSizeChanged() {
     var text = (<HTMLInputElement>document.getElementById('page-size')).value;
     this.sizePagination = Number(text);

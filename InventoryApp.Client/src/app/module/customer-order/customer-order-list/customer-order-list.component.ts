@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ColDef, GridApi, GridOptions, GridReadyEvent } from 'ag-grid-community';
+import { Select2OptionData } from 'ng-select2';
+import { AuthService } from 'src/app/auth/auth.service';
 import { PageTitle } from 'src/app/share/layout/page-title/page-title.component';
+import { BranchService } from '../../branch/branch.service';
 import { CurrencyComponent } from '../../material/material-list/currency/currency.component';
 import { SweetalertService } from '../../share/sweetalert/sweetalert.service';
 import { CustomerOrderDetailComponent } from '../customer-order-detail/customer-order-detail.component';
@@ -19,6 +22,8 @@ import { ButtonUpdateStatusComponent } from './button-update-status/button-updat
 })
 export class CustomerOrderListComponent implements OnInit {
   public Title = '';
+  branchList!: Array<Select2OptionData>;
+  branchId!: string;
   private gridApi!: GridApi;
   public loadData = true;
   dataRow: any[] = [];
@@ -51,21 +56,22 @@ export class CustomerOrderListComponent implements OnInit {
     paginationPageSize: 10
   };
 
-  constructor(private customerOrderService: CustomerOrderService, 
+  constructor(
+    private customerOrderService: CustomerOrderService, 
         private title: Title, 
-        private sweetalertService: SweetalertService,
-        private modalService: NgbModal
+        private authService: AuthService, 
+        private branchService: BranchService,
   ) {}
 
   ngOnInit(): void {
     this.title.setTitle("Đơn hàng");
     this.Title = "Quản lý đơn hàng";
     this.updateColumnDefs();
-    this.getAllOrder();
+    this.getBranchData();
   }
   public getAllOrder(){
     document.body.style.overflow = 'hidden';
-    this.customerOrderService.getAllCustomerOrder().subscribe(
+    this.customerOrderService.getOrderListByBranchId(this.branchId).subscribe(
       response =>{
         console.log(response);
         this.orderData = response;
@@ -93,24 +99,49 @@ export class CustomerOrderListComponent implements OnInit {
   }
   private updateColumnDefs() {
     this.columnDefs  =  [ 
-      { field: "code", width: 68,
+      { field: "code", width: 170,
         headerName: "",
         suppressFilter: false,
         filter: false,
         cellStyle: {textAlign  : 'left'},
         initialPinned: 'left',
-        cellRenderer: ActionButtonViewDetailComponent
+        cellRenderer: ActionButtonViewDetailComponent,
+        resizable:true 
       }, 
-      { field: 'status', headerName: "TRẠNG THÁI", width: 200, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent},
-      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 200, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
+      { field: 'status', headerName: "TRẠNG THÁI", width: 200, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent, },
+      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 170, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
       { field: 'paid', headerName: "THANH TOÁN", width: 180, cellRenderer: ButtonPaymentStatusComponent},
-      { field: 'customer', headerName: "KHÁCH HÀNG", width: 230, cellStyle: {fontWeight: '500'},resizable:true },
       { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width: 230 },
       { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},
       { field: 'orderDate', headerName: "NGÀY LẬP ĐƠN HÀNG", resizable:true},
     ];
   }
-
+  getBranchData(){
+    document.body.style.overflow = 'hidden';
+    var tempData: { id: string; text: string; }[] = [];
+    this.branchService.getAllBranch().subscribe(response => {
+      response.forEach((element: any) => {
+        var data = {
+          id: element.id,
+          text: element.companyName
+        }
+        tempData.push(data);
+      });
+      var branchs: unknown[] = this.authService.decodeToken().Branch;
+      this.branchList = tempData.filter(item => branchs.includes(item.id));
+      this.loadData = false;
+      document.body.style.overflow = '';
+    },
+    error =>{
+      this.loadData = true;
+    })
+  }
+  changeBranchValue(branchId:any){
+    if(branchId == undefined) 
+      return;
+    this.branchId = branchId;
+      this.getAllOrder();
+  }
   onPageSizeChanged() {
     var text = (<HTMLInputElement>document.getElementById('page-size')).value;
     this.sizePagination = Number(text);

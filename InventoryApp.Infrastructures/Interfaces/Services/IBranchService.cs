@@ -22,5 +22,6 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<bool> EmailAlreadyExists(string email);
         Task<bool> PhoneAlreadyExists(string phone);
         Task<bool> FaxAlreadyExists(string fax);
+        IEnumerable<BranchModelRq> GetAllBranchByUserId(Guid userId);
     }
 }

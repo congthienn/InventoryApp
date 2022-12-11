@@ -39,5 +39,7 @@ namespace InventoryApp.Data.Models
         public Wards? Ward { get; set; }
         public Guid BranchId { get; set; }
         public Branches? Branch { get; set; }
+        public Guid UserId { get; set; }
+        public Users User { get; set; }
     }
 }

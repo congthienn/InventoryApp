@@ -9,8 +9,8 @@ namespace InventoryApp.Infrastructures.Helper
     public enum ORDER_STATUS
     {
         Processing,
-        Export,
         Approved,
+        Export,
         Delivering,
         Done,
         Returned,

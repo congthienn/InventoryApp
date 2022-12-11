@@ -8,7 +8,7 @@
                 <div class="logo-lg">
                     <img src="assets\images\logo-dark.png" alt="" height="18">
                   </div>
-                <div style="position: relative;top: 4px;">{{company.companyName}} </div>
+                <div style="position: relative;top: 4px;">{{company.companyName}} - Đơn đặt hàng</div>
             </div>  
          </div>
          <!-- end invoice-company -->
@@ -39,14 +39,17 @@
                   Đơn đặt hàng của khách hàng
                </div>
                <div style="margin-top: 10px;">
+                  Địa chỉ giao hàng: {{order.deliveryAddress}}
+               </div>
+               <div style="margin-top: 10px;">
                   Thanh toán: <span style="font-weight: 600;">{{paidString}}</span>
                </div>
             </div>
          </div>
          <div class="invoice-content">
-            <!-- begin table-responsive -->
+            <div class="invoice-header-title text-inverse" style="font-size: 17px;"><i class='fas fa-shopping-bag'></i> Chi tiết đơn hàng</div>
             <div class="table-responsive">
-               <table class="table table-invoice">
+               <table class="table table-invoice"> 
                   <thead>
                      <tr>
                         <th>SẢN PHẨM</th>
@@ -67,28 +70,66 @@
                   </tbody>
                </table>
             </div>
+            <div *ngIf="returnedMaterialExists" class="invoice-content">
+               <div class="invoice-header-title text-inverse" style="font-size: 17px;"><i class='fas fa-reply-all'></i> Hàng bị trả về</div>
+               <div class="text-inverse"  style="margin: 10px 0px;">
+                  <div class="m-t-5 m-b-5" style="font-size:15px">
+                     <b>Hình thức đổi trả: </b> <span>{{formula}}</span><br>
+                     <b>Lý do trả hàng:</b> <span [innerHTML]="order.returnedMaterial.reason"></span>
+                  </div>
+               </div>
+               <div class="table-responsive">
+                  <table class="table table-invoice">
+                     <thead>
+                        <tr>
+                           <th>SẢN PHẨM</th>
+                           <th class="text-center" width="200px">GIÁ NHẬP</th>
+                           <th class="text-center" width="100px">SỐ LƯỢNG</th>
+                           <th class="text-right" width="20%">TẠM TÍNH</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr *ngFor="let item of order.returnedMaterial.detail">
+                           <td>
+                              <span class="text-inverse">{{item.material.name}}</span><br>
+                           </td>
+                           <td class="text-center">{{ item.price | currency:'VND':'symbol' }}</td>
+                           <td class="text-center">{{item.quantity}}</td>
+                           <td class="text-right">{{ item.priceTotalItem | currency:'VND':'symbol' }}</td>
+                        </tr>               
+                     </tbody>
+                  </table>
+               </div>
+            </div>
             <div class="invoice-price">
                <div class="invoice-price-left">
                   <div class="invoice-price-row">  
-                     <div class="sub-price">
-                        <small>TỔNG GIÁ TRỊ</small>
-                        <span class="text-inverse">{{ order.priceTotal | currency:'VND':'symbol' }}</span>
-                     </div>
-                     <div class="sub-price">
-                        <i class="fa fa-minus text-muted"></i>
-                     </div>
-                     <div class="sub-price">
+                     <div class="sub-price" style="color: green;">
                         <small>TRẢ TRƯỚC</small>
                         <span class="text-inverse">{{ order.prepayment | currency:'VND':'symbol' }}</span>
                      </div> 
+                     <div class="sub-price">
+                        <i class="fa fa-plus text-muted"></i>
+                     </div>
+                     <div class="sub-price" style="color: green;">
+                        <small>{{paidStatus}}</small>
+                        <span class="text-inverse">{{ needToPay| currency:'VND':'symbol' }}</span>
+                     </div>
+                     <div *ngIf="returnedMaterialExists" class="sub-price">
+                        <i class="fa fa-minus text-muted"></i>
+                     </div>
+                     <div *ngIf="returnedMaterialExists" class="sub-price" style="color: red;">
+                        <small>PHÍ TRẢ HÀNG</small>
+                        <span class="text-inverse">{{ returnMaterialPrice| currency:'VND':'symbol' }}</span>
+                     </div>
                   </div>
                </div>
                <div class="invoice-price-right">
-                  <small>{{paidStatus}}</small> <span>{{ needToPay| currency:'VND':'symbol' }}</span>
+                  <small>TỔNG GIÁ TRỊ ĐƠN HÀNG</small> <span>{{ priceTotal | currency:'VND':'symbol' }}</span>
                </div>
             </div>
          </div>
-    
+        
          <div class="invoice-footer">
             <p class="text-center m-b-5">
             </p>

@@ -67,5 +67,10 @@ namespace InventoryApp.Infrastructures.Repositories
         {
             return await _dbSetSupplierOrder.FirstAsync(x => x.Id == id);
         }
+
+        public IEnumerable<SupplierOrder> GetSupplierOrderListByBranchId(Guid branchId)
+        {
+            return _dbSet.Include(x => x.BranchRequest).Include(x => x.Supplier).Where(x=>x.BranchRequestId == branchId).OrderByDescending(x => x.CreatedDate);
+        }
     }
 }

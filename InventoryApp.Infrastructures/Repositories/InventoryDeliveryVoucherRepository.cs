@@ -19,7 +19,7 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IEnumerable<InventoryDeliveryVoucher> GetInventoryDeliveryVoucher()
         {
-            return _dbSet.Include(x => x.Branch).Include(x => x.Warehouse).Include(x => x.Order).ThenInclude(x => x.Customer);
+            return _dbSet.Include(x => x.Branch).Include(x => x.Warehouse).Include(x => x.Order).ThenInclude(x => x.Customer).OrderByDescending(x=>x.CreatedDate);
         }
 
         public async Task<InventoryDeliveryVoucher> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId)

@@ -37,6 +37,14 @@ namespace InventoryApp.Application.Controllers
             return _employeeService.GetAllEmployee();
         }
 
+        [Route("GetEmployeeByBranchId/{branchId}")]
+        [HttpGet]
+        public IEnumerable<EmployeeModel> GetEmployeeByBranchId(Guid branchId)
+        {
+            return _employeeService.GetEmployeeByBranchId(branchId);
+        }
+
+        
         [Route("GetEmployeeById/{employeeId}")]
 
         [HttpGet]

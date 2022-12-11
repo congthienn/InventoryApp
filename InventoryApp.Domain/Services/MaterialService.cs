@@ -123,6 +123,10 @@ namespace InventoryApp.Domain.Services
         public async Task<ShowMaterialModel> GetMaterialById(Guid materialId)
         {
             Materials material = await _materialRepository.GetMaterialById(materialId);
+            foreach(var item in material.Pictures)
+            {
+                item.PictureURL = await _azureStorage.DisplayPicture(item.PictureURL);
+            }
             return _mapper.Map<ShowMaterialModel>(material);
         }
         public async Task<ShowMaterialModel> UpdateMaterial(Guid materialId, MaterialModelRq model, List<MaterialAttributeValueModel> attributeValue, List<IFormFile> prictures, UserIdentity userIdentity)
@@ -281,6 +285,17 @@ namespace InventoryApp.Domain.Services
                 material.TotalQuantity = _materialShipmentRepository.GetMaterialQuantityByMaterialIdAndBranchId(material.Id, branchId).Result;
             }
             return materialList;
+        }
+
+        public async Task<IEnumerable<ShowMaterialModel>> RelatedMaterial(Guid categoryId, Guid materialId)
+        {
+            IEnumerable<ShowMaterialModel> materialModels = _mapper.Map<IEnumerable<ShowMaterialModel>>(_materialRepository.RelatedMaterial(categoryId, materialId));
+            foreach(var item in materialModels)
+                foreach(var picture in item.Pictures)
+                {
+                    picture.PictureURL = await _azureStorage.DisplayPicture(picture.PictureURL);
+                }
+            return materialModels;
         }
     }
 }   

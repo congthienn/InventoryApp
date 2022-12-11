@@ -49,6 +49,19 @@ export class EmployeeService {
     )
   }
 
+  getEmployeeByBranchId(branchId:string):Observable<any>{
+    let url = `${this.userURL}/GetEmployeeByBranchId/${branchId}`;
+    return this.http.get(url).pipe(
+      tap((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
+  
+
   deleteEmployeeById(employeeId:string):Observable<any>{
     let url = `${this.userURL}/DeleteEmployeeById/${employeeId}`;
     return this.http.delete(url).pipe(

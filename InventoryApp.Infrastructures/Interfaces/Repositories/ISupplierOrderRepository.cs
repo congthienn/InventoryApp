@@ -14,6 +14,7 @@ namespace InventoryApp.Infrastructures.Interfaces.Repositories
         IEnumerable<SupplierOrder> GetAllSupplierOrder();
         IEnumerable<Materials> GetAllMaterialOrderByOrderId(int orderId);
         IEnumerable<SupplierOrder> GetAllSupplierOrderByBranchId(Guid branchId);
+        IEnumerable<SupplierOrder> GetSupplierOrderListByBranchId(Guid branchId);
         Task<SupplierOrder> GetSupplierOrderByCode(string code);
         IEnumerable<SupplierOrder> GetSupplierOrderByStatus(int status);
         Task DeleteSupplierOrderDetail(SupplierOrderDetail supplierOrderDetail);

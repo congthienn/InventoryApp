@@ -13,7 +13,7 @@ import { NgSelect2Module } from 'ng-select2';
     MaterialPositionComponent
   ],
   imports: [
-    CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module
+    CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module 
   ]
 })
 export class MaterialPositionModule { }

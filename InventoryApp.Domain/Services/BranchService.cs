@@ -81,6 +81,11 @@ namespace InventoryApp.Domain.Services
             return await _branchRepository.FaxAlreadyExists(fax);
         }
 
+        public IEnumerable<BranchModelRq> GetAllBranchByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<BranchModelRq> GetAllBranches()
         {
             var test = _branchRepository.GetAllBranch().OrderByDescending(x => x.CreatedDate);

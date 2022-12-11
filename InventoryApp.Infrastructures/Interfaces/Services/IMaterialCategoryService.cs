@@ -14,8 +14,9 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         IEnumerable<MaterialCategoryModelRq> GetAllCategory();
         Task<MaterialCategoryModelRq> AddMaterialCategory(MaterialCategoryModelRq model, UserIdentity userIdentity);
         Task<MaterialCategoryModelRq> UpdateMaterialCategory(Guid id, MaterialCategoryModelRq model, UserIdentity userIdentity);
+        Task<MaterialCategoryModelRq> GetMaterialCategoryById(Guid id);
         Task<bool> DeleteMaterialCategory(Guid id);
-        IEnumerable<ShowMaterialModel> GetAllMaterialByCategoryId(Guid categoryId);
+        Task<IEnumerable<ShowMaterialModel>> GetAllMaterialByCategoryId(Guid categoryId);
         IEnumerable<MaterialAttributeModel> GetAllMaterialAttributeByCategoryId(Guid categoryId);
     }
 }

@@ -22,4 +22,5 @@ export interface Employee{
     wardId:string;
     ward:Ward;
     cardImage:string;
+    roleId:string;
 }

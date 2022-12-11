@@ -5,6 +5,9 @@ import { PageTitle } from 'src/app/share/layout/page-title/page-title.component'
 import { CustomerService } from '../service/customer.service';
 import { Customer } from '../model/customer';
 import { ActionButtonComponent } from './action-button/action-button.component';
+import { BranchService } from 'src/app/module/branch/branch.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { Select2OptionData } from 'ng-select2';
 
 @Component({
   selector: 'app-customer-list',
@@ -12,6 +15,7 @@ import { ActionButtonComponent } from './action-button/action-button.component';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit {
+  branchList! : Array<Select2OptionData>;
   public Title = '';
   public loadData = true;
   public sizePagination = 10;
@@ -28,8 +32,11 @@ export class CustomerListComponent implements OnInit {
       active: true
     }
   ]
-  constructor(private title:Title, private customerService: CustomerService) { }
+  constructor(private title:Title, 
+    private customerService: CustomerService,
+    private authService: AuthService, private branchService : BranchService) { }
    customer: Customer[] = [];
+   branchId!:string;
     dataRow: any[] = [];
     columnDefs : any[]= [];
     public defaultColDef: ColDef = {
@@ -48,6 +55,32 @@ export class CustomerListComponent implements OnInit {
       this.title.setTitle("Khách hàng");
       this.Title = "Quản lý khách hàng";
       this.updateColumnDefs();
+      this.getBranchData();
+    }
+    getBranchData(){
+      document.body.style.overflow = 'hidden';
+      var tempData: { id: string; text: string; }[] = [];
+      this.branchService.getAllBranch().subscribe(response => {
+        response.forEach((element: any) => {
+          var data = {
+            id: element.id,
+            text: element.companyName
+          }
+          tempData.push(data);
+        });
+        var branchs: unknown[] = this.authService.decodeToken().Branch;
+        this.branchList = tempData.filter(item => branchs.includes(item.id));
+        this.loadData = false;
+        document.body.style.overflow = '';
+      },
+      error =>{
+        this.loadData = true;
+      })
+    }
+    changeBranchValue(branchId:any){
+      if(branchId == undefined) 
+        return;
+        this.branchId = branchId;
       this.getAllCustomer();
     }
     private updateColumnDefs() {
@@ -74,7 +107,7 @@ export class CustomerListComponent implements OnInit {
     }
     public getAllCustomer(){
       document.body.style.overflow = 'hidden';
-      this.customerService.getAllCustomerData().subscribe(
+      this.customerService.getAllCustomerDataByBranchId(this.branchId).subscribe(
         response =>{
         this.customer = response;
         var dataRowTemp: any[]= [];
@@ -106,6 +139,6 @@ export class CustomerListComponent implements OnInit {
       this.sizePagination = Number(text);
     }
     refreshData(){
-      this.getAllCustomer();
+      this.getBranchData();
     }
 }
