@@ -392,6 +392,107 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.ToTable("CustomerGroup");
                 });
 
+            modelBuilder.Entity("InventoryApp.Data.Models.DeliveryCompany", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Fax")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TaxCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("UpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
+
+                    b.HasIndex("Fax")
+                        .IsUnique()
+                        .HasFilter("[Fax] IS NOT NULL");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("TaxCode")
+                        .IsUnique()
+                        .HasFilter("[TaxCode] IS NOT NULL");
+
+                    b.HasIndex("UpdatedByUserId");
+
+                    b.HasIndex("WardId");
+
+                    b.ToTable("DeliveryCompany");
+                });
+
             modelBuilder.Entity("InventoryApp.Data.Models.DeliveryVoucher", b =>
                 {
                     b.Property<int>("Id")
@@ -1685,6 +1786,9 @@ namespace InventoryApp.DbMigrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("DeliveryCompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -1716,6 +1820,8 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DeliveryCompanyId");
 
                     b.HasIndex("UpdatedByUserId");
 
@@ -3044,6 +3150,57 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("UpdatedByUser");
                 });
 
+            modelBuilder.Entity("InventoryApp.Data.Models.DeliveryCompany", b =>
+                {
+                    b.HasOne("InventoryApp.Data.Models.Branches", "Branch")
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Users", "CreatedByUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Districts", "District")
+                        .WithMany()
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Provinces", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InventoryApp.Data.Models.Wards", "Ward")
+                        .WithMany()
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("District");
+
+                    b.Navigation("Province");
+
+                    b.Navigation("UpdatedByUser");
+
+                    b.Navigation("Ward");
+                });
+
             modelBuilder.Entity("InventoryApp.Data.Models.DeliveryVoucher", b =>
                 {
                     b.HasOne("InventoryApp.Data.Models.Customer", "Customer")
@@ -3828,6 +3985,10 @@ namespace InventoryApp.DbMigrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InventoryApp.Data.Models.DeliveryCompany", "DeliveryCompany")
+                        .WithMany()
+                        .HasForeignKey("DeliveryCompanyId");
+
                     b.HasOne("InventoryApp.Data.Models.Users", "UpdatedByUser")
                         .WithMany()
                         .HasForeignKey("UpdatedByUserId")
@@ -3839,6 +4000,8 @@ namespace InventoryApp.DbMigrations.Migrations
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("DeliveryCompany");
 
                     b.Navigation("UpdatedByUser");
                 });

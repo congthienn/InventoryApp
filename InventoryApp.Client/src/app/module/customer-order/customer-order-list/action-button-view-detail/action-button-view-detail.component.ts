@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
+import Swal from 'sweetalert2';
 import { CustomerOrderDetailComponent } from '../../customer-order-detail/customer-order-detail.component';
 import { ReturnedMaterialComponent } from '../../returned-material/returned-material.component';
 import { CustomerOrderService } from '../../service/customer-order.service';
+import { CustomerOrderListComponent } from '../customer-order-list.component';
 
 @Component({
   selector: 'app-action-button-view-detail',
@@ -17,10 +20,13 @@ export class ActionButtonViewDetailComponent implements ICellRendererAngularComp
   public actionClass = '';
   public disableButton = false;
   public cancelOrder = true;
+  public deliveryFailed = false;
   clickDelete = false;
   constructor(
     private modalService: NgbModal,
-    private customerOrderService: CustomerOrderService
+    private customerOrderService: CustomerOrderService,
+    private customerOrderListComponent: CustomerOrderListComponent,
+    private  sweetalertService: SweetalertService
   ) { }
   refresh() {
     return false;
@@ -35,7 +41,8 @@ export class ActionButtonViewDetailComponent implements ICellRendererAngularComp
       response => {
         this.actionString = this.getStringButton(response.status);
         this.actionClass = this.getClassButton(response.status);
-        this.disableButton = response.status == 3;
+        this.disableButton = response.status == 2;
+        this.deliveryFailed = response.status == 3;
         this.cancelOrder =  response.status != 4;
       }
     )
@@ -64,14 +71,55 @@ export class ActionButtonViewDetailComponent implements ICellRendererAngularComp
     }
   }
   btnOrderDetail() {  
-    const modalRef  = this.modalService.open(CustomerOrderDetailComponent, {size:"lg" });
+    const modalRef = this.modalService.open(CustomerOrderDetailComponent, {size:"lg" });
     modalRef.componentInstance.id = this.params.value;
   }
   btnAction(){
-    if(this.cancelOrder)
-      return;
-    this.returnedMaterial();
+    if(this.cancelOrder && !this.deliveryFailed){
+      Swal.fire({
+        title: 'Tiến hành hủy đơn hàng',
+        text: 'Đơn hàng bị hủy sẽ không được lưu lại',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận hủy',
+        cancelButtonText: 'Hủy bỏ'
+      }).then((result) => {
+        if (result.isConfirmed) {    
+         this.deleteOrder();
+        }
+      })
+    }else if(this.deliveryFailed){
+      Swal.fire({
+        title: 'Xác nhận giao hàng thất bại',
+        text: 'Hệ thống sẽ tự tạo phiếu trả hàng và chờ thủ kho xác nhận',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Hủy bỏ'
+      }).then((result) => {
+        if (result.isConfirmed) {    
+         this.deleteOrder();
+        }
+      })
+    }else{
+      this.returnedMaterial();
+    }
   }
+  private deleteOrder(){
+    this.customerOrderService.deleteOrderByCode(this.params.value).subscribe(
+      response => {
+        this.customerOrderListComponent.refreshData();
+        this.sweetalertService.alertMini("Hủy đơn hàng thành","", 'success');  
+    },
+    error =>{
+      this.sweetalertService.alertMini("Không thể cập nhật","Vui lòng kiểm tra lại", 'error');
+    })
+  }
+
   returnedMaterial(){
     const modalRef  = this.modalService.open(ReturnedMaterialComponent, {size:"lg" });
     modalRef.result.then((result) => {

@@ -25,6 +25,10 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public bool Paid { get; set; }
         public string DeliveryAddress { get; set; }
         public ReturnedMaterialModel ReturnedMaterial { get; set; }
+        public string EmployeeName { get; set; }
+        public Guid CreatedByUserId { get; private set; }
+        public Guid? DeliveryCompanyId { get; set; }
+        public DeliveryCompanyModel DeliveryCompany { get; set; }
     }
     public class OrderModelValidator : AbstractValidator<OrderModel>
     {

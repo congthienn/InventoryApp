@@ -147,5 +147,26 @@ namespace InventoryApp.Application.Controllers
                 BadRequest(e.Message);
             }
         }
+
+        [Route("GetOrderListByUserId/{userId}")]
+        [HttpGet]
+        public IEnumerable<OrderModel> GetOrderListByUserId(Guid userId)
+        {
+            return _orderService.GetOrderListByUserId(userId);
+        }
+
+        [HttpDelete("{code}")]
+        public async Task Delete(string code)
+        {
+            try
+            {
+                await _orderService.DeleteOrder(code);
+            }
+            catch (Exception e)
+            {
+                BadRequest(e.Message);
+            }
+        }
+
     }
 }

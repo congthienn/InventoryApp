@@ -21,6 +21,7 @@ namespace InventoryApp.Domain.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInventoryReceivingVoucherRepository _inventoryReceivingVoucherRepository;
         private readonly ISupplierOrderRepository _supplierOrderRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMaterialShipmentRepository _materialShipmentRepository;
         private readonly IMaterialPositionRepository _materialPositionRepository;
         private readonly IWarehouseRepository _warehouseRepository;
@@ -34,6 +35,7 @@ namespace InventoryApp.Domain.Services
             _materialPositionRepository = new MaterialPositionRepository(_unitOfWork);
             _warehouseRepository = new WarehouseRepository(_unitOfWork);
             _materialShipmentRepository = new MaterialShipmentRepository(_unitOfWork);
+            _employeeRepository = new EmployeeRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -95,12 +97,24 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<InventoryReceivingVoucherModel> GetInventoryReceivingVoucher()
         {
-            return _mapper.Map<IEnumerable<InventoryReceivingVoucherModel>>(_inventoryReceivingVoucherRepository.GetInventoryReceivingVoucher());
+            IEnumerable<InventoryReceivingVoucherModel> inventoryReceivingsList = _mapper.Map<IEnumerable<InventoryReceivingVoucherModel>>(_inventoryReceivingVoucherRepository.GetInventoryReceivingVoucher());
+            foreach (var item in inventoryReceivingsList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(item.CreatedByUserId).Result;
+                item.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return inventoryReceivingsList;
         }
 
         public IEnumerable<InventoryReceivingVoucherModel> GetInventoryReceivingVoucherByBranchId(Guid branchId)
         {
-            return _mapper.Map<IEnumerable<InventoryReceivingVoucherModel>>(_inventoryReceivingVoucherRepository.GetInventoryReceivingVoucherByBranchId(branchId));
+            IEnumerable<InventoryReceivingVoucherModel> inventoryReceivingsList = _mapper.Map<IEnumerable<InventoryReceivingVoucherModel>>(_inventoryReceivingVoucherRepository.GetInventoryReceivingVoucherByBranchId(branchId));
+            foreach (var item in inventoryReceivingsList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(item.CreatedByUserId).Result;
+                item.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return inventoryReceivingsList;
         }
 
         public async Task<InventoryReceivingVoucherModel> GetInventoryReceivingVoucherById(Guid inventoryReceivingVoucherId)

@@ -23,6 +23,7 @@ namespace InventoryApp.Domain.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IMaterialRepository _materialRepository;
         private readonly IReturnedMaterialRepository _returnedMaterialRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public OrderService(IMapper mapper, ILogger<OrderService> logger)
@@ -31,6 +32,7 @@ namespace InventoryApp.Domain.Services
             _orderRepository = new OrderRepository(_unitOfWork);
             _materialRepository = new MaterialRepository(_unitOfWork);
             _returnedMaterialRepository = new ReturnedMaterialRepository(_unitOfWork);
+            _employeeRepository = new EmployeeRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -211,7 +213,43 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<OrderModel> GetOrderListByBranchId(Guid branchId)
         {
-            return _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetOrderListByBranchId(branchId));
+            IEnumerable<OrderModel> orderList = _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetOrderListByBranchId(branchId));
+            foreach(var orderItem in orderList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(orderItem.CreatedByUserId).Result;
+                orderItem.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return orderList;
+        }
+
+        public IEnumerable<OrderModel> GetOrderListByUserId(Guid userId)
+        {
+            IEnumerable<OrderModel> orderList = _mapper.Map<IEnumerable<OrderModel>>(_orderRepository.GetOrderListByUserId(userId));
+            foreach (var orderItem in orderList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(orderItem.CreatedByUserId).Result;
+                orderItem.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return orderList;
+        }
+
+        public async Task DeleteOrder(string code)
+        {
+            try
+            {
+                _unitOfWork.CreateTransaction();
+                Order orderModel = await _orderRepository.GetOrderByCode(code);
+                await _orderRepository.Delete(orderModel);
+
+                _unitOfWork.Save();
+                _unitOfWork.Commit();
+            }
+            catch(Exception e)
+            {
+                _unitOfWork.Rollback();
+                _logger.LogError(e.Message);
+                throw new NotImplementedException(e.Message);
+            }
         }
     }
 }

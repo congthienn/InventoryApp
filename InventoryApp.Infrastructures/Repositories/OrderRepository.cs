@@ -65,7 +65,12 @@ namespace InventoryApp.Infrastructures.Repositories
 
         public IEnumerable<Order> GetOrderListByBranchId(Guid branchId)
         {
-            return _dbSet.Include(x => x.Customer).Include(x => x.Branch).Where(x=>x.BranchId == branchId).OrderByDescending(x => x.CreatedDate).ToList();
+            return _dbSet.Include(x => x.Customer).Include(x => x.Branch).Include(x=>x.DeliveryCompany).Where(x=>x.BranchId == branchId).OrderByDescending(x => x.CreatedDate).ToList();
+        }
+
+        public IEnumerable<Order> GetOrderListByUserId(Guid userId)
+        {
+            return _dbSet.Include(x => x.Customer).Include(x => x.Branch).Where(x => x.CreatedByUserId == userId).OrderByDescending(x => x.CreatedDate).ToList();
         }
 
         public async Task<int> GetQuantityRequest(int orderId, Guid materialId)

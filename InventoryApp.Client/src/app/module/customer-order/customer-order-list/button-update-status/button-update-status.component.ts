@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { AuthService } from 'src/app/auth/auth.service';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
 import { CustomerOrder } from '../../model/customer-order';
@@ -18,7 +19,8 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
   public order!:CustomerOrder;
   public disableButton = false;
   constructor(private customerOrderService: CustomerOrderService, private  sweetalertService: SweetalertService,
-    private customerOrderListComponent: CustomerOrderListComponent
+    private customerOrderListComponent: CustomerOrderListComponent,
+    private authService: AuthService
   ) { }
   refresh() {
     return true;
@@ -27,13 +29,15 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
     this.params = params; 
     this.getOrder();
   }
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   getOrder(){
     return this.customerOrderService.getCustomerOrderByCode(this.params.value).subscribe(
       response => {
+        console.log(response);
         this.order = response;  
         this.statusClass = this.getColorStatus(Number(this.order.status));
         this.status = this.getStatus(Number(this.order.status));
-        this.disableButton = Number(this.order.status) == 1 ||  Number(this.order.status) == 4 || Number(this.order.status) == 5;
+        this.disableButton = (Number(this.order.status) == 0 && !this.enableButton) || Number(this.order.status) == 1 ||  Number(this.order.status) == 4 || Number(this.order.status) == 5;
       }
     )
   }
@@ -48,8 +52,12 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
       confirmButtonText: 'Cập nhật',
       cancelButtonText: 'Hủy bỏ'
     }).then((result) => {
-      if (result.isConfirmed) {    
-        this.updateOrderStatus();
+      if (result.isConfirmed) {   
+        if(Number(this.order.status) == 2){
+          this.sweetalertService.alertMini("Vui lòng cập nhật đơn vị giao hàng","", 'warning', 450);
+        }else{
+          this.updateOrderStatus();
+        }
       }
     })
   }

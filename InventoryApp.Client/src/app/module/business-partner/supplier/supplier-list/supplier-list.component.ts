@@ -5,6 +5,7 @@ import { PageTitle } from 'src/app/share/layout/page-title/page-title.component'
 import { SupplierService } from '../service/supplier.service';
 import { Supplier } from '../model/supplier';
 import { ActionButtonComponent } from './action-button/action-button.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-supplier-list',
@@ -28,7 +29,8 @@ export class SupplierListComponent implements OnInit {
       active: true
     }
   ]
-  constructor(private title: Title, private supplierService: SupplierService) { }
+  constructor(private title: Title, private supplierService: SupplierService, private authService: AuthService) { }
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
    supplier: Supplier[] = [];
     dataRow: any[] = [];
     columnDefs : any[]= [];

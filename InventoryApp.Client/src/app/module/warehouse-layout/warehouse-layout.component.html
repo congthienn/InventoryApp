@@ -47,7 +47,7 @@
             <label class="col-form-label">phần tử</label>
           </div>
           <div>
-            <button *ngIf="showButtonAddWarehouseArea" (click)="openModalAddWarehouseArea()"
+            <button *ngIf="showButtonAddWarehouseArea && enableButton" (click)="openModalAddWarehouseArea()"
               class="btn btn-sm btn-primary waves-effect waves-light mr-1">
               <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span>
               Thêm khu vực
@@ -85,7 +85,7 @@
             <label class="col-form-label">phần tử</label>
           </div>
           <div>
-            <button (click)="openModalAddWarehouseLine()" *ngIf="showButtonAddWarehouseLine"
+            <button (click)="openModalAddWarehouseLine()" *ngIf="showButtonAddWarehouseLine && enableButton"
               class="btn btn-sm btn-primary waves-effect waves-light mr-1">
               <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span>
               Thêm dãy
@@ -121,7 +121,7 @@
             <label class="col-form-label">phần tử</label>
           </div>
           <div>
-            <button (click)="openModalAddWarehouseShelve()" *ngIf="showButtonAddWarehouseShelve"
+            <button (click)="openModalAddWarehouseShelve()" *ngIf="showButtonAddWarehouseShelve && enableButton"
               class="btn btn-primary btn-sm waves-effect waves-light mr-1">
               <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span>
               Thêm kệ hàng

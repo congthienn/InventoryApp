@@ -19,6 +19,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public BranchModelRq BranchRequest { get;  private set; }
         public List<SupplierOrderDetailModel> SupplierOrderDetail { get; set; }
         public int PriceTotal { get; set; }
+        public string EmployeeName { get; set; }
+        public Guid CreatedByUserId { get; private set; }
     }
     public class SupplierOrderModelValidator : AbstractValidator<SupplierOrderModel>
     {

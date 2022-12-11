@@ -122,7 +122,7 @@ export class WarehouseLayoutComponent implements OnInit {
       this.loadData = true;
     })
   }
-
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   changeBranchValue(branchId:any){
     if(branchId == undefined) 
       return;

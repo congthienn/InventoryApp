@@ -17,6 +17,7 @@ namespace InventoryApp.Domain.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISupplierOrderRepository _supplierOrderRepository;
         private readonly IMaterialRepository _materialRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         public SupplierOrderService(IMapper mapper, ILogger<SupplierOrderService> logger)
@@ -24,6 +25,7 @@ namespace InventoryApp.Domain.Services
             _unitOfWork = new UnitOfWork();
             _supplierOrderRepository = new SupplierOrderRepository(_unitOfWork);
             _materialRepository = new MaterialRepository(_unitOfWork);
+            _employeeRepository = new EmployeeRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -110,7 +112,13 @@ namespace InventoryApp.Domain.Services
 
         public IEnumerable<SupplierOrderModel> GetSupplierOrderListByBranchId(Guid branchId)
         {
-            return _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetSupplierOrderListByBranchId(branchId));
+            IEnumerable<SupplierOrderModel> supplierOrdersList = _mapper.Map<IEnumerable<SupplierOrderModel>>(_supplierOrderRepository.GetSupplierOrderListByBranchId(branchId));
+            foreach(var item in supplierOrdersList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(item.CreatedByUserId).Result;
+                item.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return supplierOrdersList;
         }
 
         public async Task<SupplierOrderModel> UpdateStatusSupplierOrder(string code, UserIdentity userIdentity)

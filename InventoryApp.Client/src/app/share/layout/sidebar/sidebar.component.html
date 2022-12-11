@@ -3,22 +3,22 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <ul class="metismenu" id="side-menu">
-                <li>
+                <li *ngIf="dashboard">
                     <a routerLink="/tong-quan" class="waves-effect">
                         <i><fa-icon [icon]="fadashboard"></fa-icon></i>
-                        <span>Tổng quan </span>
+                        <span>Tổng quan</span>
                         <span class="badge badge-info badge-pill float-right"> </span>
                     </a>
                 </li>           
                 <li routerLinkActive="active" *ngFor="let menuitem of menuItems">
-                    <a (click)="Click(menuitem.collapse)" data-toggle="collapse" href="#collapse_{{menuitem.collapse}}" id="{{menuitem.collapse}}" class="waves-effect">
+                    <a *ngIf="menuitem.roleAccess" (click)="Click(menuitem.collapse)" data-toggle="collapse" href="#collapse_{{menuitem.collapse}}" id="{{menuitem.collapse}}" class="waves-effect">
                         <i><fa-icon [icon]="menuitem.icontype"></fa-icon></i>
                         <span>{{menuitem.title}}</span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <ul id="collapse_{{menuitem.collapse}}" class="collapse nav-second-level" data-parent="#side-menu">
+                    <ul *ngIf="menuitem.roleAccess" id="collapse_{{menuitem.collapse}}" class="collapse nav-second-level" data-parent="#side-menu">
                         <li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="link">
-                            <a [routerLink]="[menuitem.path, childitem.path]">{{childitem.title}}</a>
+                            <a *ngIf="childitem.roleAccess" [routerLink]="[menuitem.path, childitem.path]">{{childitem.title}}</a>
                         </li>
                     </ul>
                 </li>

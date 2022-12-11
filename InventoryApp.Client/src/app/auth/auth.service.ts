@@ -92,6 +92,15 @@ export class AuthService {
     return false;
   }
 
+  getUserId(): any{
+    let token = localStorage.getItem(environment.keyToken);
+    if(token !== null){
+      const tokenPayload = jwt_decode<any>(token);
+      return tokenPayload.UserId;
+    }
+    return false;
+  }
+
   getCardImage(): any{
     let token = localStorage.getItem(environment.keyToken);
     if(token !== null){

@@ -18,4 +18,5 @@ export interface InventoryReceivingVoucher{
     userReceiveName:string;
     goodsImportDate:string;
     detail: InventoryReceivingVoucherDetail[];
+    employeeName:string;
 }

@@ -20,4 +20,5 @@ export interface InventoryDeliveryVoucher{
     goodsIssueDate:string;
     customer: Customer;
     details: InventoryDeliveryVoucherDetail[];
+    employeeName:string;
 }

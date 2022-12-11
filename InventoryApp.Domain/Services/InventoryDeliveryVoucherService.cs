@@ -22,6 +22,7 @@ namespace InventoryApp.Domain.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IInventoryDeliveryVoucherRepository _inventoryDeliveryVoucherRepository;
         private readonly IWarehouseRepository _warehouseRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMaterialShipmentRepository _materialShipmentRepository;
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -33,6 +34,7 @@ namespace InventoryApp.Domain.Services
             _orderRepository = new OrderRepository(_unitOfWork);
             _warehouseRepository = new WarehouseRepository(_unitOfWork);
             _materialShipmentRepository = new MaterialShipmentRepository(_unitOfWork);
+            _employeeRepository = new EmployeeRepository(_unitOfWork);
             _mapper = mapper;
             _logger = logger;
         }
@@ -91,12 +93,15 @@ namespace InventoryApp.Domain.Services
         }
 
         
-
-        
-
         public IEnumerable<InventoryDeliveryVoucherModel> GetAllInventoryDeliveryVoucher()
         {
-            return _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucher());
+            IEnumerable<InventoryDeliveryVoucherModel> inventoryDeliveriesList = _mapper.Map<IEnumerable<InventoryDeliveryVoucherModel>>(_inventoryDeliveryVoucherRepository.GetInventoryDeliveryVoucher());
+            foreach (var item in inventoryDeliveriesList)
+            {
+                Employee employee = _employeeRepository.GetEmployeeByUserId(item.CreatedByUserId).Result;
+                item.EmployeeName = $"{employee.Code} - {employee.Name}";
+            }
+            return inventoryDeliveriesList;
         }
 
         public async Task<InventoryDeliveryVoucherModel> GetInventoryDeliveryVoucherById(Guid inventoryDeliveryVoucherId)

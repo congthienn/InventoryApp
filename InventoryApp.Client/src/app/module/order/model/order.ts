@@ -12,4 +12,5 @@ export interface Order{
     branchRequest: Branch;
     supplierOrderDetail: OrderDetail[];
     priceTotal:string;
+    employeeName:string;
 }

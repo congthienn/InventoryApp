@@ -112,7 +112,7 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
       warehouseId: new FormControl(this.inventoryDeliveryVoucher.warehouseId,[Validators.required]),
       orderId: new FormControl(this.inventoryDeliveryVoucher.orderId,[Validators.required]),
       details: new FormControl(this.inventoryDeliveryVoucher.details,[Validators.required]),
-      userDeliveryId: new FormControl(this.inventoryDeliveryVoucher.userDeliveryId,[Validators.required]),
+      userDeliveryId: new FormControl(this.inventoryDeliveryVoucher.userDeliveryId),
       goodsIssueDate: new FormControl(this.inventoryDeliveryVoucher.goodsIssueDate),
     });
   }
@@ -291,7 +291,6 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
   }
 
   addInventoryDeliveryVoucherDetail(){
-
     var dataRowTemp: any[]= [];
     var materialId = this.addInventoryDeliveryVoucherDetailForm.value.materialId;
     var quantityDelivery = this.addInventoryDeliveryVoucherDetailForm.value.quantityDelivery;
@@ -299,6 +298,8 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
     var shipmentAlreadyExists = this.dataRow.filter(x=>x.shipmentId == shipmentId)[0];
     if(shipmentAlreadyExists != undefined){
       this.sweetalertService.alertMini("Lô hàng đã được nhập", "Vui lòng kiểm tra lại", "error");
+    }else if(Number(quantityDelivery) > Number(this.quantity)){
+      this.sweetalertService.alertMini("Số lượng sản phẩm xuất không phù hợp", "Vui lòng kiểm tra lại", "error", 500);
     }else{
       this.materialService.getMaterialById(materialId).subscribe(
         response => {
@@ -359,6 +360,8 @@ export class AddInventoryDeliveryVoucherComponent implements OnInit {
   addInventoryDeliveryoucher(){
     this.submitData = true;
     var dateNow = new Date(Date.now());
+    var userId = this.authService.getUserId();
+    this.addInventoryDeliveryVoucherForm.patchValue({userDeliveryId:userId});
     this.addInventoryDeliveryVoucherForm.patchValue({goodsIssueDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
     this.inventoryDeliveryVoucherService.addInventoryDeliveryVoucher(this.addInventoryDeliveryVoucherForm.value).subscribe(
       response => {

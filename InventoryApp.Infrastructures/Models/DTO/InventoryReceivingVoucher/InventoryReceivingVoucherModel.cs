@@ -22,6 +22,8 @@ namespace InventoryApp.Infrastructures.Models.DTO
         public SupplierOrderModel SupplierOrder { get; private set; }
         public SupplierModelRq Supplier { get; set; }
         public List<InventoryReceivingVoucherDetailModel> Detail { get; set; }
+        public string EmployeeName { get; set; }
+        public Guid CreatedByUserId { get; private set; }
     }
     public class InventoryReceivingVoucherModelValidator : AbstractValidator<InventoryReceivingVoucherModel>
     {

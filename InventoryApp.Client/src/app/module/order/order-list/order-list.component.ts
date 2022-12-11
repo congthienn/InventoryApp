@@ -72,6 +72,7 @@ export class OrderListComponent implements OnInit {
     this.orderService.getSupplierOrderListByBranchId(this.branchId).subscribe(
       response =>{
         this.orderData = response;
+        console.log(response)
         var dataRowTemp: any[]= [];
         this.orderData.forEach(element => {
           var date = new Date(element.orderDate);
@@ -82,6 +83,7 @@ export class OrderListComponent implements OnInit {
               "priceTotal": element.priceTotal,
               "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
               "status": element.code,
+              "employeeName": element.employeeName
             }
             dataRowTemp.push(data);
         });
@@ -107,6 +109,7 @@ export class OrderListComponent implements OnInit {
       { field: 'supplier', headerName: "NHÀ CUNG CẤP",width:300, cellStyle: {fontWeight: '500'},resizable:true },
       { field: 'branchRequest', headerName: "CHI NHÁNH", resizable:true, width:230 },
       { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},
+      { field: 'employeeName', headerName: "NHÂN VIÊN LẬP PHIẾU", resizable:true,  width: 250, cellStyle: {fontWeight: '500'} },
       { field: 'orderDate', headerName: "NGÀY YÊU CẦU ĐẶT HÀNG", resizable:true},
     ];
   }

@@ -31,6 +31,11 @@ namespace InventoryApp.Infrastructures.Repositories
             return await _dbSet.Include(x => x.Branch).Include(x => x.Province).Include(x => x.District).Include(x => x.Ward).FirstOrDefaultAsync();
         }
 
+        public async Task<Employee> GetEmployeeByUserId(Guid userId)
+        {
+            return await _dbSet.Where(x=>x.UserId == userId).FirstOrDefaultAsync();
+        }
+
         public async Task<string> GetLastCode()
         {
             return await _dbSet.OrderByDescending(x => x.CreatedDate).Select(x => x.Code).FirstOrDefaultAsync();

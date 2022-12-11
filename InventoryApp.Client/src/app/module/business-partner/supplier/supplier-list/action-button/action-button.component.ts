@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { AuthService } from 'src/app/auth/auth.service';
 import { SweetalertService } from 'src/app/module/share/sweetalert/sweetalert.service';
 import Swal from 'sweetalert2';
 import { SupplierService } from '../../service/supplier.service';
@@ -12,8 +13,10 @@ import { SupplierListComponent } from '../supplier-list.component';
 })
 export class ActionButtonComponent implements ICellRendererAngularComp {
   constructor(private supplierService: SupplierService, private sweetalertService: SweetalertService,
-    private supplierListComponent  : SupplierListComponent
+    private supplierListComponent  : SupplierListComponent,
+    private authService: AuthService
     ){}
+  enableButton = this.authService.getRole() === "Quản trị hệ thống";
   private params: any;
   public clickDelete = false;
   refresh() {

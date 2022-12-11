@@ -115,6 +115,7 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
             "warehouse": element.warehouse.name, 
             "priceTotal": element.code,
             "order":element.order.code,
+            "employeeName":element.employeeName,
             "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
             }
             dataRowTemp.push(data);
@@ -143,6 +144,7 @@ export class InventoryDeliveryVoucherListComponent implements OnInit {
       { field: "order", headerName:"MÃ HÓA ĐƠN", width:200, cellStyle: {fontWeight: '500'}}, 
       { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width:250 },
       { field: 'warehouse', headerName: "KHO HÀNG", resizable:true, width:250 },
+      { field: 'employeeName', headerName: "NHÂN VIÊN LẬP PHIẾU", resizable:true,  width: 250, cellStyle: {fontWeight: '500'} },
       { field: 'orderDate', headerName: "NGÀY XUẤT KHO", resizable:true, width:210},
     ];
   }

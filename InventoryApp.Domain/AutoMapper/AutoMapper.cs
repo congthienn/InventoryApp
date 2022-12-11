@@ -60,6 +60,7 @@ namespace InventoryApp.Infrastructures.AutoMapper
             CreateMap<Employee, EmployeeModel>().ReverseMap();
             CreateMap<ReturnedMaterial, ReturnedMaterialModel>().ReverseMap();
             CreateMap<ReturnedMaterialDetail, ReturnedMaterialDetailModel>().ReverseMap();
+            CreateMap<DeliveryCompanyModel, DeliveryCompany>().ReverseMap();
         }
     }
     public static class AutoMapperHelper

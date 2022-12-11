@@ -22,7 +22,7 @@
           </div>
           <label class="col-form-label">phần tử</label>
         </div>
-        <button routerLink="/nha-cung-cap/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
+        <button *ngIf="enableButton" routerLink="/nha-cung-cap/them-moi"  type="reset"class="btn btn-primary waves-effect waves-light mr-1">
           <span style="padding-right: 5px;font-size: 16px;" class="btnAdd"><i class="fa fa-plus-circle"></i></span> Thêm thông tin nhà cung cấp
         </button>
       </div>  

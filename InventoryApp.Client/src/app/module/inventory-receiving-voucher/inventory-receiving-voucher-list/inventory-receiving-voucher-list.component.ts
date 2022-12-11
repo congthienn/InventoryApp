@@ -80,6 +80,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
       this.inventoryReceivingVoucherService.getInventoryReceivingVoucher().subscribe(
         response =>{
         this.inventoryReceivingVoucher = response;
+        console.log(response)
         this.inventoryReceivingVoucher = this.inventoryReceivingVoucher.filter(item => item.branchRequestId == this.branchId);
         var dataRowTemp: any[]= [];
         this.inventoryReceivingVoucher.forEach(element => {
@@ -93,6 +94,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
             "warehouse": element.warehouse.name, 
             "priceTotal": element.code,
             "supplierOrder":element.supplierOrder.code,
+            "employeeName":element.employeeName,
             "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
             }
             dataRowTemp.push(data);
@@ -147,6 +149,7 @@ export class InventoryReceivingVoucherListComponent implements OnInit {
       { field: 'supplier', headerName: "NHÀ CUNG CẤP", width:300, cellStyle: {fontWeight: '500'},resizable:true },
       { field: 'branchRequest', headerName: "CHI NHÁNH", resizable:true, width:230 },
       { field: 'warehouse', headerName: "KHO HÀNG", resizable:true, width:230 },
+      { field: 'employeeName', headerName: "NHÂN VIÊN LẬP PHIẾU", resizable:true,  width: 250, cellStyle: {fontWeight: '500'} },
       { field: 'orderDate', headerName: "NGÀY NHẬP KHO", resizable:true, width:200},
     ];
   }

@@ -15,6 +15,7 @@ const routes: Routes = [
   { path:'dat-hang/', redirectTo: 'dat-hang', pathMatch: 'full'},
   { path:'don-hang/', redirectTo: 'don-hang', pathMatch: 'full'},
   { path:'nhan-vien/', redirectTo: 'nhan-vien', pathMatch: 'full'},
+  { path:'don-vi-giao-hang/', redirectTo: 'nhan-vien', pathMatch: 'full'},
   { path:'cai-dat-chung', redirectTo: 'cai-dat-chung/thong-tin-cong-ty', pathMatch: 'full'},
   { path: '', component: AdminLayoutComponent, canActivate: [AuthGuard],
     children:[
@@ -28,6 +29,7 @@ const routes: Routes = [
       {path:'dat-hang', loadChildren: () => import('./module/order/order.module').then(m => m.OrderModule) },
       {path:'don-hang', loadChildren: () => import('./module/customer-order/customer-order.module').then(m => m.CustomerOrderModule) },
       {path:'nhan-vien', loadChildren: () => import('./module/user/user.module').then(m => m.UserModule) },
+      {path:'don-vi-giao-hang', loadChildren: () => import('./module/business-partner/delivery-company/delivery-company.module').then(m => m.DeliveryCompanyModule) },
       {path:'cai-dat-chung', loadChildren: () => import('./module/general/general.module').then(m => m.GeneralModule) }
     ]
   },

@@ -14,6 +14,8 @@ namespace InventoryApp.Infrastructures.Interfaces.Services
         Task<OrderModel> GetOrderByCode(string code);
         IEnumerable<OrderModel> GetAllOrderByStatus(int status);
         IEnumerable<OrderModel> GetAllOrderByBranchId(Guid branchId);
+        IEnumerable<OrderModel> GetOrderListByUserId(Guid userId);
+        Task DeleteOrder(string code);
         IEnumerable<OrderModel> GetOrderListByBranchId(Guid branchId);
         Task<OrderModel> AddOrder(OrderModel model, UserIdentity userIdentity);
         Task<OrderModel> UpdateOrder(string code, OrderModel model, UserIdentity userIdentity);

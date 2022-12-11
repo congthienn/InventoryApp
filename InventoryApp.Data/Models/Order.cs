@@ -29,5 +29,7 @@ namespace InventoryApp.Data.Models
         public int Prepayment { get; set; }
         public bool Paid { get; set; }
         public string DeliveryAddress { get; set; }
+        public Guid? DeliveryCompanyId { get; set; }
+        public DeliveryCompany DeliveryCompany { get; set; }
     }
 }

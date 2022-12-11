@@ -85,7 +85,8 @@ export class CustomerOrderListComponent implements OnInit {
               "priceTotal": element.priceTotal,
               "orderDate":  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
               "status": element.code,
-              "paid": element.code
+              "paid": element.code,
+              "employeeName":element.employeeName
             }
             dataRowTemp.push(data);
         });
@@ -108,11 +109,13 @@ export class CustomerOrderListComponent implements OnInit {
         cellRenderer: ActionButtonViewDetailComponent,
         resizable:true 
       }, 
-      { field: 'status', headerName: "TRẠNG THÁI", width: 200, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent, },
-      { field: "code", headerName:"MÃ ĐƠN HÀNG", width: 170, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
+      { field: 'status', headerName: "TRẠNG THÁI", width: 180, initialPinned: 'left', cellRenderer: ButtonUpdateStatusComponent, },
+      { field: "code", headerName: "MÃ ĐƠN HÀNG", width: 170, cellStyle: {fontWeight: '500'}, initialPinned: 'left'}, 
       { field: 'paid', headerName: "THANH TOÁN", width: 180, cellRenderer: ButtonPaymentStatusComponent},
+      { field: 'deliveryCompany', headerName: "ĐƠN VỊ GIAO HÀNG", resizable:true, width: 230 },
       { field: 'branch', headerName: "CHI NHÁNH", resizable:true, width: 230 },
       { field: 'priceTotal', headerName: "TỔNG GIÁ TRỊ", cellRendererFramework: CurrencyComponent},
+      { field: 'employeeName', headerName: "NHÂN VIÊN LẬP ĐƠN", resizable:true,  width: 250, cellStyle: {fontWeight: '500'} },
       { field: 'orderDate', headerName: "NGÀY LẬP ĐƠN HÀNG", resizable:true},
     ];
   }

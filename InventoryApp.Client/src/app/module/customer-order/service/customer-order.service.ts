@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class CustomerOrderService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     withCredentials: true,
   };
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getAllCustomerOrder(): Observable<any>{
     return this.http.get(this.customerOrderURL).pipe(
@@ -59,6 +60,18 @@ export class CustomerOrderService {
       })
     )
   }
+
+  deleteOrderByCode(code:string):Observable<any>{
+    let url = `${this.customerOrderURL}/${code}`;
+    return this.http.delete(url).pipe(
+      tap((response: any) =>{
+        return response;
+      }),
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
+  }
   updateStatus(code:string):Observable<any>{
     let url = `${this.customerOrderURL}/updateStatus/${code}`;
     let data = "updateStatus";
@@ -97,7 +110,14 @@ export class CustomerOrderService {
     )
   }
   getOrderListByBranchId(branchId: string): Observable<any>{
-    let url = `${this.customerOrderURL}/GetOrderListByBranchId/${branchId}`;
+    var saler = this.authService.getRole() === "Nhân viên bán hàng";
+    let url = '';
+    if(saler){
+      var userId = this.authService.getUserId();
+      url = `${this.customerOrderURL}/GetOrderListByUserId/${userId}`;
+    }else{
+      url = `${this.customerOrderURL}/GetOrderListByBranchId/${branchId}`;
+    }
     return this.http.get(url).pipe(
       tap((response: any) =>{
         return response;

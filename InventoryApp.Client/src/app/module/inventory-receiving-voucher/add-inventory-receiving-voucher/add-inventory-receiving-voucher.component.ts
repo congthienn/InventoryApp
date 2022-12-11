@@ -125,7 +125,7 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       warehouseId: new FormControl(this.inventoryReceivingVoucher.warehouseId,[Validators.required]),
       supplierOrderId: new FormControl(this.inventoryReceivingVoucher.supplierOrderId,[Validators.required]),
       detail: new FormControl(this.inventoryReceivingVoucher.detail,[Validators.required]),
-      userReceiveId: new FormControl(this.inventoryReceivingVoucher.userReceiveId,[Validators.required]),
+      userReceiveId: new FormControl(this.inventoryReceivingVoucher.userReceiveId),
       goodsImportDate: new FormControl(this.inventoryReceivingVoucher.goodsImportDate),
     });
   }
@@ -382,7 +382,6 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   }
 
   addInventoryReceivingVoucherDetail(){
-
     var dataRowTemp: any[]= [];
     var materialId = this.addInventoryReceivingVoucherDetailForm.value.materialId;
     var quantityReceiving = this.addInventoryReceivingVoucherDetailForm.value.quantityReceiving;
@@ -398,6 +397,8 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
       this.sweetalertService.alertMini("Lô hàng đã được nhập", "Vui lòng kiểm tra lại", "error");
     }else if(warehouseShelveExits != undefined){
       this.sweetalertService.alertMini("Kệ hàng đã có sản phẩm", "Vui lòng kiểm tra lại", "error");
+    }else if(Number(this.quantity) < Number(quantityReceiving)){
+      this.sweetalertService.alertMini("Số lượng sản phẩm nhập không phù hợp", "Vui lòng kiểm tra lại", "error", 500);
     }
     else{
       this.materialService.getMaterialById(materialId).subscribe(
@@ -467,6 +468,8 @@ export class AddInventoryReceivingVoucherComponent implements OnInit {
   addInventoryReceivingVoucher(){
     this.submitData = true;
     var dateNow = new Date(Date.now());
+    var userId = this.authService.getUserId();
+    this.addInventoryReceivingVoucherForm.patchValue({userReceiveId:userId});
     this.addInventoryReceivingVoucherForm.patchValue({goodsImportDate: new Date(dateNow.getTime() + (dateNow.getTimezoneOffset() * 60000))})
     this.inventoryReceivingVoucherService.addInventoryReceivingVoucher(this.addInventoryReceivingVoucherForm.value).subscribe(
       response => {
