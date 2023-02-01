@@ -28,14 +28,12 @@ import { RoleModule } from './module/role/role.module';
 import { WarehouseLayoutModule } from './module/warehouse-layout/warehouse-layout.module';
 import { GeneralModule } from './module/general/general.module';
 import { DeliveryCompanyModule } from './module/business-partner/delivery-company/delivery-company.module';
-import { ConfirmDeliveryCompanyComponent } from './module/business-partner/customer-order/customer-order-list/confirm-delivery-company/confirm-delivery-company.component';
 
 
 @NgModule({ 
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    ConfirmDeliveryCompanyComponent,
+    AdminLayoutComponent
   ],
   imports: [
     AgGridModule,

@@ -20,7 +20,7 @@ export class AuthService {
   signIn(user: LoginModel): Observable<any> {
 
     if(this.stillConfirmedRememberLogin())
-        this.router.navigate(['/tong-quan']);
+        this.router.navigate(['/san-pham']);
 
     const url = `${this.authURL}/signIn`;
     return this.http.post(url, user, this.httpOptions).pipe(

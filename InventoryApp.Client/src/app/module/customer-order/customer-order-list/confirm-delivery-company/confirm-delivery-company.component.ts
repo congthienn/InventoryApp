@@ -8,11 +8,11 @@ import { CustomerOrderService } from '../../service/customer-order.service';
 import { CustomerOrderListComponent } from '../customer-order-list.component';
 
 @Component({
-  selector: 'app-button-update-status',
-  templateUrl: './button-update-status.component.html',
-  styleUrls: ['./button-update-status.component.css']
+  selector: 'app-confirm-delivery-company',
+  templateUrl: './confirm-delivery-company.component.html',
+  styleUrls: ['./confirm-delivery-company.component.css']
 })
-export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
+export class ConfirmDeliveryCompanyComponent implements ICellRendererAngularComp {
   public params: any;
   public status!: string;
   public statusClass!:string;
@@ -53,7 +53,11 @@ export class ButtonUpdateStatusComponent implements ICellRendererAngularComp {
       cancelButtonText: 'Hủy bỏ'
     }).then((result) => {
       if (result.isConfirmed) {   
-        this.updateOrderStatus();
+        if(Number(this.order.status) == 2){
+          this.sweetalertService.alertMini("Vui lòng cập nhật đơn vị giao hàng","", 'warning', 450);
+        }else{
+          this.updateOrderStatus();
+        }
       }
     })
   }

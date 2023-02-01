@@ -13,7 +13,7 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.authService.stillConfirmedRememberLogin() || this.authService.isLoggedIn) {
-        this.router.navigate(['/tong-quan'])
+        this.router.navigate(['/san-pham'])
       }
       return true;
   } 

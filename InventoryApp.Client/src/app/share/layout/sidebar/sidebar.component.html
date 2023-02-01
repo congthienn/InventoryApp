@@ -3,13 +3,6 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <ul class="metismenu" id="side-menu">
-                <li *ngIf="dashboard">
-                    <a routerLink="/tong-quan" class="waves-effect">
-                        <i><fa-icon [icon]="fadashboard"></fa-icon></i>
-                        <span>Tổng quan</span>
-                        <span class="badge badge-info badge-pill float-right"> </span>
-                    </a>
-                </li>           
                 <li routerLinkActive="active" *ngFor="let menuitem of menuItems">
                     <a *ngIf="menuitem.roleAccess" (click)="Click(menuitem.collapse)" data-toggle="collapse" href="#collapse_{{menuitem.collapse}}" id="{{menuitem.collapse}}" class="waves-effect">
                         <i><fa-icon [icon]="menuitem.icontype"></fa-icon></i>

@@ -8,6 +8,7 @@ import { ActionButtonViewDetailComponent } from './action-button-view-detail/act
 import { ButtonUpdateStatusComponent } from './button-update-status/button-update-status.component';
 import { ButtonPaymentStatusComponent } from './button-payment-status/button-payment-status.component';
 import { NgSelect2Module } from 'ng-select2';
+import { ConfirmDeliveryCompanyComponent } from './confirm-delivery-company/confirm-delivery-company.component';
 
 
 
@@ -16,7 +17,8 @@ import { NgSelect2Module } from 'ng-select2';
     CustomerOrderListComponent,
     ActionButtonViewDetailComponent,
     ButtonUpdateStatusComponent,
-    ButtonPaymentStatusComponent
+    ButtonPaymentStatusComponent,
+    ConfirmDeliveryCompanyComponent
   ],
   imports: [
     CommonModule, PageTitleModule, AgGridModule, RouterModule, NgSelect2Module,

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.clickLogin = true;
     this.authService.signIn(this.signinForm.value).subscribe(
       response => {
-        this.router.navigate(['/tong-quan']);
+        this.router.navigate(['/san-pham']);
       },
       error => {
         this.loginFailed();
